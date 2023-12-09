@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".View.DangKyActivity">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/custom_listview2"
+            android:gravity="center"
+            android:text="Đăng ký"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/edtTenTaiKhoan_DangKy"
+            android:layout_width="300dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/custom_listview"
+            app:cornerRadius="50dp"
+            android:hint="Tên tài khoản"
+            android:paddingLeft="10dp" />
+
+        <EditText
+            android:id="@+id/edtMatKhau_DangKy"
+            android:layout_width="300dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/custom_listview"
+            android:hint="Mật khẩu"
+            android:inputType="textPassword"
+            android:paddingLeft="10dp" />
+
+        <EditText
+            android:id="@+id/edtNhapLaiMatKhau_DangKy"
+            android:layout_width="300dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/custom_listview"
+            android:hint="Nhập lại mật khẩu"
+            android:inputType="textPassword"
+            android:paddingLeft="10dp" />
+
+        <EditText
+            android:id="@+id/edtHoVaTen_DangKy"
+            android:layout_width="300dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/custom_listview"
+            android:hint="Họ và tên"
+            android:paddingLeft="10dp" />
+
+        <EditText
+            android:id="@+id/edtSDT_DangKy"
+            android:layout_width="300dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/custom_listview"
+            android:hint="Số điện thoại"
+            android:inputType="phone"
+            android:paddingLeft="10dp" />
+
+        <Button
+            android:id="@+id/btnDangKy_DangKy"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="15dp"
+            android:backgroundTint="#029FD1"
+            android:text="Đăng ký" />
+
+        <Button
+            android:id="@+id/btnDaCoTK_DangKy"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="15dp"
+            android:backgroundTint="#029FD1"
+            android:text="Đã có tài khoản" />
+
+
+    </LinearLayout>
+
+</FrameLayout>
