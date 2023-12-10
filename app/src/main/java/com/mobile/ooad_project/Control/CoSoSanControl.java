@@ -14,7 +14,7 @@ public class CoSoSanControl extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "projectooad";
     private static final int DATABASE_VERSION = 1;
     @SuppressLint("SdCardPath")
-    public static final String PATH = "/data/data/com.example.dbsqlite/database/projectooad.db";
+    public static final String PATH = "/data/data/com.mobile.ooad_project/database/projectooad.db";
     public static final String TABLE_NAME = "CoSoSan";
     public static String IDCOSOSAN = "id";
     private static final String TENCOSOSAN = "tencososan";

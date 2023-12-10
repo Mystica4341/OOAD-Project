@@ -15,7 +15,7 @@ public class GiaoHuuControl extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "projectooad";
     private static final int DATABASE_VERSION = 1;
     @SuppressLint("SdCardPath")
-    public static final String PATH = "/data/data/com.example.dbsqlite/database/projectooad.db";
+    public static final String PATH = "/data/data/com.mobile.ooad_project/database/projectooad.db";
     private static final String TABLE_NAME = "GiaoHuu";
     private static String IDTRANGIAOHUU = "id";
     private static final String NGAYDAGIAOHUU = "ngaydagiaohuu";

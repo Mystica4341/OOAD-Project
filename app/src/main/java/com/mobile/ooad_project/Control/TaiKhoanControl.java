@@ -3,6 +3,7 @@ package com.mobile.ooad_project.Control;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -10,15 +11,17 @@ import androidx.annotation.Nullable;
 
 import com.mobile.ooad_project.Model.TaiKhoan;
 
+import java.util.ArrayList;
+
 public class TaiKhoanControl extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "projectooad";
+    public static final String DATABASE_NAME = "projectooad";
     private static final int DATABASE_VERSION = 1;
     @SuppressLint("SdCardPath")
-    public static final String PATH = "/data/data/com.example.dbsqlite/database/projectooad.db";
+    public static final String PATH = "/data/data/com.mobile.ooad_project/database/projectooad.db";
     public static final String TABLE_NAME = "TaiKhoan";
     public static String IDTAIKHOAN = "id";
-    private static final String TAIKHOAN = "tengiai";
-    private static final String MATKHAU = "idSan";
+    private static final String TAIKHOAN = "taikhoan";
+    private static final String MATKHAU = "matkhau";
 
     public TaiKhoanControl(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -59,5 +62,36 @@ public class TaiKhoanControl extends SQLiteOpenHelper {
         db.delete(TABLE_NAME, IDTAIKHOAN + " =?",
                 new String[]{String.valueOf(idTK)});
         db.close();
+    }
+
+    public boolean checkTaiKhoan(String taikhoan, String matkhau, ArrayList<TaiKhoan> lsTaiKhoan){
+        for(TaiKhoan a: lsTaiKhoan){
+            if(taikhoan.equals(a.getTaiKhoan()) && matkhau.equals(a.getMatKhau()))
+                return true;
+            else
+                return false;
+        }
+        return false;
+    }
+
+    public ArrayList<TaiKhoan> loadData(){
+        ArrayList<TaiKhoan> result = new ArrayList<>();
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME,null);
+        cursor.moveToFirst();
+        do {
+            TaiKhoan tk = new TaiKhoan();
+            tk.setIdTaiKhoan(String.valueOf(cursor.getInt(0)));
+            tk.setTaiKhoan(cursor.getString(1));
+            tk.setMatKhau(cursor.getString(2));
+            result.add(tk);
+        }while (cursor.moveToNext());
+        return result;
+    }
+
+    public void initData(){
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
+        String sql1 = "INSERT OR IGNORE INTO " + TABLE_NAME + " ("+TAIKHOAN+","+MATKHAU+") VALUES ('tientai','123456')";
+        db.execSQL(sql1);
     }
 }
