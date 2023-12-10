@@ -73,10 +73,40 @@
             android:layout_width="300dp"
             android:layout_height="35dp"
             android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="30dp"
             android:background="@drawable/custom_listview"
             android:hint="Số điện thoại"
             android:inputType="phone"
+            android:paddingLeft="10dp" />
+
+        <EditText
+            android:id="@+id/edtEmail_DangKy"
+            android:layout_width="300dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/custom_listview"
+            android:hint="Email"
+            android:paddingLeft="10dp" />
+
+        <EditText
+            android:id="@+id/edtDiaChi_DangKy"
+            android:layout_width="300dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/custom_listview"
+            android:hint="Địa chỉ"
+            android:paddingLeft="10dp" />
+
+        <EditText
+            android:id="@+id/edtCCCD_DangKy"
+            android:layout_width="300dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/custom_listview"
+            android:hint="CCCD/CMND"
             android:paddingLeft="10dp" />
 
         <Button

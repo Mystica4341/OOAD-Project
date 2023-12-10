@@ -24,14 +24,14 @@ public class CoSoSanControl extends SQLiteOpenHelper {
     private static final String MOTACOSOSAN = "motacososan";
     private static final String HINHANHCOSOSAN = "hinhanhcososan";
 
-    public CoSoSanControl(@Nullable Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    public CoSoSanControl(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
+        super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ( "+IDCOSOSAN+" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " + TENCOSOSAN + " TEXT NOT NULL, "+DIACHICOSOSAN+" TEXT NOT NULL, " + SDTCOSOSAN +" TEXT, "+SOLUONGSAN+" INTEGER NOT NULL, "+MOTACOSOSAN+" TEXT, "+HINHANHCOSOSAN+" TEXT NOT NULL)";
+        String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ( "+IDCOSOSAN+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, " + TENCOSOSAN + " TEXT NOT NULL, "+DIACHICOSOSAN+" TEXT NOT NULL, " + SDTCOSOSAN +" TEXT, "+SOLUONGSAN+" INTEGER NOT NULL, "+MOTACOSOSAN+" TEXT, "+HINHANHCOSOSAN+" TEXT NOT NULL)";
         db.execSQL(sql);
         db.close();
     }

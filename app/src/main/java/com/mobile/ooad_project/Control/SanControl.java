@@ -22,14 +22,14 @@ public class SanControl extends SQLiteOpenHelper {
     private static final String LOAISAN = "loaisan";
     private static final String IDCOSOSAN = "idcososan";
 
-    public SanControl(@Nullable Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    public SanControl(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
+        super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        String sql = "CREATE TABLE " + TABLE_NAME + "(" + IDSAN +" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE," + TINHTRANGSAN +" INTEGER NOT NULL CHECK ("+TINHTRANGSAN+" >=0 AND "+TINHTRANGSAN+" <=1)," + LOAISAN +" INTEGER NOT NULL CHECK ("+LOAISAN+" = 5 OR "+LOAISAN+" = 7), "+LOAICO +" INTEGER NOT NULL CHECK ("+LOAICO+" >=0 AND "+LOAICO+" <=1)," + IDCOSOSAN +" INTEGER NOT NULL, FOREIGN KEY("+IDCOSOSAN+") REFERENCES "+CoSoSanControl.TABLE_NAME+"("+CoSoSanControl.IDCOSOSAN+"));";
+        String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "(" + IDSAN +" INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL," + TINHTRANGSAN +" INTEGER NOT NULL CHECK ("+TINHTRANGSAN+" >=0 AND "+TINHTRANGSAN+" <=1)," + LOAISAN +" INTEGER NOT NULL CHECK ("+LOAISAN+" = 5 OR "+LOAISAN+" = 7), "+LOAICO +" INTEGER NOT NULL CHECK ("+LOAICO+" >=0 AND "+LOAICO+" <=1)," + IDCOSOSAN +" INTEGER NOT NULL REFERENCES "+CoSoSanControl.TABLE_NAME+"("+CoSoSanControl.IDCOSOSAN+"));";
         db.execSQL(sql);
         db.close();
     }
@@ -38,10 +38,9 @@ public class SanControl extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
-    public void insertData(int idSan, int tinhTrangSan, int loaiSan, int loaiCo, int idCoSoSan){
+    public void insertData(int tinhTrangSan, int loaiSan, int loaiCo, int idCoSoSan){
         SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
         ContentValues value = new ContentValues();
-        value.put(IDSAN,idSan);
         value.put(TINHTRANGSAN, tinhTrangSan);
         value.put(LOAISAN,loaiSan);
         value.put(LOAICO, loaiCo);

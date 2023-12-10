@@ -21,14 +21,14 @@ public class GiaiControl extends SQLiteOpenHelper {
     private static final String IDSAN = "idSan";
     private static final String NGAYTHIDAU = "ngaythidau";
 
-    public GiaiControl(@Nullable Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    public GiaiControl(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
+        super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        String sql = "CREATE TABLE " + TABLE_NAME + "(" + IDGIAI +" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE," + TENGIAI +" TEXT NOT NULL," + NGAYTHIDAU +" TEXT NOT NULL," + IDSAN +" INTEGER NOT NULL, FOREIGN KEY("+IDSAN+") REFERENCES "+SanControl.TABLE_NAME+"("+SanControl.IDSAN+"));";
+        String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "(" + IDGIAI +" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," + TENGIAI +" TEXT NOT NULL," + NGAYTHIDAU +" TEXT NOT NULL," + IDSAN +" INTEGER NOT NULL REFERENCES "+SanControl.TABLE_NAME+"("+SanControl.IDSAN+"));";
         db.execSQL(sql);
         db.close();
     }
@@ -37,10 +37,9 @@ public class GiaiControl extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
-    public void insertData(int idGiai, String tenGiai, int idSan, String ngayThiDau){
+    public void insertData(String tenGiai, int idSan, String ngayThiDau){
         SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
         ContentValues value = new ContentValues();
-        value.put(IDGIAI,idGiai);
         value.put(TENGIAI,tenGiai);
         value.put(IDSAN,idSan);
         value.put(NGAYTHIDAU,ngayThiDau);

@@ -23,14 +23,14 @@ public class QuanLyControl extends SQLiteOpenHelper {
     private static final String CCCD = "cccd";
     private static final String IDTAIKHOAN = "idtaikhoan";
 
-    public QuanLyControl(@Nullable Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    public QuanLyControl(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
+        super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        String sql = "CREATE TABLE "+TABLE_NAME+"("+IDQUANLY+" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," + TENQUANLY +" TEXT NOT NULL," + SDTQUANLY +" TEXT NOT NULL," + EMAILQUANLY +" TEXT NOT NULL," + CCCD + " TEXT NOT NULL," +IDTAIKHOAN+ "INTEGER NOT NULL, FOREIGN KEY("+IDTAIKHOAN+") REFERENCES "+TaiKhoanControl.TABLE_NAME+"("+TaiKhoanControl.IDTAIKHOAN+"))";
+        String sql = "CREATE TABLE IF NOT EXISTS "+TABLE_NAME+"("+IDQUANLY+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," + TENQUANLY +" TEXT NOT NULL," + SDTQUANLY +" TEXT NOT NULL," + EMAILQUANLY +" TEXT NOT NULL," + CCCD + " TEXT NOT NULL," +IDTAIKHOAN+ " INTEGER NOT NULL REFERENCES "+TaiKhoanControl.TABLE_NAME+"("+TaiKhoanControl.IDTAIKHOAN+"))";
         db.execSQL(sql);
         db.close();
     }
@@ -39,14 +39,13 @@ public class QuanLyControl extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
-    public void insertData(int idquanly, String tenKH, String sdtKH, String emailKH, String CCCDKH, String diaChiKH, int idTaiKhoan){
+    public void insertData(String tenQL, String sdtQL, String emailQL, String CCCDQL, int idTaiKhoan){
         SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
         ContentValues value = new ContentValues();
-        value.put(IDQUANLY, idquanly);
-        value.put(TENQUANLY, tenKH);
-        value.put(SDTQUANLY, sdtKH);
-        value.put(EMAILQUANLY, emailKH);
-        value.put(CCCD, CCCDKH);
+        value.put(TENQUANLY, tenQL);
+        value.put(SDTQUANLY, sdtQL);
+        value.put(EMAILQUANLY, emailQL);
+        value.put(CCCD, CCCDQL);
         value.put(IDTAIKHOAN, idTaiKhoan);
         db.insert(TABLE_NAME,null,value);
         db.close();

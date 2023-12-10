@@ -24,14 +24,14 @@ public class KhachHangControl extends SQLiteOpenHelper {
     private static final String DIACHIKHACHHANG = "diachikhachhang";
     private static final String IDTAIKHOAN = "idtaikhoan";
 
-    public KhachHangControl(@Nullable Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    public KhachHangControl(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
+        super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        String sql = "CREATE TABLE "+TABLE_NAME+"("+IDKHACHHANG+" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," + TENKHACHHANG +" TEXT NOT NULL," + SDTKHACHHANG +" TEXT NOT NULL," + EMAILKHACHHANG +" TEXT NOT NULL," + CCCD + " TEXT NOT NULL," +DIACHIKHACHHANG+ "TEXT NOT NULL, " +IDTAIKHOAN+ "INTEGER NOT NULL, FOREIGN KEY("+IDTAIKHOAN+") REFERENCES "+TaiKhoanControl.TABLE_NAME+"("+TaiKhoanControl.IDTAIKHOAN+"))";
+        String sql = "CREATE TABLE IF NOT EXISTS "+TABLE_NAME+"("+IDKHACHHANG+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," + TENKHACHHANG +" TEXT NOT NULL," + SDTKHACHHANG +" TEXT NOT NULL," + EMAILKHACHHANG +" TEXT NOT NULL," + CCCD + " TEXT NOT NULL," +DIACHIKHACHHANG+ " TEXT NOT NULL, " +IDTAIKHOAN+ " INTEGER NOT NULL REFERENCES "+TaiKhoanControl.TABLE_NAME+"("+TaiKhoanControl.IDTAIKHOAN+"))";
         db.execSQL(sql);
         db.close();
     }
@@ -40,10 +40,9 @@ public class KhachHangControl extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
-    public void insertData(int idKhachHang, String tenKH, String sdtKH, String emailKH, String CCCDKH, String diaChiKH, int idTaiKhoan){
+    public void insertData(String tenKH, String sdtKH, String emailKH, String CCCDKH, String diaChiKH, int idTaiKhoan){
         SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
         ContentValues value = new ContentValues();
-        value.put(IDKHACHHANG, idKhachHang);
         value.put(TENKHACHHANG, tenKH);
         value.put(SDTKHACHHANG, sdtKH);
         value.put(EMAILKHACHHANG, emailKH);

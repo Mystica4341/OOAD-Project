@@ -23,14 +23,14 @@ public class GiaoHuuControl extends SQLiteOpenHelper {
     private static final String IDKHACHB = "IDKHACHB";
     private static final String IDSAN = "idSan";
 
-    public GiaoHuuControl(@Nullable Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    public GiaoHuuControl(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
+        super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        String sql = "CREATE TABLE "+TABLE_NAME+"("+IDTRANGIAOHUU+" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," + NGAYDAGIAOHUU +" TEXT NOT NULL," + IDKHACHA +" INTEGER NOT NULL," + IDKHACHB +" INTEGER NOT NULL," + IDSAN + " INTEGER NOT NULL, FOREIGN KEY("+IDSAN+") REFERENCES "+SanControl.TABLE_NAME+"("+SanControl.IDSAN+"), FOREIGN KEY("+IDKHACHA+") REFERENCES "+KhachHangControl.TABLE_NAME+"("+KhachHangControl.IDKHACHHANG+"), FOREIGN KEY("+IDKHACHB+") REFERENCES "+KhachHangControl.TABLE_NAME+"("+KhachHangControl.IDKHACHHANG+"))";
+        String sql = "CREATE TABLE IF NOT EXISTS "+TABLE_NAME+"("+IDTRANGIAOHUU+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," + NGAYDAGIAOHUU +" TEXT NOT NULL," + IDKHACHA +" INTEGER NOT NULL REFERENCES "+KhachHangControl.TABLE_NAME+"("+KhachHangControl.IDKHACHHANG+")," + IDKHACHB +" INTEGER NOT NULL REFERENCES "+KhachHangControl.TABLE_NAME+"("+KhachHangControl.IDKHACHHANG+")," + IDSAN + " INTEGER NOT NULL REFERENCES "+SanControl.TABLE_NAME+"("+SanControl.IDSAN+"))";
         db.execSQL(sql);
         db.close();
     }
@@ -39,10 +39,9 @@ public class GiaoHuuControl extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
-    public void insertData(int idTranGiaoHuu, String ngayDaGiaoHuu, int idKhachA, int idKhachB, int idSan){
+    public void insertData(String ngayDaGiaoHuu, int idKhachA, int idKhachB, int idSan){
         SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
         ContentValues value = new ContentValues();
-        value.put(IDTRANGIAOHUU, idTranGiaoHuu);
         value.put(NGAYDAGIAOHUU, ngayDaGiaoHuu);
         value.put(IDKHACHA, idKhachA);
         value.put(IDKHACHB, idKhachB);

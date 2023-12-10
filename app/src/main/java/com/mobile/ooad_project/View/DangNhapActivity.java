@@ -15,6 +15,9 @@ import com.mobile.ooad_project.Control.TaiKhoanControl;
 import com.mobile.ooad_project.Model.TaiKhoan;
 import com.mobile.ooad_project.R;
 
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class DangNhapActivity extends AppCompatActivity {
@@ -23,19 +26,16 @@ public class DangNhapActivity extends AppCompatActivity {
 
     EditText edtUser, edtPassword;
 
-    Button btnLogin;
+    Button btnLogin, btnLoginWF, btnLoginWG;
+    TextView tvDangKy, tvQuenMK;
 
-    TaiKhoanControl control = new TaiKhoanControl(this);
+    TaiKhoanControl taiKhoanControl;
 
-    ArrayList<TaiKhoan> lsTaiKhoan = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dang_nhap);
-        control.onCreate(db);
-        control.initData();
-//        lsTaiKhoan = control.loadData();
         addControl();
         addEvent();
     }
@@ -44,21 +44,46 @@ public class DangNhapActivity extends AppCompatActivity {
         edtPassword = (EditText) findViewById(R.id.editTextMK);
         edtUser = (EditText) findViewById(R.id.editTextUser);
         btnLogin = (Button) findViewById(R.id.btnDangNhap);
+        btnLoginWF = (Button) findViewById(R.id.btnFacebook);
+        btnLoginWG = (Button) findViewById(R.id.btnGoogle);
+        tvDangKy = (TextView)findViewById(R.id.tvDangKyDN);
+        tvQuenMK = (TextView)findViewById(R.id.tvQuenMK);
     }
 
     public void addEvent(){
+        taiKhoanActive();
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if(control.checkTaiKhoan(String.valueOf(edtUser.getText()),String.valueOf(edtPassword.getText()),lsTaiKhoan)){
-//                    Intent intent = new Intent(DangNhapActivity.this, MainActivity.class);
-//                    startActivity(intent);
-//                }
-//                else
-//                    Toast.makeText(DangNhapActivity.this,"Wrong Password or Username",Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(DangNhapActivity.this, MainActivity.class);
+                try {
+                    if(taiKhoanControl.checkTaiKhoan(String.valueOf(edtUser.getText()),String.valueOf(edtPassword.getText()),getApplicationContext())){
+                        Intent intent = new Intent(DangNhapActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                    else
+                        Toast.makeText(DangNhapActivity.this,"Wrong Password or Username",Toast.LENGTH_LONG).show();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        tvDangKy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DangNhapActivity.this, DangKyActivity.class);
                 startActivity(intent);
             }
         });
+        tvQuenMK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DangNhapActivity.this, QuenMKActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+    public void taiKhoanActive(){
+        taiKhoanControl = new TaiKhoanControl(getApplicationContext(), TaiKhoanControl.DATABASE_NAME, null, 1);
+        taiKhoanControl.onCreate(db);
     }
 }
