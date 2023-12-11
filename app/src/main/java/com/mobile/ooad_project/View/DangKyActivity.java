@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -58,19 +61,31 @@ public class DangKyActivity extends AppCompatActivity {
         btnDangKy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    if(String.valueOf(edtMatKhau.getText()).length() >= 8 && String.valueOf(edtMatKhau.getText()).length() <= 16) {
-                        taiKhoanControl.insertData(String.valueOf(edtTaiKhoan.getText()), encodeMatKhau(String.valueOf(edtMatKhau.getText())));
-                        lsTaiKhoan = taiKhoanControl.loadData();
-                        khachHangControl.insertData(String.valueOf(edtTenKH.getText()), String.valueOf(edtSDTKH.getText()), String.valueOf(edtEmailKH.getText()), String.valueOf(edtCCCDKH.getText()), String.valueOf(edtDiaChiKH.getText()), lsTaiKhoan.size());
+                if (String.valueOf(edtMatKhau.getText()).equals(String.valueOf(edtNhapLaiMK.getText()))) {
+                    try {
+                        if (String.valueOf(edtMatKhau.getText()).length() >= 8 && String.valueOf(edtMatKhau.getText()).length() <= 16) {
+                            taiKhoanControl.insertData(String.valueOf(edtTaiKhoan.getText()), encodeMatKhau(String.valueOf(edtMatKhau.getText())));
+                            lsTaiKhoan = taiKhoanControl.loadData();
+                            khachHangControl.insertData(String.valueOf(edtTenKH.getText()), String.valueOf(edtSDTKH.getText()), String.valueOf(edtEmailKH.getText()), String.valueOf(edtCCCDKH.getText()), String.valueOf(edtDiaChiKH.getText()), lsTaiKhoan.size());
+                            Toast.makeText(DangKyActivity.this, "Register Success", Toast.LENGTH_SHORT).show();
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Intent intent = new Intent(DangKyActivity.this, DangNhapActivity.class);
+                                    intent.putExtra("taikhoan",String.valueOf(edtTaiKhoan.getText()));
+                                    intent.putExtra("matkhau",String.valueOf(edtMatKhau.getText()));
+                                    startActivity(intent);
+                                }
+                            },2000);
+                        } else if (String.valueOf(edtMatKhau.getText()).length() <= 8)
+                            Toast.makeText(DangKyActivity.this, "Mật khẩu quá ngắn", Toast.LENGTH_SHORT).show();
+                        else if (String.valueOf(edtMatKhau.getText()).length() >= 16)
+                            Toast.makeText(DangKyActivity.this, "Mật khẩu quá dài", Toast.LENGTH_SHORT).show();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
-                    else if(String.valueOf(edtMatKhau.getText()).length() <= 8)
-                        Toast.makeText(DangKyActivity.this, "Mật khẩu quá ngắn", Toast.LENGTH_SHORT).show();
-                    else if(String.valueOf(edtMatKhau.getText()).length() >= 16)
-                        Toast.makeText(DangKyActivity.this, "Mật khẩu quá dài", Toast.LENGTH_SHORT).show();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                }else
+                    Toast.makeText(DangKyActivity.this, "Hai mat khau khong giong nhau", Toast.LENGTH_SHORT).show();
             }
         });
     }

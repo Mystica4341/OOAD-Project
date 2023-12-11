@@ -1,13 +1,14 @@
 package com.mobile.ooad_project.Model;
 
 public class QuanLy {
-    String idQuanLy, hoTen, sdt, cCCD, email, idTaiKhoan;
+    int idQuanLy, idTaiKhoan;
+    String hoTen, sdt, cCCD, email;
 
-    public String getIdQuanLy() {
+    public int getIdQuanLy() {
         return idQuanLy;
     }
 
-    public void setIdQuanLy(String idQuanLy) {
+    public void setIdQuanLy(int idQuanLy) {
         this.idQuanLy = idQuanLy;
     }
 
@@ -43,15 +44,15 @@ public class QuanLy {
         this.email = email;
     }
 
-    public String getIdTaiKhoan() {
+    public int getIdTaiKhoan() {
         return idTaiKhoan;
     }
 
-    public void setIdTaiKhoan(String idTaiKhoan) {
+    public void setIdTaiKhoan(int idTaiKhoan) {
         this.idTaiKhoan = idTaiKhoan;
     }
 
-    public QuanLy(String idQuanLy, String hoTen, String sdt, String cCCD, String email, String idTaiKhoan) {
+    public QuanLy(int idQuanLy, String hoTen, String sdt, String cCCD, String email, int idTaiKhoan) {
         this.idQuanLy = idQuanLy;
         this.hoTen = hoTen;
         this.sdt = sdt;

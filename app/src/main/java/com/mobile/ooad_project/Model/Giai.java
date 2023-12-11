@@ -1,13 +1,14 @@
 package com.mobile.ooad_project.Model;
 
 public class Giai {
-    String idGiai, tenGiai, idSan, NgayThiDau;
+    int idGiai, idSan;
+    String tenGiai, NgayThiDau;
 
-    public String getIdGiai() {
+    public int getIdGiai() {
         return idGiai;
     }
 
-    public void setIdGiai(String idGiai) {
+    public void setIdGiai(int idGiai) {
         this.idGiai = idGiai;
     }
 
@@ -19,11 +20,11 @@ public class Giai {
         this.tenGiai = tenGiai;
     }
 
-    public String getIdSan() {
+    public int getIdSan() {
         return idSan;
     }
 
-    public void setIdSan(String idSan) {
+    public void setIdSan(int idSan) {
         this.idSan = idSan;
     }
 
@@ -35,7 +36,7 @@ public class Giai {
         NgayThiDau = ngayThiDau;
     }
 
-    public Giai(String idGiai, String tenGiai, String idSan, String ngayThiDau) {
+    public Giai(int idGiai, String tenGiai, int idSan, String ngayThiDau) {
         this.idGiai = idGiai;
         this.tenGiai = tenGiai;
         this.idSan = idSan;

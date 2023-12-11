@@ -37,41 +37,22 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView10"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="15dp"
-                android:text="Tên Người Hẹn"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/edtTenNguoiHen"
-                android:layout_width="349dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/custom_tennguoidat"
-                android:ems="10"
-                android:hint=" Nguyễn Văn A"
-                android:textColorHint="#006BB9" />
-
-            <TextView
                 android:id="@+id/textView12"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
+                android:textSize="18dp"
                 android:text="Ngày hẹn"
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/textView13"
+                android:id="@+id/edtNgayHen"
                 android:layout_width="349dp"
                 android:layout_height="32dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
+                android:paddingLeft="5dp"
                 android:background="@drawable/custom_tennguoidat"
                 android:drawableEnd="@drawable/lich"
                 android:ems="10"
@@ -79,6 +60,7 @@
                 android:textColorHint="#006BB9" />
 
             <TextView
+                android:textSize="18dp"
                 android:id="@+id/textView14"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -87,19 +69,20 @@
                 android:text="Sân Hẹn Đá"
                 android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/edtSanhenda"
+            <Spinner
+                android:id="@+id/spinnerSan"
                 android:layout_width="349dp"
-                android:layout_height="wrap_content"
+                android:layout_height="32dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="5dp"
                 android:background="@drawable/custom_tennguoidat"
                 android:ems="10"
-                android:hint=" Lạch Tray"
-                android:textColorHint="#006BB9" />
+                android:hint=" 8:00"
+                android:textColor="#006BB9"/>
 
             <TextView
+                android:textSize="18dp"
                 android:id="@+id/textView15"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -109,19 +92,18 @@
                 android:textStyle="bold" />
 
             <Spinner
-                android:id="@+id/edtDiachi"
+                android:id="@+id/spinnerGioBatDau"
                 android:layout_width="349dp"
-                android:layout_height="wrap_content"
+                android:layout_height="32dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="5dp"
-
                 android:background="@drawable/custom_tennguoidat"
                 android:ems="10"
-                android:hint=" 8:00"
-                android:textColorHint="#006BB9" />
+                android:textColor="#006BB9" />
 
             <TextView
+                android:textSize="18dp"
                 android:id="@+id/textView16"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -131,7 +113,7 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/edtGiobatdau"
+                android:id="@+id/edtDiaChi"
                 android:layout_width="349dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -139,10 +121,12 @@
                 android:layout_marginRight="5dp"
                 android:background="@drawable/custom_tennguoidat"
                 android:ems="10"
-                android:hint=" 32/65 Dương Quảng Hàm"
-                android:textColorHint="#006BB9" />
+                android:paddingLeft="5dp"
+                android:text=" 32/65 Dương Quảng Hàm"
+                android:textColor="#006BB9" />
 
             <TextView
+                android:textSize="18dp"
                 android:id="@+id/textView11"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -152,19 +136,21 @@
                 android:textStyle="bold" />
 
             <CheckBox
-                android:id="@+id/cbLoaiSan"
+                android:id="@+id/cbSan5"
                 android:layout_width="match_parent"
-                android:layout_height="24dp"
+                android:layout_height="40dp"
                 android:layout_marginLeft="4dp"
                 android:layout_marginTop="5dp"
+                android:textSize="22dp"
                 android:text="5" />
 
             <CheckBox
-                android:id="@+id/checkBox"
+                android:id="@+id/cbSan7"
                 android:layout_width="match_parent"
-                android:layout_height="24dp"
+                android:layout_height="40dp"
                 android:layout_marginLeft="4dp"
                 android:layout_marginTop="5dp"
+                android:textSize="22dp"
                 android:text="7" />
 
             <LinearLayout
@@ -173,7 +159,7 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/btnXacNhan"
+                    android:id="@+id/btnXacNhanHen"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

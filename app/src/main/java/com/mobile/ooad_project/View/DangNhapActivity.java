@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,6 +39,9 @@ public class DangNhapActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dang_nhap);
         addControl();
         addEvent();
+        Intent intent = getIntent();
+        edtUser.setText(intent.getStringExtra("taikhoan"));
+        edtPassword.setText(intent.getStringExtra("matkhau"));
     }
 
     public void addControl(){
@@ -57,8 +61,14 @@ public class DangNhapActivity extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     if(taiKhoanControl.checkTaiKhoan(String.valueOf(edtUser.getText()),String.valueOf(edtPassword.getText()),getApplicationContext())){
-                        Intent intent = new Intent(DangNhapActivity.this, MainActivity.class);
-                        startActivity(intent);
+                        Toast.makeText(DangNhapActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(DangNhapActivity.this, MainActivity.class);
+                                startActivity(intent);
+                            }
+                        },2000);
                     }
                     else
                         Toast.makeText(DangNhapActivity.this,"Wrong Password or Username",Toast.LENGTH_LONG).show();

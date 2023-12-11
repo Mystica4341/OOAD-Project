@@ -1,13 +1,14 @@
 package com.mobile.ooad_project.Model;
 
 public class TaiKhoan {
-    String idTaiKhoan, taiKhoan, matKhau;
+    int idTaiKhoan;
+    String taiKhoan, matKhau;
 
-    public String getIdTaiKhoan() {
+    public int getIdTaiKhoan() {
         return idTaiKhoan;
     }
 
-    public void setIdTaiKhoan(String idTaiKhoan) {
+    public void setIdTaiKhoan(int idTaiKhoan) {
         this.idTaiKhoan = idTaiKhoan;
     }
 
@@ -27,7 +28,7 @@ public class TaiKhoan {
         this.matKhau = matKhau;
     }
 
-    public TaiKhoan(String idTaiKhoan, String taiKhoan, String matKhau) {
+    public TaiKhoan(int idTaiKhoan, String taiKhoan, String matKhau) {
         this.idTaiKhoan = idTaiKhoan;
         this.taiKhoan = taiKhoan;
         this.matKhau = matKhau;

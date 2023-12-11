@@ -3,15 +3,19 @@ package com.mobile.ooad_project.Control;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
 import com.mobile.ooad_project.Model.San;
+import com.mobile.ooad_project.Model.TaiKhoan;
+
+import java.util.ArrayList;
 
 public class SanControl extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "projectooad";
+    public static final String DATABASE_NAME = "projectooad";
     private static final int DATABASE_VERSION = 1;
     @SuppressLint("SdCardPath")
     public static final String PATH = "/data/data/com.mobile.ooad_project/database/projectooad.db";
@@ -29,8 +33,19 @@ public class SanControl extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "(" + IDSAN +" INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL," + TINHTRANGSAN +" INTEGER NOT NULL CHECK ("+TINHTRANGSAN+" >=0 AND "+TINHTRANGSAN+" <=1)," + LOAISAN +" INTEGER NOT NULL CHECK ("+LOAISAN+" = 5 OR "+LOAISAN+" = 7), "+LOAICO +" INTEGER NOT NULL CHECK ("+LOAICO+" >=0 AND "+LOAICO+" <=1)," + IDCOSOSAN +" INTEGER NOT NULL REFERENCES "+CoSoSanControl.TABLE_NAME+"("+CoSoSanControl.IDCOSOSAN+"));";
+        String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "(" + IDSAN +" INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL," + TINHTRANGSAN +" INTEGER NOT NULL," + LOAISAN +" INTEGER NOT NULL, "+LOAICO +" INTEGER NOT NULL," + IDCOSOSAN +" INTEGER NOT NULL REFERENCES "+CoSoSanControl.TABLE_NAME+"("+CoSoSanControl.IDCOSOSAN+"));";
         db.execSQL(sql);
+        db.close();
+    }
+
+    public void initData(){
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
+        String sql1 = "INSERT OR IGNORE INTO " + TABLE_NAME + " VALUES (1, 1, 5, 1, 1)"; //loai co 1 la tu nhien, 0 la nhan tao //tinh trang san 1 la available, 0 la unavailable
+        db.execSQL(sql1);
+        String sql2 = "INSERT OR IGNORE INTO " + TABLE_NAME + " VALUES (2, 1, 5, 1, 1)";
+        db.execSQL(sql2);
+        String sql3 = "INSERT OR IGNORE INTO " + TABLE_NAME + " VALUES (3, 1, 7, 1, 1)";
+        db.execSQL(sql3);
         db.close();
     }
 
@@ -64,5 +79,22 @@ public class SanControl extends SQLiteOpenHelper {
         db.delete(TABLE_NAME, IDSAN + " =?",
                 new String[]{String.valueOf(idSan)});
         db.close();
+    }
+
+    public ArrayList<San> loadData() {
+        java.util.ArrayList<com.mobile.ooad_project.Model.San> result = new ArrayList<>();
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        cursor.moveToFirst();
+        do {
+            com.mobile.ooad_project.Model.San tk = new com.mobile.ooad_project.Model.San();
+            tk.setIdSan(cursor.getInt(0));
+            tk.setTinhTrangSan(cursor.getInt(1));
+            tk.setLoaiSan(cursor.getInt(2));
+            tk.setLoaiCo(cursor.getInt(3));
+            tk.setIdCoSoSan(cursor.getInt(4));
+            result.add(tk);
+        } while (cursor.moveToNext());
+        return result;
     }
 }

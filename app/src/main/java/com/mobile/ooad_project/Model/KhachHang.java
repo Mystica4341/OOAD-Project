@@ -1,13 +1,14 @@
 package com.mobile.ooad_project.Model;
 
 public class KhachHang {
-    String idKhach, hoTen, sdt, email, diaChi, cCCD, idTaiKhoan;
+    int idKhach, idTaiKhoan;
+    String hoTen, sdt, email, diaChi, cCCD;
 
-    public String getIdKhach() {
+    public int getIdKhach() {
         return idKhach;
     }
 
-    public void setIdKhach(String idKhach) {
+    public void setIdKhach(int idKhach) {
         this.idKhach = idKhach;
     }
 
@@ -51,15 +52,15 @@ public class KhachHang {
         this.cCCD = cCCD;
     }
 
-    public String getIdTaiKhoan() {
+    public int getIdTaiKhoan() {
         return idTaiKhoan;
     }
 
-    public void setIdTaiKhoan(String idTaiKhoan) {
+    public void setIdTaiKhoan(int idTaiKhoan) {
         this.idTaiKhoan = idTaiKhoan;
     }
 
-    public KhachHang(String idKhach, String hoTen, String sdt, String email, String diaChi, String cCCD, String idTaiKhoan) {
+    public KhachHang(int idKhach, String hoTen, String sdt, String email, String diaChi, String cCCD, int idTaiKhoan) {
         this.idKhach = idKhach;
         this.hoTen = hoTen;
         this.sdt = sdt;

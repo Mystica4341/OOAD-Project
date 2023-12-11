@@ -1,46 +1,45 @@
 package com.mobile.ooad_project.Model;
 
 public class San {
-    String idSan, idCoSoSan, soLuongSan, tinhTrangSan, loaiCo;
-    int loaiSan;
+    int idSan, idCoSoSan, soLuongSan, tinhTrangSan, loaiCo, loaiSan;
 
-    public String getIdSan() {
+    public int getIdSan() {
         return idSan;
     }
 
-    public void setIdSan(String idSan) {
+    public void setIdSan(int idSan) {
         this.idSan = idSan;
     }
 
-    public String getIdCoSoSan() {
+    public int getIdCoSoSan() {
         return idCoSoSan;
     }
 
-    public void setIdCoSoSan(String idCoSoSan) {
+    public void setIdCoSoSan(int idCoSoSan) {
         this.idCoSoSan = idCoSoSan;
     }
 
-    public String getSoLuongSan() {
+    public int getSoLuongSan() {
         return soLuongSan;
     }
 
-    public void setSoLuongSan(String soLuongSan) {
+    public void setSoLuongSan(int soLuongSan) {
         this.soLuongSan = soLuongSan;
     }
 
-    public String getTinhTrangSan() {
+    public int getTinhTrangSan() {
         return tinhTrangSan;
     }
 
-    public void setTinhTrangSan(String tinhTrangSan) {
+    public void setTinhTrangSan(int tinhTrangSan) {
         this.tinhTrangSan = tinhTrangSan;
     }
 
-    public String getLoaiCo() {
+    public int getLoaiCo() {
         return loaiCo;
     }
 
-    public void setLoaiCo(String loaiCo) {
+    public void setLoaiCo(int loaiCo) {
         this.loaiCo = loaiCo;
     }
 
@@ -52,7 +51,7 @@ public class San {
         this.loaiSan = loaiSan;
     }
 
-    public San(String idSan, String idCoSoSan, String soLuongSan, String tinhTrangSan, String loaiCo, int loaiSan) {
+    public San(int idSan, int idCoSoSan, int soLuongSan, int tinhTrangSan, int loaiCo, int loaiSan) {
         this.idSan = idSan;
         this.idCoSoSan = idCoSoSan;
         this.soLuongSan = soLuongSan;

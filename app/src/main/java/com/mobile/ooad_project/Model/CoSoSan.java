@@ -1,13 +1,15 @@
 package com.mobile.ooad_project.Model;
 
 public class CoSoSan {
-    String idCoSoSan, diachi, ten, sdt, soLuongSan, moTa, hinhAnh;
+    int idCoSoSan, soLuongSan;
 
-    public String getIdCoSoSan() {
+    String diachi, ten, moTa, sdt, hinhAnh;
+
+    public int getIdCoSoSan() {
         return idCoSoSan;
     }
 
-    public void setIdCoSoSan(String idCoSoSan) {
+    public void setIdCoSoSan(int idCoSoSan) {
         this.idCoSoSan = idCoSoSan;
     }
 
@@ -35,11 +37,11 @@ public class CoSoSan {
         this.sdt = sdt;
     }
 
-    public String getSoLuongSan() {
+    public int getSoLuongSan() {
         return soLuongSan;
     }
 
-    public void setSoLuongSan(String soLuongSan) {
+    public void setSoLuongSan(int soLuongSan) {
         this.soLuongSan = soLuongSan;
     }
 
@@ -59,7 +61,7 @@ public class CoSoSan {
         this.hinhAnh = hinhAnh;
     }
 
-    public CoSoSan(String idCoSoSan, String diachi, String ten, String sdt, String soLuongSan, String moTa, String hinhAnh) {
+    public CoSoSan(int idCoSoSan, String diachi, String ten, String sdt, int soLuongSan, String moTa, String hinhAnh) {
         this.idCoSoSan = idCoSoSan;
         this.diachi = diachi;
         this.ten = ten;

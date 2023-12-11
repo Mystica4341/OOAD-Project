@@ -1,29 +1,41 @@
 package com.mobile.ooad_project.Model;
 
 public class GiaoHuu {
-    String idTranGiaoHuu, idKhachA, idKhachB, ngayDaGiaoHuu, idSan;
+    int idTranGiaoHuu, idKhachA, idKhachB, idSan;
+    String  ngayDaGiaoHuu;
 
-    public String getIdTranGiaoHuu() {
+    public int getIdTranGiaoHuu() {
         return idTranGiaoHuu;
     }
 
-    public void setIdTranGiaoHuu(String idTranGiaoHuu) {
+    public GiaoHuu(int idTranGiaoHuu, int idKhachA, int idKhachB, int idSan, String ngayDaGiaoHuu) {
+        this.idTranGiaoHuu = idTranGiaoHuu;
+        this.idKhachA = idKhachA;
+        this.idKhachB = idKhachB;
+        this.idSan = idSan;
+        this.ngayDaGiaoHuu = ngayDaGiaoHuu;
+    }
+
+    public GiaoHuu() {
+    }
+
+    public void setIdTranGiaoHuu(int idTranGiaoHuu) {
         this.idTranGiaoHuu = idTranGiaoHuu;
     }
 
-    public String getIdKhachA() {
+    public int getIdKhachA() {
         return idKhachA;
     }
 
-    public void setIdKhachA(String idKhachA) {
+    public void setIdKhachA(int idKhachA) {
         this.idKhachA = idKhachA;
     }
 
-    public String getIdKhachB() {
+    public int getIdKhachB() {
         return idKhachB;
     }
 
-    public void setIdKhachB(String idKhachB) {
+    public void setIdKhachB(int idKhachB) {
         this.idKhachB = idKhachB;
     }
 
@@ -35,11 +47,11 @@ public class GiaoHuu {
         this.ngayDaGiaoHuu = ngayDaGiaoHuu;
     }
 
-    public String getIdSan() {
+    public int getIdSan() {
         return idSan;
     }
 
-    public void setIdSan(String idSan) {
+    public void setIdSan(int idSan) {
         this.idSan = idSan;
     }
 }

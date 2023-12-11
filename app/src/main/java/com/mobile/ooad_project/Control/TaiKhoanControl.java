@@ -77,19 +77,19 @@ public class TaiKhoanControl extends SQLiteOpenHelper {
             if (taikhoan.equals(a.getTaiKhoan()) && matkhau.equals(decodeMatKhau(a.getMatKhau(), context)))
                 return true;
             else
-                return false;
+                continue;
         }
         return false;
     }
 
     public ArrayList<TaiKhoan> loadData() {
-        ArrayList<TaiKhoan> result = new ArrayList<>();
+        ArrayList<com.mobile.ooad_project.Model.TaiKhoan> result = new ArrayList<>();
         SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
         cursor.moveToFirst();
         do {
-            TaiKhoan tk = new TaiKhoan();
-            tk.setIdTaiKhoan(String.valueOf(cursor.getInt(0)));
+            com.mobile.ooad_project.Model.TaiKhoan tk = new com.mobile.ooad_project.Model.TaiKhoan();
+            tk.setIdTaiKhoan(cursor.getInt(0));
             tk.setTaiKhoan(cursor.getString(1));
             tk.setMatKhau(cursor.getString(2));
             result.add(tk);

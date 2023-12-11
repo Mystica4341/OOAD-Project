@@ -1,5 +1,9 @@
 package com.mobile.ooad_project.View;
 
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,8 +11,22 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.Spinner;
 
+import com.mobile.ooad_project.Control.CoSoSanControl;
+import com.mobile.ooad_project.Control.GiaoHuuControl;
+import com.mobile.ooad_project.Control.SanControl;
+import com.mobile.ooad_project.Model.CoSoSan;
+import com.mobile.ooad_project.Model.GiaoHuu;
+import com.mobile.ooad_project.Model.San;
 import com.mobile.ooad_project.R;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +34,28 @@ import com.mobile.ooad_project.R;
  * create an instance of this fragment.
  */
 public class HenLichGiaoHuuFrag extends Fragment {
+
+    EditText  edtDiaChi, edtNgayDa;
+
+    Spinner spinnerSan, spinnerGioDa;
+
+    Button btnHen;
+
+    CheckBox CBSan5, CBSan7;
+
+    ArrayList<String> dsSan = new ArrayList<>();
+
+    ArrayList<String> dsGio = new ArrayList<>();
+
+    ArrayList<CoSoSan> lsCoSoSan = new ArrayList<>();
+
+    SanControl sc;
+
+    CoSoSanControl csc;
+
+    GiaoHuuControl ghc;
+
+    SQLiteDatabase db;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,6 +101,88 @@ public class HenLichGiaoHuuFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_hen_lich_giao_huu, container, false);
+        View view = inflater.inflate(R.layout.fragment_hen_lich_giao_huu, container, false);
+        addControl(view);
+        disableEdt(edtDiaChi);
+        disableEdt(edtNgayDa);
+        addEvent();
+        return view;
+    }
+
+    public void addControl(View view){
+        edtDiaChi = view.findViewById(R.id.edtDiaChi);
+        edtNgayDa = view.findViewById(R.id.edtNgayHen);
+        spinnerGioDa = view.findViewById(R.id.spinnerGioBatDau);
+        spinnerSan = view.findViewById(R.id.spinnerSan);
+        btnHen = view.findViewById(R.id.btnXacNhanHen);
+        CBSan5 = view.findViewById(R.id.cbSan5);
+        CBSan7 = view.findViewById(R.id.cbSan7);
+    }
+
+    public void disableEdt(EditText edt){
+        edt.setFocusable(false);
+        edt.setCursorVisible(false);
+        edt.setKeyListener(null);
+    }
+
+    public void addEvent(){
+        LoadDB();
+        initDataSan();
+        initDataGio();
+
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(getContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,dsSan);
+        spinnerSan.setAdapter(adapter1);
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,dsGio);
+        spinnerGioDa.setAdapter(adapter2);
+
+        edtNgayDa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OpenDiaLog();
+            }
+        });
+
+        btnHen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                ghc.insertData(edtNgayDa.getText(), null, null, null);
+                //lay IdCoSoSan tu spinner Ten CoSoSan, LoaiSan, TinhTrang. Cho chay het table San lay ID San
+            }
+        });
+    }
+
+    private void initDataSan(){
+        lsCoSoSan = csc.loadData();
+        for (CoSoSan s: lsCoSoSan){
+            dsSan.add(s.getTen());
+        }
+    }
+
+    private void initDataGio(){
+        for (int i = 5; i <= 24; i++){
+            dsGio.add(i +":00");
+            dsGio.add(i +":30");
+        }
+    }
+
+    private void OpenDiaLog(){
+        DatePickerDialog dialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                edtNgayDa.setText(dayOfMonth + "/" + month + "/" + year);
+            }
+        }, 2023, 1, 1);
+
+        dialog.show();
+    }
+
+    private void LoadDB(){
+        sc = new SanControl(getContext(), SanControl.DATABASE_NAME, null, 1);
+        csc = new CoSoSanControl(getContext(), CoSoSanControl.DATABASE_NAME, null, 1);
+        csc.onCreate(db);
+        sc.onCreate(db);
+        csc.initData();
+        sc.initData();
     }
 }
