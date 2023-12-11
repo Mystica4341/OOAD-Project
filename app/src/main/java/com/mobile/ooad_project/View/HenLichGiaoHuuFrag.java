@@ -17,6 +17,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.mobile.ooad_project.Control.CoSoSanControl;
 import com.mobile.ooad_project.Control.GiaoHuuControl;
@@ -26,6 +27,7 @@ import com.mobile.ooad_project.Model.GiaoHuu;
 import com.mobile.ooad_project.Model.San;
 import com.mobile.ooad_project.R;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -56,6 +58,10 @@ public class HenLichGiaoHuuFrag extends Fragment {
     GiaoHuuControl ghc;
 
     SQLiteDatabase db;
+
+    int idCoSoSan = 0;
+
+    int idSan = 0;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -145,8 +151,29 @@ public class HenLichGiaoHuuFrag extends Fragment {
         btnHen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                ghc.insertData(edtNgayDa.getText(), null, null, null);
-                //lay IdCoSoSan tu spinner Ten CoSoSan, LoaiSan, TinhTrang. Cho chay het table San lay ID San
+                int loaiSan = 0;
+                String ngayDa = edtNgayDa.getText().toString();
+                if (edtNgayDa.getText() == null) {
+                    if (CBSan5.isChecked() || CBSan7.isChecked()) {
+                        //lay IdCoSoSan tu spinner Ten CoSoSan, LoaiSan, TinhTrang. Cho chay het table San lay ID San
+                        ArrayList<CoSoSan> lsCoSoSan = csc.loadData();
+                        for (CoSoSan cs : lsCoSoSan) {
+                            if (cs.getTen().equals(spinnerSan.getSelectedItem().toString())) {
+                                idCoSoSan = cs.getIdCoSoSan();
+                            } else continue;
+                        }
+                        if (CBSan5.isChecked()) loaiSan = 5;
+                        if (CBSan7.isChecked()) loaiSan = 7;
+                        try {
+                            idSan = sc.checkSan(idCoSoSan, loaiSan);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        ghc.insertData(ngayDa, 1, 1, idSan);
+                        Toast.makeText(getContext(), "Hẹn thành công", Toast.LENGTH_LONG).show();
+                    } else
+                        Toast.makeText(getContext(), "Chưa chọn loại sân", Toast.LENGTH_LONG).show();
+                } else Toast.makeText(getContext(), "Chưa chọn ngày đá", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -180,8 +207,10 @@ public class HenLichGiaoHuuFrag extends Fragment {
     private void LoadDB(){
         sc = new SanControl(getContext(), SanControl.DATABASE_NAME, null, 1);
         csc = new CoSoSanControl(getContext(), CoSoSanControl.DATABASE_NAME, null, 1);
+        ghc = new GiaoHuuControl(getContext(), GiaoHuuControl.DATABASE_NAME, null, 1);
         csc.onCreate(db);
         sc.onCreate(db);
+        ghc.onCreate(db);
         csc.initData();
         sc.initData();
     }

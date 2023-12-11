@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.mobile.ooad_project.Adapter.GiaoHuuAdapter;
+import com.mobile.ooad_project.Control.GiaoHuuControl;
 import com.mobile.ooad_project.Model.GiaoHuu;
 import com.mobile.ooad_project.R;
 
@@ -27,11 +28,13 @@ public class DaGiaoHuuFrag extends Fragment {
 
     Button btnHenLich;
 
-    ArrayList<GiaoHuu> lsGiaoHuu = new ArrayList<>();
+    ArrayList<GiaoHuu> lsGiaoHuu;
 
     GiaoHuuAdapter adapter;
 
     ListView lvGiaoHuu;
+
+    GiaoHuuControl ghc;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -98,7 +101,8 @@ public class DaGiaoHuuFrag extends Fragment {
                 ft.replace(R.id.frameFrag, HenLichFrag).commit();
             }
         });
-
+        ghc = new GiaoHuuControl(getContext(), GiaoHuuControl.DATABASE_NAME, null, 1);
+        lsGiaoHuu = ghc.loadData();
         adapter = new GiaoHuuAdapter(getContext(), R.layout.custom_listview_henlichdagiaohuu, lsGiaoHuu);
         lvGiaoHuu.setAdapter(adapter);
     }

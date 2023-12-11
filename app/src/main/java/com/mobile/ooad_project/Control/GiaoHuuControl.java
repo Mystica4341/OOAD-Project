@@ -3,12 +3,14 @@ package com.mobile.ooad_project.Control;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
 import com.mobile.ooad_project.Model.GiaoHuu;
+import com.mobile.ooad_project.Model.San;
 import com.mobile.ooad_project.Model.TaiKhoan;
 
 import java.io.IOException;
@@ -16,7 +18,7 @@ import java.util.ArrayList;
 
 
 public class GiaoHuuControl extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "projectooad";
+    public static final String DATABASE_NAME = "projectooad";
     private static final int DATABASE_VERSION = 1;
     @SuppressLint("SdCardPath")
     public static final String PATH = "/data/data/com.mobile.ooad_project/database/projectooad.db";
@@ -69,5 +71,22 @@ public class GiaoHuuControl extends SQLiteOpenHelper {
         db.delete(TABLE_NAME,  IDTRANGIAOHUU + " =?",
                 new String[]{String.valueOf(idTranGiaoHuu)});
         db.close();
+    }
+
+    public ArrayList<GiaoHuu> loadData() {
+        java.util.ArrayList<com.mobile.ooad_project.Model.GiaoHuu> result = new ArrayList<>();
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        cursor.moveToFirst();
+        do {
+            com.mobile.ooad_project.Model.GiaoHuu tk = new com.mobile.ooad_project.Model.GiaoHuu();
+            tk.setIdSan(cursor.getInt(0));
+            tk.setNgayDaGiaoHuu(cursor.getString(1));
+            tk.setIdKhachA(cursor.getInt(2));
+            tk.setIdKhachB(cursor.getInt(3));
+            tk.setIdSan(cursor.getInt(4));
+            result.add(tk);
+        } while (cursor.moveToNext());
+        return result;
     }
 }

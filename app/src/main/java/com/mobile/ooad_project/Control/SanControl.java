@@ -10,8 +10,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 import com.mobile.ooad_project.Model.San;
-import com.mobile.ooad_project.Model.TaiKhoan;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class SanControl extends SQLiteOpenHelper {
@@ -96,5 +96,16 @@ public class SanControl extends SQLiteOpenHelper {
             result.add(tk);
         } while (cursor.moveToNext());
         return result;
+    }
+
+    public int checkSan(int idCoSoSan, int loaiSan) throws IOException {
+        ArrayList<San> lsSan = loadData();
+        for (San a : lsSan) {
+            if (idCoSoSan == a.getIdCoSoSan() && loaiSan == a.getLoaiSan() && a.getTinhTrangSan() == 1)
+                return a.getIdSan();
+            else
+                continue;
+        }
+        return 0;
     }
 }

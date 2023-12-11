@@ -11,9 +11,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.mobile.ooad_project.Control.CoSoSanControl;
+import com.mobile.ooad_project.Control.KhachHangControl;
+import com.mobile.ooad_project.Control.SanControl;
+import com.mobile.ooad_project.Control.TaiKhoanControl;
+import com.mobile.ooad_project.Model.CoSoSan;
 import com.mobile.ooad_project.Model.GiaoHuu;
 import com.mobile.ooad_project.Model.KhachHang;
+import com.mobile.ooad_project.Model.San;
+import com.mobile.ooad_project.Model.TaiKhoan;
 import com.mobile.ooad_project.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -24,6 +32,16 @@ public class GiaoHuuAdapter extends ArrayAdapter {
     int layoutItem;
 
     ArrayList<GiaoHuu> lsGiaoHuu = new ArrayList<>();
+
+    CoSoSanControl csc;
+
+    SanControl sc;
+
+    TaiKhoanControl tkc;
+
+    KhachHangControl khc;
+
+    String tenSan, tenKhach;
     public GiaoHuuAdapter(@NonNull Context context, int resource, ArrayList<GiaoHuu> data) {
         super(context, resource, data);
         this.context = context;
@@ -35,20 +53,54 @@ public class GiaoHuuAdapter extends ArrayAdapter {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         GiaoHuu giaoHuu = lsGiaoHuu.get(position);
-        KhachHang khachHang = new KhachHang();
+
+
+        //LoadData
+        sc = new SanControl(context, SanControl.DATABASE_NAME, null, 1);
+        csc = new CoSoSanControl(context, CoSoSanControl.DATABASE_NAME, null, 1);
+        tkc = new TaiKhoanControl(context, TaiKhoanControl.DATABASE_NAME, null, 1);
+        khc = new KhachHangControl(context, KhachHangControl.DATABASE_NAME, null, 1);
+        //attach data
+        ArrayList<CoSoSan> lsCoSoSan = csc.loadData();
+        ArrayList<San> lsSan = sc.loadData();
+        ArrayList<KhachHang> lsKhachHang = khc.loadData();
+        ArrayList<TaiKhoan> lsTaiKhoan = tkc.loadData();
+
         if (convertView == null) convertView = LayoutInflater.from(context).inflate(layoutItem, null);
 
         ImageView imgSan = (ImageView) convertView.findViewById(R.id.imgSan);
-        //Missing hàm push ảnh lên
 
+        //Check Ten Khach Hang
         TextView tvKhachA = (TextView) convertView.findViewById(R.id.tvTenDoiBong);
-        tvKhachA.setText(giaoHuu.getIdKhachA()); //Note lấy tên của khách A gán vào
+        for (KhachHang k: lsKhachHang){
+            for (TaiKhoan tk: lsTaiKhoan){
+                if (k.getIdTaiKhoan() == tk.getIdTaiKhoan()){
+                    tenKhach = k.getHoTen();
+                }
+            }
+        }
+        tvKhachA.setText(tenKhach); //Note lấy tên của khách A gán vào
 
         TextView tvNgayThiDau = (TextView) convertView.findViewById(R.id.tvNgayThiDau);
         tvNgayThiDau.setText(giaoHuu.getNgayDaGiaoHuu());
 
+        //Check Ten San + push hình anh
         TextView tvSan = (TextView) convertView.findViewById(R.id.tvSan);
-        tvSan.setText(giaoHuu.getIdSan()); //Note lấy tên của Sân gắn vào
+        for (GiaoHuu gh: lsGiaoHuu){
+            for(San s: lsSan){
+                for (CoSoSan cs: lsCoSoSan){
+                    if (gh.getIdSan() == s.getIdSan()){
+                        if (s.getIdCoSoSan() == cs.getIdCoSoSan()) {
+                            tenSan = cs.getTen();
+                            Picasso.get().load(cs.getHinhAnh()).resize(120, 120).into(imgSan);
+                        }
+                    }
+                }
+
+            }
+
+        }
+        tvSan.setText(tenSan); //Note lấy tên của Sân gắn vào
 
         return convertView;
     }

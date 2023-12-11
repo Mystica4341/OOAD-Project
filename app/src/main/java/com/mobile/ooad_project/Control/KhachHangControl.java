@@ -3,15 +3,19 @@ package com.mobile.ooad_project.Control;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import com.mobile.ooad_project.Model.GiaoHuu;
 import com.mobile.ooad_project.Model.KhachHang;
 
+import java.util.ArrayList;
+
 public class KhachHangControl extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "projectooad";
+    public static final String DATABASE_NAME = "projectooad";
     private static final int DATABASE_VERSION = 1;
     @SuppressLint("SdCardPath")
     public static final String PATH = "/data/data/com.mobile.ooad_project/database/projectooad.db";
@@ -70,5 +74,24 @@ public class KhachHangControl extends SQLiteOpenHelper {
         db.delete(TABLE_NAME,  IDKHACHHANG + " =?",
                 new String[]{String.valueOf(idKH)});
         db.close();
+    }
+
+    public ArrayList<KhachHang> loadData() {
+        java.util.ArrayList<com.mobile.ooad_project.Model.KhachHang> result = new ArrayList<>();
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        cursor.moveToFirst();
+        do {
+            com.mobile.ooad_project.Model.KhachHang tk = new com.mobile.ooad_project.Model.KhachHang();
+            tk.setIdKhach(cursor.getInt(0));
+            tk.setHoTen(cursor.getString(1));
+            tk.setSdt(cursor.getString(2));
+            tk.setEmail(cursor.getString(3));
+            tk.setCCCD(cursor.getString(4));
+            tk.setDiaChi(cursor.getString(5));
+            tk.setIdTaiKhoan(cursor.getInt(6));
+            result.add(tk);
+        } while (cursor.moveToNext());
+        return result;
     }
 }
