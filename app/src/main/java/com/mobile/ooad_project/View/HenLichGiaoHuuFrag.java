@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -62,6 +63,8 @@ public class HenLichGiaoHuuFrag extends Fragment {
     int idCoSoSan = 0;
 
     int idSan = 0;
+
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -135,7 +138,6 @@ public class HenLichGiaoHuuFrag extends Fragment {
         LoadDB();
         initDataSan();
         initDataGio();
-
         ArrayAdapter<String> adapter1 = new ArrayAdapter<>(getContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,dsSan);
         spinnerSan.setAdapter(adapter1);
         ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,dsGio);
@@ -169,13 +171,34 @@ public class HenLichGiaoHuuFrag extends Fragment {
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
-                        ghc.insertData(ngayDa, 1, 1, idSan);
-                        Toast.makeText(getContext(), "Hẹn thành công", Toast.LENGTH_LONG).show();
+                        if (idSan != 0) {
+                            ghc.insertData(ngayDa, 1, 1, idSan);
+                            Toast.makeText(getContext(), "Hẹn thành công", Toast.LENGTH_LONG).show();
+                        } else Toast.makeText(getContext(), "Hẹn thất bại do không có sân hoặc không còn sân trống", Toast.LENGTH_LONG).show();
                     } else
                         Toast.makeText(getContext(), "Chưa chọn loại sân", Toast.LENGTH_LONG).show();
                 } else Toast.makeText(getContext(), "Chưa chọn ngày đá", Toast.LENGTH_LONG).show();
             }
         });
+        spinnerSan.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                loadDiachi();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    private void loadDiachi(){
+        lsCoSoSan = csc.loadData();
+        for (CoSoSan s: lsCoSoSan){
+            if(s.getTen().equals(spinnerSan.getSelectedItem().toString()))
+                edtDiaChi.setText(s.getDiachi());
+        }
     }
 
     private void initDataSan(){

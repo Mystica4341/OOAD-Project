@@ -40,6 +40,12 @@ public class TaiKhoanControl extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void initDataAdmin(){
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
+        String sql1 = "INSERT OR IGNORE INTO " + TABLE_NAME + " VALUES (1, 'admin', 'admin12')";
+        db.execSQL(sql1);
+    }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 

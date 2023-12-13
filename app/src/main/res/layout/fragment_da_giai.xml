@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.DaGiaoHuuFrag">
+    tools:context=".View.DaGiaiFrag">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
@@ -21,10 +21,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:text=" Hẹn lịch đá giao hữu" />
+            android:text=" Hẹn lịch đá giải" />
 
         <Button
-            android:id="@+id/btnTaoLich"
+            android:id="@+id/btnTaoLichDaGiai"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#2ABDFF"
@@ -32,7 +32,7 @@
             android:text="Tạo Lịch hẹn" />
 
         <ListView
-            android:id="@+id/lvDaGiaoHuu"
+            android:id="@+id/lvDaGiai"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

@@ -39,7 +39,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Đội bóng của" />
+                        android:textSize="18dp"
+                        android:text="Đội bóng của:" />
 
                     <TextView
                         android:id="@+id/tvTenDoiBong"
@@ -47,6 +48,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Tên Dội Bóng"
+                        android:textSize="18dp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -61,6 +63,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:textSize="18dp"
                         android:text="Ngày thi đấu:" />
 
                     <TextView
@@ -69,6 +72,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textStyle="bold"
+                        android:textSize="18dp"
                         android:text="DD/MM/YYYY" />
                 </LinearLayout>
 
@@ -83,6 +87,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:textSize="18dp"
                         android:text="Sân:" />
 
                     <TextView
@@ -91,6 +96,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textStyle="bold"
+                        android:textSize="18dp"
                         android:text="San A Holder" />
                 </LinearLayout>
 

@@ -95,5 +95,6 @@ public class DangNhapActivity extends AppCompatActivity {
     public void taiKhoanActive(){
         taiKhoanControl = new TaiKhoanControl(getApplicationContext(), TaiKhoanControl.DATABASE_NAME, null, 1);
         taiKhoanControl.onCreate(db);
+        taiKhoanControl.initDataAdmin();
     }
 }

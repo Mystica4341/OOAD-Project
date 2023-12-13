@@ -40,12 +40,37 @@ public class SanControl extends SQLiteOpenHelper {
 
     public void initData(){
         SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
+        //(ID, Tinh Trang, Loai San, Loai Co, ID Co So)
         String sql1 = "INSERT OR IGNORE INTO " + TABLE_NAME + " VALUES (1, 1, 5, 1, 1)"; //loai co 1 la tu nhien, 0 la nhan tao //tinh trang san 1 la available, 0 la unavailable
         db.execSQL(sql1);
         String sql2 = "INSERT OR IGNORE INTO " + TABLE_NAME + " VALUES (2, 1, 5, 1, 1)";
         db.execSQL(sql2);
         String sql3 = "INSERT OR IGNORE INTO " + TABLE_NAME + " VALUES (3, 1, 7, 1, 1)";
         db.execSQL(sql3);
+        String sql4 = "INSERT OR IGNORE INTO " + TABLE_NAME + " VALUES (4, 1, 5, 0, 2)"; //loai co 1 la tu nhien, 0 la nhan tao //tinh trang san 1 la available, 0 la unavailable
+        db.execSQL(sql4);
+        String sql5 = "INSERT OR IGNORE INTO " + TABLE_NAME + " VALUES (5, 0, 7, 0, 2)";
+        db.execSQL(sql5);
+        String sql6 = "INSERT OR IGNORE INTO " + TABLE_NAME + " VALUES (6, 1, 7, 1, 2)";
+        db.execSQL(sql6);
+        String sql7 = "INSERT OR IGNORE INTO " + TABLE_NAME + " VALUES (7, 0, 5, 1, 3)"; //loai co 1 la tu nhien, 0 la nhan tao //tinh trang san 1 la available, 0 la unavailable
+        db.execSQL(sql7);
+        String sql8 = "INSERT OR IGNORE INTO " + TABLE_NAME + " VALUES (8, 1, 5, 0, 3)";
+        db.execSQL(sql8);
+        String sql9 = "INSERT OR IGNORE INTO " + TABLE_NAME + " VALUES (9, 1, 7, 0, 3)";
+        db.execSQL(sql9);
+        String sql10 = "INSERT OR IGNORE INTO " + TABLE_NAME + " VALUES (10, 1, 5, 1, 3)"; //loai co 1 la tu nhien, 0 la nhan tao //tinh trang san 1 la available, 0 la unavailable
+        db.execSQL(sql10);
+        String sql11 = "INSERT OR IGNORE INTO " + TABLE_NAME + " VALUES (11, 1, 7, 1, 3)";
+        db.execSQL(sql11);
+        String sql12 = "INSERT OR IGNORE INTO " + TABLE_NAME + " VALUES (12, 0, 7, 1, 3)";
+        db.execSQL(sql12);
+        String sql13 = "INSERT OR IGNORE INTO " + TABLE_NAME + " VALUES (13, 1, 5, 1, 2)"; //loai co 1 la tu nhien, 0 la nhan tao //tinh trang san 1 la available, 0 la unavailable
+        db.execSQL(sql13);
+        String sql14 = "INSERT OR IGNORE INTO " + TABLE_NAME + " VALUES (14, 1, 7, 0, 2)";
+        db.execSQL(sql14);
+        String sql15 = "INSERT OR IGNORE INTO " + TABLE_NAME + " VALUES (15, 1, 7, 1, 2)";
+        db.execSQL(sql15);
         db.close();
     }
 

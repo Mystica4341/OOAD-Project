@@ -42,10 +42,19 @@ public class CoSoSanControl extends SQLiteOpenHelper {
 
     public void initData(){
         SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
-        String sql = "INSERT OR IGNORE INTO " + TABLE_NAME
-                + " VALUES ( 1, 'San 367', '1165 Hoang Hoa Tham, Phuong 13, Quan Tan Binh', '0834596596', 10, 'San Dep Nhat Viet Nam', 'https://cdn.discordapp.com/attachments/1084393111096131599/1166405314036375652/image.png?ex=6581bd99&is=656f4899&hm=0ca6b817fa57b658f83dc38b15f8cbe0af20edcadeaf3b681003a69588d9e101&')";
-
-        db.execSQL(sql);
+        String sql1 = "INSERT OR IGNORE INTO " + TABLE_NAME
+                + " VALUES ( 1, 'San 367', '1165 Hoang Hoa Tham, Phuong 13, Quan Tan Binh', '0834596596', 10, 'San Dep Nhat Viet Nam', " +
+                "'https://cdn.alongwalk.info/vn/wp-content/uploads/2022/06/09193838/image-danh-sach-san-bong-da-o-quan-tan-binh-165475311721151.jpg')";
+        String sql2 = "INSERT OR IGNORE INTO " + TABLE_NAME
+                + " VALUES ( 2, 'San K34', '65 Bach Dang, Phuong 2, Quan Tan Binh', '0908787798', 4, 'San k34 co day du tien nghi de to chuc giai cho San 5 va 7', " +
+                "'https://global-uploads.webflow.com/60af8c708c6f35480d067652/622cc136def1b0d0de4e6e54_screenshot_1647099862.png')";
+        String sql3 = "INSERT OR IGNORE INTO " + TABLE_NAME
+                + " VALUES ( 3, 'San Ong Bau', '253 Vuon Lai, An Phu Dong, Quan 12', '0908999798', 6, 'Keo san 5 san 7', " +
+                "'https://lh3.googleusercontent.com/p/AF1QipPxEewl5yqYBGXS7sPn_y_Ub_Gk6l4FQYEgZ1zX=s680-w680-h510')";
+        db.execSQL(sql1);
+        db.execSQL(sql2);
+        db.execSQL(sql3);
+        db.close();
     }
 
     @Override
