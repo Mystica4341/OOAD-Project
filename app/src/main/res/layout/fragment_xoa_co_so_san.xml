@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvXoaCSS"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:background="#029FD1"
+            android:textStyle="bold"
+            android:textSize="30dp"
+            android:textColor="@color/white"
+            android:text="Xóa cơ sở sân" />
+
+        <TextView
+            android:id="@+id/tvXoaNay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:textColor="#ED0B0B"
+            android:layout_marginTop="20dp"
+            android:textSize="25dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text="Xóa cơ sở sân này?" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="268dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#D8D8D8"
+            android:orientation="vertical">
+
+            <ListView
+                android:id="@+id/listVXoaCSS"
+                android:layout_width="match_parent"
+                android:layout_height="254dp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnxoaCSSnay"
+            android:layout_width="138dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="#029FD1"
+            android:layout_marginTop="20dp"
+            android:textSize="20dp"
+            android:text="Xóa" />
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/QuanLyCoSoSan"
+        android:icon="@drawable/navquanlycososan"
+        android:title="Quản lý cơ sở sân" />
+
+    <item android:id="@+id/QuanLyHoanTien"
+        android:icon="@drawable/navrefund"
+        android:title="Quản lý hoàn tiền" />
+</menu>
