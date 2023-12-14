@@ -59,23 +59,34 @@ public class DangNhapActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    if(taiKhoanControl.checkTaiKhoan(String.valueOf(edtUser.getText()),String.valueOf(edtPassword.getText()),getApplicationContext())){
-                        Toast.makeText(DangNhapActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                Intent intent = new Intent(DangNhapActivity.this, MainActivity.class);
-                                startActivity(intent);
+                    try {
+                        if(taiKhoanControl.checkTaiKhoan(String.valueOf(edtUser.getText()),String.valueOf(edtPassword.getText()),getApplicationContext())){
+                            String admin = String.valueOf(edtUser.getText());
+                            String adminPassword = String.valueOf(edtPassword.getText());
+                            Toast.makeText(DangNhapActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
+                            if (admin.equals("admin") && adminPassword.equals("admin12")){
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Intent intent = new Intent(DangNhapActivity.this, AdminAvtivity.class);
+                                        startActivity(intent);
+                                    }
+                                },1000);
+                            }else {
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Intent intent = new Intent(DangNhapActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                    }
+                                },1000);
                             }
-                        },2000);
+                        } else
+                            Toast.makeText(DangNhapActivity.this,"Wrong Password or Username",Toast.LENGTH_LONG).show();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
-                    else
-                        Toast.makeText(DangNhapActivity.this,"Wrong Password or Username",Toast.LENGTH_LONG).show();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
                 }
-            }
         });
         tvDangKy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +106,5 @@ public class DangNhapActivity extends AppCompatActivity {
     public void taiKhoanActive(){
         taiKhoanControl = new TaiKhoanControl(getApplicationContext(), TaiKhoanControl.DATABASE_NAME, null, 1);
         taiKhoanControl.onCreate(db);
-        taiKhoanControl.initDataAdmin();
     }
 }

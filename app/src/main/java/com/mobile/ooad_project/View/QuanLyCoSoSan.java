@@ -7,8 +7,16 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 
+import com.mobile.ooad_project.Adapter.CoSoSanAdapter;
+import com.mobile.ooad_project.Control.CoSoSanControl;
+import com.mobile.ooad_project.Model.CoSoSan;
 import com.mobile.ooad_project.R;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +24,18 @@ import com.mobile.ooad_project.R;
  * create an instance of this fragment.
  */
 public class QuanLyCoSoSan extends Fragment {
+
+    EditText edtCoSoSan, edtTP, edtQuan;
+
+    ListView lvCoSoSan;
+
+    Button btnThem, btnXoa;
+
+    CoSoSanControl csc;
+
+    ArrayList<CoSoSan> lsCoSoSan = new ArrayList<>();
+
+    CoSoSanAdapter coSoSanAdapter;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,6 +81,29 @@ public class QuanLyCoSoSan extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_quan_ly_co_so_san, container, false);
+        View view = inflater.inflate(R.layout.fragment_quan_ly_co_so_san, container, false);
+        addControl(view);
+        addEvent();
+        return view;
+    }
+
+    public void addControl(View view){
+        btnThem = view.findViewById(R.id.btnthemcss);
+        btnXoa = view.findViewById(R.id.btnxoacss);
+        lvCoSoSan = view.findViewById(R.id.ListVCSS);
+        edtCoSoSan = view.findViewById(R.id.editTextTenCSS);
+        edtQuan = view.findViewById(R.id.editTextQuan);
+        edtTP = view.findViewById(R.id.editTextTP);
+    }
+
+    public void addEvent(){
+        loadDB();
+        lsCoSoSan = csc.loadData();
+        coSoSanAdapter = new CoSoSanAdapter(getContext(), R.layout.custom_listview_quanlycososan, lsCoSoSan);
+        lvCoSoSan.setAdapter(coSoSanAdapter);
+    }
+
+    private void loadDB(){
+        csc = new CoSoSanControl(getContext(), CoSoSanControl.DATABASE_NAME, null, 1);
     }
 }

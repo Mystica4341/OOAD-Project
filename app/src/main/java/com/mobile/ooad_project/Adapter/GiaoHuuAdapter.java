@@ -69,6 +69,9 @@ public class GiaoHuuAdapter extends ArrayAdapter {
         if (convertView == null) convertView = LayoutInflater.from(context).inflate(layoutItem, null);
 
         ImageView imgSan = (ImageView) convertView.findViewById(R.id.imgSan);
+//        for (GiaoHuu gh: lsGiaoHuu){
+//
+//        }
 
         //Check Ten Khach Hang
         TextView tvKhachA = (TextView) convertView.findViewById(R.id.tvTenDoiBong);
@@ -86,20 +89,15 @@ public class GiaoHuuAdapter extends ArrayAdapter {
 
         //Check Ten San + push hình anh
         TextView tvSan = (TextView) convertView.findViewById(R.id.tvSan);
-        for (GiaoHuu gh: lsGiaoHuu){
-            for(San s: lsSan){
+        for(San s: lsSan){
                 for (CoSoSan cs: lsCoSoSan){
-                    if (gh.getIdSan() == s.getIdSan()){
-                        if (s.getIdCoSoSan() == cs.getIdCoSoSan()) {
-                            tenSan = cs.getTen();
-                            Picasso.get().load(cs.getHinhAnh()).resize(120, 120).into(imgSan);
-                        }
-                    }
+                    if(cs.getIdCoSoSan() == s.getIdCoSoSan() && s.getIdSan() == giaoHuu.getIdSan()){
+                        tenSan = cs.getTen();
+                        Picasso.get().load(cs.getHinhAnh()).resize(120, 120).into(imgSan);
                 }
-
             }
-
         }
+
         tvSan.setText(tenSan); //Note lấy tên của Sân gắn vào
 
         return convertView;

@@ -43,28 +43,49 @@
                     android:orientation="horizontal">
 
                     <EditText
-                        android:id="@+id/editTChonNgay"
+                        android:id="@+id/edtChonNgay"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@drawable/kevientext"
-                        android:paddingLeft="10dp"
                         android:ems="1"
+                        android:hint="Chọn ngày..."
                         android:inputType="date"
-                        android:hint="Chọn ngày..."/>
+                        android:paddingLeft="10dp" />
 
-                    <EditText
-                        android:id="@+id/editTChonGio"
+                    <Spinner
+                        android:id="@+id/spinnerGio"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@drawable/kevientext"
-                        android:hint="Chọn giờ..."
-                        android:paddingLeft="10dp"
                         android:ems="1"
-                        android:inputType="time" />
+                        android:inputType="time"
+                        android:paddingLeft="10dp" />
                 </LinearLayout>
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView123"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="27dp"
+                    android:textSize="25dp"
+                    android:text="Chọn địa điểm:" />
+
+                <Spinner
+                    android:id="@+id/spinnerCoSoSan"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:paddingLeft="10dp"
+                    android:background="@color/white"
+                    android:layout_marginBottom="5dp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -291,6 +312,11 @@
                 </LinearLayout>
 
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="85dp"
+                android:orientation="horizontal"></LinearLayout>
 
         </LinearLayout>
 

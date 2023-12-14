@@ -7,15 +7,30 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
+import com.google.android.material.tabs.TabItem;
+import com.google.android.material.tabs.TabLayout;
 import com.mobile.ooad_project.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link NhatKyFrag#newInstance} factory method to
+ * Use the {@link TaiKhoanNhatKyFrag#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NhatKyFrag extends Fragment {
+public class TaiKhoanNhatKyFrag extends Fragment {
+
+    ImageView imgSetting;
+
+    TextView tvHoTen, tvEmail;
+
+    ListView lvNhatKy;
+
+    TabLayout tabLayout;
+
+    TabItem tabDatSan, tabDaGiai, tabGiaoHuu;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +41,7 @@ public class NhatKyFrag extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public NhatKyFrag() {
+    public TaiKhoanNhatKyFrag() {
         // Required empty public constructor
     }
 
@@ -39,8 +54,8 @@ public class NhatKyFrag extends Fragment {
      * @return A new instance of fragment NhatKyFrag.
      */
     // TODO: Rename and change types and number of parameters
-    public static NhatKyFrag newInstance(String param1, String param2) {
-        NhatKyFrag fragment = new NhatKyFrag();
+    public static TaiKhoanNhatKyFrag newInstance(String param1, String param2) {
+        TaiKhoanNhatKyFrag fragment = new TaiKhoanNhatKyFrag();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +76,19 @@ public class NhatKyFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_nhat_ky, container, false);
+        View view = inflater.inflate(R.layout.fragment_tai_khoan_nhat_ky, container, false);
+        addControl(view);
+        return view;
+    }
+
+    private void addControl(View view){
+        imgSetting = view.findViewById(R.id.imgSetting);
+        tvHoTen = view.findViewById(R.id.tvTenKhach);
+        tvEmail = view.findViewById(R.id.tvEmail);
+        tabLayout = view.findViewById(R.id.TabLayout);
+        tabDatSan = view.findViewById(R.id.TabDatSan);
+        tabDaGiai = view.findViewById(R.id.TabDaGiai);
+        tabGiaoHuu = view.findViewById(R.id.TabGiaoHuu);
+        lvNhatKy = view.findViewById(R.id.lvNhatKy);
     }
 }

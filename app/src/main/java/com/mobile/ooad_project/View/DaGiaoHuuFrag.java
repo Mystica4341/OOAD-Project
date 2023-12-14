@@ -1,5 +1,6 @@
 package com.mobile.ooad_project.View;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,7 +14,9 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.mobile.ooad_project.Adapter.GiaoHuuAdapter;
+import com.mobile.ooad_project.Control.CoSoSanControl;
 import com.mobile.ooad_project.Control.GiaoHuuControl;
+import com.mobile.ooad_project.Control.SanControl;
 import com.mobile.ooad_project.Model.GiaoHuu;
 import com.mobile.ooad_project.R;
 
@@ -35,6 +38,12 @@ public class DaGiaoHuuFrag extends Fragment {
     ListView lvGiaoHuu;
 
     GiaoHuuControl ghc;
+
+    SQLiteDatabase db;
+
+    SanControl sc;
+
+    CoSoSanControl csc;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -101,9 +110,22 @@ public class DaGiaoHuuFrag extends Fragment {
                 ft.replace(R.id.frameFrag, HenLichFrag).commit();
             }
         });
-        ghc = new GiaoHuuControl(getContext(), GiaoHuuControl.DATABASE_NAME, null, 1);
+        LoadDB();
         lsGiaoHuu = ghc.loadData();
         adapter = new GiaoHuuAdapter(getContext(), R.layout.custom_listview_henlichdagiaohuu, lsGiaoHuu);
         lvGiaoHuu.setAdapter(adapter);
+    }
+
+    private void LoadDB(){
+        sc = new SanControl(getContext(), SanControl.DATABASE_NAME, null, 1);
+        csc = new CoSoSanControl(getContext(), CoSoSanControl.DATABASE_NAME, null, 1);
+        ghc = new GiaoHuuControl(getContext(), GiaoHuuControl.DATABASE_NAME, null, 1);
+        csc.onCreate(db);
+        sc.onCreate(db);
+        ghc.onCreate(db);
+        ghc.initData();
+        csc.initData();
+        sc.initData();
+
     }
 }

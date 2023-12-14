@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                     loadFragment(new DaGiaoHuuFrag());
                     return true;
                 } else if (id == R.id.TaiKhoan) {
-                    loadFragment(new TaiKhoanFrag());
+                    loadFragment(new TaiKhoanNhatKyFrag());
                     return true;
                 }
                 return false;

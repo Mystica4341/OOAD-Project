@@ -34,7 +34,11 @@ public class DangKyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dang_ky);
         addControl();
-        addEvent();
+        try {
+            addEvent();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     public void addControl(){
         edtTaiKhoan = (EditText)findViewById(R.id.edtTenTaiKhoan_DangKy);
@@ -48,9 +52,10 @@ public class DangKyActivity extends AppCompatActivity {
         btnDaCoTK = (Button) findViewById(R.id.btnDaCoTK_DangKy);
         btnDangKy = (Button) findViewById(R.id.btnDangKy_DangKy);
     }
-    public void addEvent(){
+    public void addEvent() throws IOException {
         taiKhoanActive();
         khachHangActive();
+        adminActive();
         btnDaCoTK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,6 +97,11 @@ public class DangKyActivity extends AppCompatActivity {
     public void taiKhoanActive(){
         taiKhoanControl = new TaiKhoanControl(getApplicationContext(), TaiKhoanControl.DATABASE_NAME, null, 1);
         taiKhoanControl.onCreate(db);
+
+    }
+
+    public void adminActive() throws IOException {
+        taiKhoanControl.insertAdminData(1, "admin", encodeMatKhau("admin12"));
     }
     public void khachHangActive(){
         khachHangControl = new KhachHangControl(getApplicationContext(), TaiKhoanControl.DATABASE_NAME, null, 1);

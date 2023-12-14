@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <TextView
@@ -35,15 +35,9 @@
 
 
         <ListView
+            android:id="@+id/lvHoanTien"
             android:layout_width="match_parent"
-            android:layout_height="296dp" />
-
-        <Button
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="285dp"
-            android:backgroundTint="#029FD1"
-            android:text="Trở lại"/>
+            android:layout_height="630dp" />
 
 
     </LinearLayout>

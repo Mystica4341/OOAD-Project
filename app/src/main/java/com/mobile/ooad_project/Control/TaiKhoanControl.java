@@ -40,12 +40,6 @@ public class TaiKhoanControl extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void initDataAdmin(){
-        SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
-        String sql1 = "INSERT OR IGNORE INTO " + TABLE_NAME + " VALUES (1, 'admin', 'admin12')";
-        db.execSQL(sql1);
-    }
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
@@ -54,6 +48,16 @@ public class TaiKhoanControl extends SQLiteOpenHelper {
     public void insertData(String taiKhoan, String matKhau) {
         SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
         ContentValues value = new ContentValues();
+        value.put(TAIKHOAN, taiKhoan);
+        value.put(MATKHAU, matKhau);
+        db.insert(TABLE_NAME, null, value);
+        db.close();
+    }
+
+    public void insertAdminData(int id, String taiKhoan, String matKhau) {
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
+        ContentValues value = new ContentValues();
+        value.put(IDTAIKHOAN, id);
         value.put(TAIKHOAN, taiKhoan);
         value.put(MATKHAU, matKhau);
         db.insert(TABLE_NAME, null, value);

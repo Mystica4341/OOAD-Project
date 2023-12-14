@@ -27,7 +27,7 @@ public class AdminAvtivity extends AppCompatActivity {
 
         frameLayoutAdmin = (FrameLayout) findViewById(R.id.frameFragAdmin);
         bottomNavigationViewAdmin = (BottomNavigationView) findViewById(R.id.BottomNavAdmin);
-        loadFragment(new DatSanFrag());
+        loadFragment(new QuanLyCoSoSan());
         addEvent();
 
     }

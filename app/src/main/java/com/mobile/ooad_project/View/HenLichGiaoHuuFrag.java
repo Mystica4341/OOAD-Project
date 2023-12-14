@@ -231,10 +231,5 @@ public class HenLichGiaoHuuFrag extends Fragment {
         sc = new SanControl(getContext(), SanControl.DATABASE_NAME, null, 1);
         csc = new CoSoSanControl(getContext(), CoSoSanControl.DATABASE_NAME, null, 1);
         ghc = new GiaoHuuControl(getContext(), GiaoHuuControl.DATABASE_NAME, null, 1);
-        csc.onCreate(db);
-        sc.onCreate(db);
-        ghc.onCreate(db);
-        csc.initData();
-        sc.initData();
     }
 }
