@@ -54,12 +54,11 @@ public class GiaoHuuControl extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
-    public void insertData(String ngayDaGiaoHuu, int idKhachA, int idKhachB, int idSan){
+    public void insertData(String ngayDaGiaoHuu, int idKhachA, int idSan){
         SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
         ContentValues value = new ContentValues();
         value.put(NGAYDAGIAOHUU, ngayDaGiaoHuu);
         value.put(IDKHACHA, idKhachA);
-        value.put(IDKHACHB, idKhachB);
         value.put(IDSAN, idSan);
         db.insert(TABLE_NAME,null,value);
         db.close();

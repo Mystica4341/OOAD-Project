@@ -15,8 +15,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -44,7 +46,7 @@ public class HenLichGiaoHuuFrag extends Fragment {
 
     Button btnHen;
 
-    CheckBox CBSan5, CBSan7;
+    RadioButton RBSan5, RBSan7;
 
     ArrayList<String> dsSan = new ArrayList<>();
 
@@ -58,7 +60,6 @@ public class HenLichGiaoHuuFrag extends Fragment {
 
     GiaoHuuControl ghc;
 
-    SQLiteDatabase db;
 
     int idCoSoSan = 0;
 
@@ -124,8 +125,8 @@ public class HenLichGiaoHuuFrag extends Fragment {
         spinnerGioDa = view.findViewById(R.id.spinnerGioBatDau);
         spinnerSan = view.findViewById(R.id.spinnerSan);
         btnHen = view.findViewById(R.id.btnXacNhanHen);
-        CBSan5 = view.findViewById(R.id.cbSan5);
-        CBSan7 = view.findViewById(R.id.cbSan7);
+        RBSan5 = view.findViewById(R.id.rbSan5);
+        RBSan7 = view.findViewById(R.id.rbSan7);
     }
 
     public void disableEdt(EditText edt){
@@ -138,9 +139,9 @@ public class HenLichGiaoHuuFrag extends Fragment {
         LoadDB();
         initDataSan();
         initDataGio();
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(getContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,dsSan);
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(requireContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,dsSan);
         spinnerSan.setAdapter(adapter1);
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,dsGio);
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(requireContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,dsGio);
         spinnerGioDa.setAdapter(adapter2);
 
         edtNgayDa.setOnClickListener(new View.OnClickListener() {
@@ -154,9 +155,9 @@ public class HenLichGiaoHuuFrag extends Fragment {
             @Override
             public void onClick(View v) {
                 int loaiSan = 0;
-                String ngayDa = edtNgayDa.getText().toString();
-                if (edtNgayDa.getText() == null) {
-                    if (CBSan5.isChecked() || CBSan7.isChecked()) {
+                String ngayDa = String.valueOf(edtNgayDa.getText());
+                if (ngayDa != null) {
+                    if (RBSan5.isChecked() || RBSan7.isChecked()) {
                         //lay IdCoSoSan tu spinner Ten CoSoSan, LoaiSan, TinhTrang. Cho chay het table San lay ID San
                         ArrayList<CoSoSan> lsCoSoSan = csc.loadData();
                         for (CoSoSan cs : lsCoSoSan) {
@@ -164,15 +165,15 @@ public class HenLichGiaoHuuFrag extends Fragment {
                                 idCoSoSan = cs.getIdCoSoSan();
                             } else continue;
                         }
-                        if (CBSan5.isChecked()) loaiSan = 5;
-                        if (CBSan7.isChecked()) loaiSan = 7;
+                        if (RBSan5.isChecked()) loaiSan = 5;
+                        if (RBSan7.isChecked()) loaiSan = 7;
                         try {
                             idSan = sc.checkSan(idCoSoSan, loaiSan);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
                         if (idSan != 0) {
-                            ghc.insertData(ngayDa, 1, 1, idSan);
+                            ghc.insertData(ngayDa, DangNhapActivity.idKH, idSan);
                             Toast.makeText(getContext(), "Hẹn thành công", Toast.LENGTH_LONG).show();
                         } else Toast.makeText(getContext(), "Hẹn thất bại do không có sân hoặc không còn sân trống", Toast.LENGTH_LONG).show();
                     } else
@@ -216,13 +217,13 @@ public class HenLichGiaoHuuFrag extends Fragment {
     }
 
     private void OpenDiaLog(){
-        DatePickerDialog dialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog dialog = new DatePickerDialog(requireContext(), new DatePickerDialog.OnDateSetListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                edtNgayDa.setText(dayOfMonth + "/" + month + "/" + year);
+                edtNgayDa.setText(dayOfMonth + "/" + month+1 + "/" + year);
             }
-        }, 2023, 1, 1);
+        }, 2023, 0, 1);
 
         dialog.show();
     }

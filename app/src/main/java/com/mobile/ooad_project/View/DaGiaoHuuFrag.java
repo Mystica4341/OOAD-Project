@@ -39,8 +39,6 @@ public class DaGiaoHuuFrag extends Fragment {
 
     GiaoHuuControl ghc;
 
-    SQLiteDatabase db;
-
     SanControl sc;
 
     CoSoSanControl csc;
@@ -112,7 +110,7 @@ public class DaGiaoHuuFrag extends Fragment {
         });
         LoadDB();
         lsGiaoHuu = ghc.loadData();
-        adapter = new GiaoHuuAdapter(getContext(), R.layout.custom_listview_henlichdagiaohuu, lsGiaoHuu);
+        adapter = new GiaoHuuAdapter(requireContext(), R.layout.custom_listview_henlichdagiaohuu, lsGiaoHuu);
         lvGiaoHuu.setAdapter(adapter);
     }
 
@@ -120,9 +118,6 @@ public class DaGiaoHuuFrag extends Fragment {
         sc = new SanControl(getContext(), SanControl.DATABASE_NAME, null, 1);
         csc = new CoSoSanControl(getContext(), CoSoSanControl.DATABASE_NAME, null, 1);
         ghc = new GiaoHuuControl(getContext(), GiaoHuuControl.DATABASE_NAME, null, 1);
-        csc.onCreate(db);
-        sc.onCreate(db);
-        ghc.onCreate(db);
         ghc.initData();
         csc.initData();
         sc.initData();

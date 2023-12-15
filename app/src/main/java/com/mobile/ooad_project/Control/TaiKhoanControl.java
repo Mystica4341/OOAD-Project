@@ -63,6 +63,15 @@ public class TaiKhoanControl extends SQLiteOpenHelper {
         db.insert(TABLE_NAME, null, value);
         db.close();
     }
+    public int getId(String taikhoan, String matkhau, Context context) throws IOException {
+        int id = 0;
+        ArrayList<TaiKhoan> lsTaiKhoan = loadData();
+        for (TaiKhoan a: lsTaiKhoan){
+            if (taikhoan.equals(a.getTaiKhoan()) && matkhau.equals(decodeMatKhau(a.getMatKhau(), context)))
+                id = a.getIdTaiKhoan();
+        }
+        return id;
+    }
 
     public void updateData(TaiKhoan old_TK, TaiKhoan new_TK) {
         SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);

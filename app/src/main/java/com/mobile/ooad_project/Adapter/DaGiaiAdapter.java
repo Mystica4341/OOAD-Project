@@ -65,18 +65,13 @@ public class DaGiaiAdapter extends ArrayAdapter {
         tvNgayThiDau.setText(g.getNgayThiDau());
 
         TextView tvSan = (TextView) convertView.findViewById(R.id.tvTenSan);
-        for (Giai giai: lsGiai){
-            for(San s: lsSan){
-                for (CoSoSan cs: lsCoSoSan){
-                    if (giai.getIdSan() == s.getIdSan()){
-                        if (s.getIdCoSoSan() == cs.getIdCoSoSan()) {
-                            tenSan = cs.getTen();
-                        }
-                    }
+        for(San s: lsSan){
+            for (CoSoSan cs: lsCoSoSan){
+                if(cs.getIdCoSoSan() == s.getIdCoSoSan() && s.getIdSan() == g.getIdSan()){
+                    tenSan = cs.getTen();
+
                 }
-
             }
-
         }
         tvSan.setText(tenSan);
 

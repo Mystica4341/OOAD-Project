@@ -21,7 +21,7 @@ public class CoSoSanControl extends SQLiteOpenHelper {
     public static final String PATH = "/data/data/com.mobile.ooad_project/database/projectooad.db";
     public static final String TABLE_NAME = "CoSoSan";
     public static String IDCOSOSAN = "id";
-    private static final String TENCOSOSAN = "tencososan";
+    public static final String TENCOSOSAN = "tencososan";
     private static final String DIACHICOSOSAN = "diachicososan";
     private static final String SDTCOSOSAN = "sdtCoSoSan";
     private static final String SOLUONGSAN = "soluongsan";

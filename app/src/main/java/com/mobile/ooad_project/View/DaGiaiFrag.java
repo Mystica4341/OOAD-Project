@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.mobile.ooad_project.Adapter.DaGiaiAdapter;
+import com.mobile.ooad_project.Control.GiaiControl;
 import com.mobile.ooad_project.Model.Giai;
 import com.mobile.ooad_project.R;
 
@@ -29,6 +31,10 @@ public class DaGiaiFrag extends Fragment {
     ArrayList<Giai> lsGiai = new ArrayList<>();
 
     ListView lvDaGiai;
+
+    DaGiaiAdapter daGiaiAdapter;
+
+    GiaiControl gc;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -86,6 +92,7 @@ public class DaGiaiFrag extends Fragment {
     }
 
     private void addEvent(){
+        loadDB();
         btnHenLich.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,5 +102,13 @@ public class DaGiaiFrag extends Fragment {
                 ft.replace(R.id.frameFrag, HenLichFrag).commit();
             }
         });
+
+        daGiaiAdapter = new DaGiaiAdapter(requireContext(), R.layout.custom_listview_henlichdagiai, lsGiai);
+        lvDaGiai.setAdapter(daGiaiAdapter);
+    }
+
+    public void loadDB(){
+        gc = new GiaiControl(getContext(),GiaiControl.DATABASE_NAME,null,1);
+        lsGiai = gc.loadData();
     }
 }

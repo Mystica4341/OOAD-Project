@@ -15,6 +15,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -34,23 +36,28 @@ import java.util.ArrayList;
  */
 public class DatSanFrag extends Fragment {
 
-    Spinner spinnerCoSoSan, spinnerGio;
+    Spinner spinnerCoSoSan, spinnerGio, spinnerThoiGian;
 
     EditText edtNgay;
 
-    CheckBox cbSan5, cbSan7, cbTuNhien, cbNhanTao, cbCo, cbKhong;
+    CheckBox cbSan5, cbSan7, cbTuNhien, cbNhanTao;
+
+    RadioButton rbCo, rbKhong;
 
     Button btnThoat, btnXacNhan;
 
     CoSoSanControl csc;
 
     SanControl sc;
+    LinearLayout lnSan5, lnSan7, lnTuNhien, lnNhanTao;
 
     ArrayList<CoSoSan> lsCoSoSan = new ArrayList<>();
 
     ArrayList<String> dsSan = new ArrayList<>();
 
     ArrayList<String> dsGio = new ArrayList<>();
+
+    ArrayList<String> dsThoiGian = new ArrayList<>();
 
     int idCoSoSan = 0;
 
@@ -110,25 +117,33 @@ public class DatSanFrag extends Fragment {
     public void addControl(View view){
         spinnerCoSoSan = view.findViewById(R.id.spinnerCoSoSan);
         spinnerGio = view.findViewById(R.id.spinnerGio);
+        spinnerThoiGian = view.findViewById(R.id.spinnerThoiGianDa);
         edtNgay = view.findViewById(R.id.edtChonNgay);
-        cbSan5 = view.findViewById(R.id.cbSan5);
-        cbSan7 = view.findViewById(R.id.cbSan7);
+        cbSan5 = view.findViewById(R.id.checkBoxS5);
+        cbSan7 = view.findViewById(R.id.checkBoxS7);
         cbNhanTao = view.findViewById(R.id.cbNhanTao);
         cbTuNhien = view.findViewById(R.id.cbTuNhien);
-        cbCo = view.findViewById(R.id.checkBoxCo);
-        cbKhong = view.findViewById(R.id.checkBoxKhong);
+        rbCo = view.findViewById(R.id.checkBoxCo);
+        rbKhong = view.findViewById(R.id.checkBoxKhong);
         btnThoat = view.findViewById(R.id.btnThoat);
         btnXacNhan = view.findViewById(R.id.btnXacNhan);
+        lnSan5 = view.findViewById(R.id.lnSan5);
+        lnSan7 = view.findViewById(R.id.lnSan7);
+        lnNhanTao = view.findViewById(R.id.lnNhanTao);
+        lnTuNhien = view.findViewById(R.id.lnTuNhien);
     }
 
     public void addEvent(){
         LoadDB();
         initDataSan();
         initDataGio();
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(getContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, dsSan);
+        initDataThoiGian();
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(requireContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, dsSan);
         spinnerCoSoSan.setAdapter(adapter1);
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,dsGio);
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(requireContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,dsGio);
         spinnerGio.setAdapter(adapter2);
+        ArrayAdapter<String> adapter3 = new ArrayAdapter<>(requireContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,dsThoiGian);
+        spinnerThoiGian.setAdapter(adapter3);
 
         edtNgay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,7 +173,7 @@ public class DatSanFrag extends Fragment {
                             if (cbSan7.isChecked()) loaiSan = 7;
                             if (cbNhanTao.isChecked()) loaiCo = 0;
                             if (cbTuNhien.isChecked()) loaiCo = 1;
-                            if (cbCo.isChecked()) tinhtrangthanhtoan = 1;
+                            if (rbCo.isChecked()) tinhtrangthanhtoan = 1;
                             try {
                                 idSan = sc.checkSan(idCoSoSan, loaiSan);
                             } catch (IOException e) {
@@ -176,6 +191,34 @@ public class DatSanFrag extends Fragment {
                 } else Toast.makeText(getContext(), "Chưa chọn ngày đá", Toast.LENGTH_LONG).show();
             }
         });
+        lnSan5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cbSan5.setChecked(true);
+                cbSan7.setChecked(false);
+            }
+        });
+        lnSan7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cbSan5.setChecked(false);
+                cbSan7.setChecked(true);
+            }
+        });
+        lnTuNhien.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cbTuNhien.setChecked(true);
+                cbNhanTao.setChecked(false);
+            }
+        });
+        lnNhanTao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cbTuNhien.setChecked(false);
+                cbNhanTao.setChecked(true);
+            }
+        });
     }
 
     public void LoadDB(){
@@ -184,9 +227,13 @@ public class DatSanFrag extends Fragment {
     }
 
     private void initDataSan(){
-        lsCoSoSan = csc.loadData();
-        for (CoSoSan s: lsCoSoSan){
-            dsSan.add(s.getTen());
+        try {
+            lsCoSoSan = csc.loadData();
+            for (CoSoSan s : lsCoSoSan) {
+                dsSan.add(s.getTen());
+            }
+        }catch (IndexOutOfBoundsException e){
+
         }
     }
 
@@ -200,6 +247,12 @@ public class DatSanFrag extends Fragment {
         for (int i = 5; i <= 24; i++){
             dsGio.add(i +":00");
             dsGio.add(i +":30");
+        }
+    }
+
+    private void initDataThoiGian(){
+        for (int i = 1; i <=3; i++){
+            dsThoiGian.add(i +" tiếng");
         }
     }
 

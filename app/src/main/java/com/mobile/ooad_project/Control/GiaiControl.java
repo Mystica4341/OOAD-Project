@@ -3,15 +3,19 @@ package com.mobile.ooad_project.Control;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
 import com.mobile.ooad_project.Model.Giai;
+import com.mobile.ooad_project.Model.San;
+
+import java.util.ArrayList;
 
 public class GiaiControl extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "projectooad";
+    public static final String DATABASE_NAME = "projectooad";
     private static final int DATABASE_VERSION = 1;
     @SuppressLint("SdCardPath")
     public static final String PATH = "/data/data/com.mobile.ooad_project/database/projectooad.db";
@@ -61,5 +65,20 @@ public class GiaiControl extends SQLiteOpenHelper {
         db.delete(TABLE_NAME, IDGIAI + " =?",
                 new String[]{String.valueOf(idGiai)});
         db.close();
+    }
+    public ArrayList<Giai> loadData() {
+        java.util.ArrayList<com.mobile.ooad_project.Model.Giai> result = new ArrayList<>();
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        cursor.moveToFirst();
+        do {
+            com.mobile.ooad_project.Model.Giai g = new com.mobile.ooad_project.Model.Giai();
+            g.setIdGiai(cursor.getInt(0));
+            g.setTenGiai(cursor.getString(1));
+            g.setNgayThiDau(cursor.getString(2));
+            g.setIdSan(cursor.getInt(3));
+            result.add(g);
+        } while (cursor.moveToNext());
+        return result;
     }
 }

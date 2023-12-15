@@ -98,9 +98,13 @@ public class QuanLyCoSoSan extends Fragment {
 
     public void addEvent(){
         loadDB();
-        lsCoSoSan = csc.loadData();
-        coSoSanAdapter = new CoSoSanAdapter(getContext(), R.layout.custom_listview_quanlycososan, lsCoSoSan);
-        lvCoSoSan.setAdapter(coSoSanAdapter);
+        try {
+            lsCoSoSan = csc.loadData();
+            coSoSanAdapter = new CoSoSanAdapter(requireContext(), R.layout.custom_listview_quanlycososan, lsCoSoSan);
+            lvCoSoSan.setAdapter(coSoSanAdapter);
+        }catch (IndexOutOfBoundsException e){
+
+        }
     }
 
     private void loadDB(){

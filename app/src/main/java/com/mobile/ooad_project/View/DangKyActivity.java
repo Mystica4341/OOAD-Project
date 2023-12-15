@@ -25,7 +25,6 @@ import java.util.ArrayList;
 public class DangKyActivity extends AppCompatActivity {
     TaiKhoanControl taiKhoanControl;
     KhachHangControl khachHangControl;
-    SQLiteDatabase db;
     EditText edtTaiKhoan, edtMatKhau, edtTenKH, edtDiaChiKH, edtSDTKH, edtCCCDKH, edtNhapLaiMK, edtEmailKH;
     Button btnDangKy, btnDaCoTK;
     ArrayList<TaiKhoan> lsTaiKhoan = new ArrayList<>();
@@ -96,7 +95,6 @@ public class DangKyActivity extends AppCompatActivity {
     }
     public void taiKhoanActive(){
         taiKhoanControl = new TaiKhoanControl(getApplicationContext(), TaiKhoanControl.DATABASE_NAME, null, 1);
-        taiKhoanControl.onCreate(db);
 
     }
 
@@ -105,7 +103,6 @@ public class DangKyActivity extends AppCompatActivity {
     }
     public void khachHangActive(){
         khachHangControl = new KhachHangControl(getApplicationContext(), TaiKhoanControl.DATABASE_NAME, null, 1);
-        khachHangControl.onCreate(db);
     }
     public String encodeMatKhau(String matkhau) throws IOException {
         InputStream in = getResources().getAssets().open("codePassword");

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class CoSoSanAdapter extends ArrayAdapter {
 
-    ArrayList<CoSoSan> lsCoSoSan = new ArrayList<>();
+    ArrayList<CoSoSan> lsCoSoSan;
 
     int layoutItem;
 

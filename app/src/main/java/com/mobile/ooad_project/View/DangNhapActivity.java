@@ -12,6 +12,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mobile.ooad_project.Control.CoSoSanControl;
+import com.mobile.ooad_project.Control.GiaiControl;
+import com.mobile.ooad_project.Control.GiaoHuuControl;
+import com.mobile.ooad_project.Control.HoanTienControl;
+import com.mobile.ooad_project.Control.KhachHangControl;
+import com.mobile.ooad_project.Control.QuanLyControl;
+import com.mobile.ooad_project.Control.SanControl;
 import com.mobile.ooad_project.Control.TaiKhoanControl;
 import com.mobile.ooad_project.Model.TaiKhoan;
 import com.mobile.ooad_project.R;
@@ -22,6 +29,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 public class DangNhapActivity extends AppCompatActivity {
+    public static int idKH;
 
     SQLiteDatabase db;
 
@@ -31,6 +39,13 @@ public class DangNhapActivity extends AppCompatActivity {
     TextView tvDangKy, tvQuenMK;
 
     TaiKhoanControl taiKhoanControl;
+    CoSoSanControl csc;
+    SanControl sc;
+    GiaoHuuControl ghc;
+    GiaiControl gc;
+    QuanLyControl qlc;
+    HoanTienControl htc;
+    KhachHangControl khachHangControl;
 
 
     @Override
@@ -61,9 +76,10 @@ public class DangNhapActivity extends AppCompatActivity {
             public void onClick(View view) {
                     try {
                         if(taiKhoanControl.checkTaiKhoan(String.valueOf(edtUser.getText()),String.valueOf(edtPassword.getText()),getApplicationContext())){
+                            Toast.makeText(DangNhapActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
+                            idKH = taiKhoanControl.getId(String.valueOf(edtUser.getText()),String.valueOf(edtPassword.getText()),getApplicationContext());
                             String admin = String.valueOf(edtUser.getText());
                             String adminPassword = String.valueOf(edtPassword.getText());
-                            Toast.makeText(DangNhapActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
                             if (admin.equals("admin") && adminPassword.equals("admin12")){
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
@@ -106,5 +122,19 @@ public class DangNhapActivity extends AppCompatActivity {
     public void taiKhoanActive(){
         taiKhoanControl = new TaiKhoanControl(getApplicationContext(), TaiKhoanControl.DATABASE_NAME, null, 1);
         taiKhoanControl.onCreate(db);
+        csc = new CoSoSanControl(getApplicationContext(), CoSoSanControl.DATABASE_NAME, null, 1);
+        csc.onCreate(db);
+        sc = new SanControl(getApplicationContext(), SanControl.DATABASE_NAME, null, 1);
+        sc.onCreate(db);
+        ghc = new GiaoHuuControl(getApplicationContext(), GiaoHuuControl.DATABASE_NAME, null, 1);
+        ghc.onCreate(db);
+        khachHangControl = new KhachHangControl(getApplicationContext(), TaiKhoanControl.DATABASE_NAME, null, 1);
+        khachHangControl.onCreate(db);
+        gc = new GiaiControl(getApplicationContext(), GiaiControl.DATABASE_NAME, null, 1);
+        gc.onCreate(db);
+        qlc = new QuanLyControl(getApplicationContext(), QuanLyControl.DATABASE_NAME, null, 1);
+        qlc.onCreate(db);
+        htc = new HoanTienControl(getApplicationContext(), HoanTienControl.DATABASE_NAME, null, 1);
+        htc.onCreate(db);
     }
 }

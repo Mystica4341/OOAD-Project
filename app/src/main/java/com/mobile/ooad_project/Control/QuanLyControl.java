@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import com.mobile.ooad_project.Model.QuanLy;
 
 public class QuanLyControl extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "projectooad";
+    public static final String DATABASE_NAME = "projectooad";
     private static final int DATABASE_VERSION = 1;
     @SuppressLint("SdCardPath")
     public static final String PATH = "/data/data/com.mobile.ooad_project/database/projectooad.db";

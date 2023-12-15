@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.mobile.ooad_project.Control.CoSoSanControl;
+import com.mobile.ooad_project.Control.GiaiControl;
 import com.mobile.ooad_project.Control.SanControl;
 import com.mobile.ooad_project.Model.CoSoSan;
 import com.mobile.ooad_project.Model.San;
@@ -48,6 +49,7 @@ public class HenLichDaGiaiFrag extends Fragment {
     ArrayList<San> lsSan = new ArrayList<>();
 
     CoSoSanControl csc;
+    GiaiControl gc;
 
     SanControl sc;
 
@@ -119,9 +121,10 @@ public class HenLichDaGiaiFrag extends Fragment {
     private void addEvent(){
         sc = new SanControl(getContext(), SanControl.DATABASE_NAME, null, 1);
         csc = new CoSoSanControl(getContext(), CoSoSanControl.DATABASE_NAME, null, 1);
+        gc = new GiaiControl(getContext(),GiaiControl.DATABASE_NAME,null,1);
         initDataSan();
 
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(getContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,dsTenCoSo);
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(requireContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,dsTenCoSo);
         spinnerDiaChi.setAdapter(adapter1);
 
         btnHuyDaGiai.setOnClickListener(new View.OnClickListener() {
@@ -154,7 +157,7 @@ public class HenLichDaGiaiFrag extends Fragment {
                         dsLoaiSan.clear();
                         Picasso.get().load(cs.getHinhAnh()).resize(200, 200).into(imgSanDaGiai);
                         loadLoaiSan();
-                        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,dsLoaiSan);
+                        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(requireContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,dsLoaiSan);
                         spinnerLoaiSan.setAdapter(adapter2);
                     }
                 }
@@ -169,12 +172,20 @@ public class HenLichDaGiaiFrag extends Fragment {
         btnDatDaGiai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String tenGiai = edtTenGiai.getText().toString();
-                int idSan = 0;
-                for (CoSoSan cs: lsCoSoSan){
-                    if (cs.getTen().equals(spinnerDiaChi.getSelectedItem().toString())){
-                        //missing
+                try {
+                    ArrayList<San> lstSanTrong;
+                    if (spinnerLoaiSan.getSelectedItem().toString().equals("Sân 5"))
+                        lstSanTrong = sc.loadSanTrong(5,spinnerDiaChi.getSelectedItem().toString());
+                    else
+                        lstSanTrong = sc.loadSanTrong(7,spinnerDiaChi.getSelectedItem().toString());
+                    int id = 0;
+                    for (San s : lstSanTrong) {
+                        id = s.getIdSan();
+                        break;
                     }
+                    gc.insertData(edtTenGiai.getText().toString(),id,edtNgayThiDau.getText().toString());
+                }catch(IndexOutOfBoundsException e){
+
                 }
             }
         });
@@ -189,19 +200,21 @@ public class HenLichDaGiaiFrag extends Fragment {
     }
 
     public void loadLoaiSan(){
-        lsCoSoSan = csc.loadData();
-        lsSan = sc.loadData();
-        for (CoSoSan css: lsCoSoSan){
-            for (San s: lsSan){
-                if (s.getIdCoSoSan() == css.getIdCoSoSan() && s.getTinhTrangSan() == 1 && css.getTen().equals(spinnerDiaChi.getSelectedItem().toString())){
-                    dsLoaiSan.add("San " + s.getLoaiSan());
-                }
-            }
-        }
+//        lsCoSoSan = csc.loadData();
+//        lsSan = sc.loadData();
+//        for (CoSoSan css: lsCoSoSan){
+//            for (San s: lsSan){
+//                if (s.getIdCoSoSan() == css.getIdCoSoSan() && s.getTinhTrangSan() == 1 && css.getTen().equals(spinnerDiaChi.getSelectedItem().toString())){
+//                    dsLoaiSan.add("San " + s.getLoaiSan());
+//                }
+//            }
+//        }
+        dsLoaiSan.add("Sân 5");
+        dsLoaiSan.add("Sân 7");
     }
 
     private void OpenDiaLog(){
-        DatePickerDialog dialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog dialog = new DatePickerDialog(requireContext(), new DatePickerDialog.OnDateSetListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {

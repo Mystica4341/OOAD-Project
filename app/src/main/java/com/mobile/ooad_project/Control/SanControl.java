@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import com.mobile.ooad_project.Model.CoSoSan;
 import com.mobile.ooad_project.Model.San;
 
 import java.io.IOException;
@@ -112,13 +113,13 @@ public class SanControl extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
         cursor.moveToFirst();
         do {
-            com.mobile.ooad_project.Model.San tk = new com.mobile.ooad_project.Model.San();
-            tk.setIdSan(cursor.getInt(0));
-            tk.setTinhTrangSan(cursor.getInt(1));
-            tk.setLoaiSan(cursor.getInt(2));
-            tk.setLoaiCo(cursor.getInt(3));
-            tk.setIdCoSoSan(cursor.getInt(4));
-            result.add(tk);
+            com.mobile.ooad_project.Model.San s = new com.mobile.ooad_project.Model.San();
+            s.setIdSan(cursor.getInt(0));
+            s.setTinhTrangSan(cursor.getInt(1));
+            s.setLoaiSan(cursor.getInt(2));
+            s.setLoaiCo(cursor.getInt(3));
+            s.setIdCoSoSan(cursor.getInt(4));
+            result.add(s);
         } while (cursor.moveToNext());
         return result;
     }
@@ -132,5 +133,21 @@ public class SanControl extends SQLiteOpenHelper {
                 continue;
         }
         return 0;
+    }
+    public ArrayList<San> loadSanTrong(int loaiSan, String tenCoSoSan){
+        ArrayList<San> result = new ArrayList<>();
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+        Cursor cursor = db.rawQuery("SELECT "+TABLE_NAME+"."+IDSAN+","+TABLE_NAME+"."+TINHTRANGSAN+","+TABLE_NAME+"."+LOAISAN+","+TABLE_NAME+"."+LOAICO+","+TABLE_NAME+"."+IDCOSOSAN+" FROM " + TABLE_NAME + ", " + CoSoSanControl.TABLE_NAME + " WHERE "+TABLE_NAME+"."+IDCOSOSAN+" = "+CoSoSanControl.TABLE_NAME+". "+CoSoSanControl.IDCOSOSAN+ " AND TINHTRANGSAN = ? AND LOAISAN = ? AND "+CoSoSanControl.TABLE_NAME+"."+CoSoSanControl.TENCOSOSAN+" = ?", new String[]{String.valueOf(1),String.valueOf(loaiSan), tenCoSoSan});
+        cursor.moveToFirst();
+        do{
+            com.mobile.ooad_project.Model.San s = new com.mobile.ooad_project.Model.San();
+            s.setIdSan(cursor.getInt(0));
+            s.setTinhTrangSan(cursor.getInt(1));
+            s.setLoaiSan(cursor.getInt(2));
+            s.setLoaiCo(cursor.getInt(3));
+            s.setIdCoSoSan(cursor.getInt(4));
+            result.add(s);
+        }while (cursor.moveToNext());
+        return result;
     }
 }

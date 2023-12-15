@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import com.mobile.ooad_project.Model.HoanTien;
 
 public class HoanTienControl extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "projectooad";
+    public static final String DATABASE_NAME = "projectooad";
     private static final int DATABASE_VERSION = 1;
     @SuppressLint("SdCardPath")
     public static final String PATH = "/data/data/com.mobile.ooad_project/database/projectooad.db";
@@ -29,7 +29,7 @@ public class HoanTienControl extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        String sql = "CREATE TABLE IF NOT EXISTS "+TABLE_NAME+"("+IDHOANTIEN+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," + SOTIENHOAN +" INTEGER NOT NULL," + TINHTRANG +" INTEGER NOT NULL DEFAULT 0 CHECK ("+TINHTRANG+" >=0 AND "+TINHTRANG+" <=1)," + IDKHACHHANG +" INTEGER NOT NULL REFERENCES "+KhachHangControl.TABLE_NAME+"("+KhachHangControl.IDKHACHHANG+")," + IDSAN + " INTEGER NOT NULL REFERENCES "+SanControl.TABLE_NAME+"("+SanControl.IDSAN+"))";
+        String sql = "CREATE TABLE IF NOT EXISTS "+TABLE_NAME+"("+IDHOANTIEN+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," + SOTIENHOAN +" INTEGER NOT NULL," + TINHTRANG +" INTEGER NOT NULL," + IDKHACHHANG +" INTEGER NOT NULL REFERENCES "+KhachHangControl.TABLE_NAME+"("+KhachHangControl.IDKHACHHANG+")," + IDSAN + " INTEGER NOT NULL REFERENCES "+SanControl.TABLE_NAME+"("+SanControl.IDSAN+"))";
         db.execSQL(sql);
         db.close();
     }

@@ -31,7 +31,7 @@ public class GiaoHuuAdapter extends ArrayAdapter {
 
     int layoutItem;
 
-    ArrayList<GiaoHuu> lsGiaoHuu = new ArrayList<>();
+    ArrayList<GiaoHuu> lsGiaoHuu;
 
     CoSoSanControl csc;
 
