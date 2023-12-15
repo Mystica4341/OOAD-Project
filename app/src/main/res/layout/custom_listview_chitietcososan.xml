@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="350dp"
+            android:layout_height="40dp"
+            android:text="Sân bóng Tiến Tài"
+            android:textSize="24sp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@drawable/custom_listview2"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:textColor="#FFFFFF" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="252dp"
+            app:srcCompat="@drawable/banh" />
+
+        <TextView
+            android:id="@+id/txtDiacChi_Chitietcososan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:text="Địa chỉ: Đặng Thùy Trâm, Quận Gò Vấp, Thành Phố Hồ Chí Minh" />
+
+        <TextView
+            android:id="@+id/txtSdt_Chitietcososan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="10dp"
+            android:text="Sđt: 0935725498" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="205dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView26"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFFFFF"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="17dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/custom_listview2"
+                    android:text="Sân cỏ nhân tạo " />
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    app:srcCompat="@drawable/img_san" />
+
+                <TextView
+                    android:id="@+id/txtLoaiSan1_Chitietcososan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="Loại Sân: Sân 7" />
+
+                <TextView
+                    android:id="@+id/txtGia1_Chitietcososan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="Giá: 150k/1h" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnChiTietSan1_Chitietcososan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:backgroundTint="#029FD1"
+                        android:text="Chi tiết sân" />
+
+                    <Button
+                        android:id="@+id/btnDatSan1_Chitietcososan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginRight="5dp"
+                        android:backgroundTint="#029FD1"
+                        android:text="Đặt Sân" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="205dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView27"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/custom_listview2"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginBottom="15dp"
+                    android:textSize="17dp"
+                    android:text="Sân có tự nhiên " />
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    app:srcCompat="@drawable/img_san" />
+                <TextView
+                    android:id="@+id/txtLoaiSan2_Chitietcososan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="Loại Sân: Sân 7" />
+
+                <TextView
+                    android:id="@+id/txtGia2_Chitietcososan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="Giá: 150k/1h" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnChiTietSan2_Chitietcososan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginLeft="5dp"
+
+                        android:backgroundTint="#029FD1"
+                        android:text="Chi tiết sân" />
+
+                    <Button
+                        android:id="@+id/btnDatSan2_Chitietcososan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginRight="5dp"
+                        android:backgroundTint="#029FD1"
+                        android:text="Đặt Sân" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
