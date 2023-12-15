@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="194dp"
+        android:background="#355F81"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:text="Tìm kiếm"
+            android:textColor="#029FD1"
+            android:textSize="35dp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/edtTimkiem"
+                android:layout_width="242dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/custom_timkiem"
+
+                android:hint=" Chọn cơ sở"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnTim"
+                android:layout_width="144dp"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="50dp"
+                android:backgroundTint="#03A7F2"
+                android:text="Tìm kiếm"
+                android:textColor="@color/white"
+                android:textSize="15dp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="558dp"
+        android:layout_marginTop="220dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="213dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+
+            android:text="Cơ Sở Sân"
+            android:textColor="#029FD1"
+            android:textSize="25dp"
+            android:textStyle="bold" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="356dp">
+
+        </ListView>
+
+        <Button
+            android:layout_width="144dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="240dp"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#03A7F2"
+            android:text="Đặt sân"
+            android:textColor="@color/white"
+            android:textSize="15dp" />
+
+
+    </LinearLayout>
+
+
+
+</FrameLayout>
