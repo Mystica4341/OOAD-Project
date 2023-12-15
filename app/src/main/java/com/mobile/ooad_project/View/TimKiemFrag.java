@@ -7,15 +7,35 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 
+import com.mobile.ooad_project.Adapter.DanhSachCoSoSanAdapter;
+import com.mobile.ooad_project.Control.CoSoSanControl;
+import com.mobile.ooad_project.Model.CoSoSan;
 import com.mobile.ooad_project.R;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ChiTietSan#newInstance} factory method to
+ * Use the {@link TimKiemFrag#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ChiTietSan extends Fragment {
+public class TimKiemFrag extends Fragment {
+
+    ArrayList<CoSoSan> lsCoSoSan = new ArrayList<>();
+
+    CoSoSanControl csc;
+
+    Button btnTimKiem;
+
+    EditText edtTimKiem;
+
+    ListView lvCoSoSan;
+
+    DanhSachCoSoSanAdapter coSoSanAdapter;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +46,7 @@ public class ChiTietSan extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public ChiTietSan() {
+    public TimKiemFrag() {
         // Required empty public constructor
     }
 
@@ -36,11 +56,11 @@ public class ChiTietSan extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ChiTietSan.
+     * @return A new instance of fragment TimKiem.
      */
     // TODO: Rename and change types and number of parameters
-    public static ChiTietSan newInstance(String param1, String param2) {
-        ChiTietSan fragment = new ChiTietSan();
+    public static TimKiemFrag newInstance(String param1, String param2) {
+        TimKiemFrag fragment = new TimKiemFrag();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +81,31 @@ public class ChiTietSan extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chi_tiet_san, container, false);
+        View view = inflater.inflate(R.layout.fragment_timkiemcs, container, false);
+        addControl(view);
+        loadDB();
+        addEvent();
+        return view;
+    }
+
+    private void addControl(View view){
+        btnTimKiem = view.findViewById(R.id.btnTim);
+        edtTimKiem = view.findViewById(R.id.edtTimkiem);
+        lvCoSoSan = view.findViewById(R.id.lvCoSoSan);
+    }
+
+    private void addEvent(){
+        coSoSanAdapter = new DanhSachCoSoSanAdapter(requireContext(), R.layout.custom_listview_timkiem, lsCoSoSan);
+        lvCoSoSan.setAdapter(coSoSanAdapter);
+
+    }
+
+    private void loadDB(){
+        csc = new CoSoSanControl(requireContext(), CoSoSanControl.DATABASE_NAME, null, 1);
+        try {
+            lsCoSoSan = csc.loadData();
+        }catch (IndexOutOfBoundsException e) {
+
+        }
     }
 }

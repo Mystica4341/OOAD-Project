@@ -17,14 +17,14 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class CoSoSanAdapter extends ArrayAdapter {
+public class QuanLyCoSoSanAdapter extends ArrayAdapter {
 
     ArrayList<CoSoSan> lsCoSoSan;
 
     int layoutItem;
 
     Context context;
-    public CoSoSanAdapter(@NonNull Context context, int resource, ArrayList<CoSoSan> data) {
+    public QuanLyCoSoSanAdapter(@NonNull Context context, int resource, ArrayList<CoSoSan> data) {
         super(context, resource, data);
         this.context = context;
         this.layoutItem = resource;

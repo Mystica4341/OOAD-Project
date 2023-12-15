@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         frameLayout = (FrameLayout) findViewById(R.id.frameFrag);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.BottomNav);
-        loadFragment(new DatSanFrag());
+        loadFragment(new TimKiemFrag());
         addEvent();
     }
 
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
                 if (id == R.id.DatSan){
-                    loadFragment(new DatSanFrag());
+                    loadFragment(new TimKiemFrag());
                     return true;
                 } else if (id == R.id.DaGiai) {
                     loadFragment(new DaGiaiFrag());

@@ -66,28 +66,6 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView123"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="27dp"
-                    android:textSize="25dp"
-                    android:text="Chọn địa điểm:" />
-
-                <Spinner
-                    android:id="@+id/spinnerCoSoSan"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:paddingLeft="10dp"
-                    android:background="@color/white"
-                    android:textSize="40dp"
-                    android:layout_marginBottom="5dp"/>
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

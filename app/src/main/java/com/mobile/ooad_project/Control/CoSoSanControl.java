@@ -27,6 +27,8 @@ public class CoSoSanControl extends SQLiteOpenHelper {
     private static final String SOLUONGSAN = "soluongsan";
     private static final String MOTACOSOSAN = "motacososan";
     private static final String HINHANHCOSOSAN = "hinhanhcososan";
+    private static final String GIASAN5 = "giasan5";
+    private static final String GIASAN7 = "giasan7";
 
     public CoSoSanControl(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
@@ -35,7 +37,7 @@ public class CoSoSanControl extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ( "+IDCOSOSAN+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, " + TENCOSOSAN + " TEXT NOT NULL, "+DIACHICOSOSAN+" TEXT NOT NULL, " + SDTCOSOSAN +" TEXT, "+SOLUONGSAN+" INTEGER NOT NULL, "+MOTACOSOSAN+" TEXT, "+HINHANHCOSOSAN+" TEXT NOT NULL)";
+        String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ( "+IDCOSOSAN+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, " + TENCOSOSAN + " TEXT NOT NULL, "+DIACHICOSOSAN+" TEXT NOT NULL, " + SDTCOSOSAN +" TEXT, "+SOLUONGSAN+" INTEGER NOT NULL, "+MOTACOSOSAN+" TEXT, "+HINHANHCOSOSAN+" TEXT NOT NULL," + GIASAN5 + "INTEGER," + GIASAN7 + "INTERGER)";
         db.execSQL(sql);
         db.close();
     }
@@ -44,13 +46,13 @@ public class CoSoSanControl extends SQLiteOpenHelper {
         SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
         String sql1 = "INSERT OR IGNORE INTO " + TABLE_NAME
                 + " VALUES ( 1, 'San 367', '1165 Hoang Hoa Tham, Phuong 13, Quan Tan Binh', '0834596596', 10, 'San Dep Nhat Viet Nam', " +
-                "'https://cdn.alongwalk.info/vn/wp-content/uploads/2022/06/09193838/image-danh-sach-san-bong-da-o-quan-tan-binh-165475311721151.jpg')";
+                "'https://cdn.alongwalk.info/vn/wp-content/uploads/2022/06/09193838/image-danh-sach-san-bong-da-o-quan-tan-binh-165475311721151.jpg', 100000, 350000)";
         String sql2 = "INSERT OR IGNORE INTO " + TABLE_NAME
                 + " VALUES ( 2, 'San K34', '65 Bach Dang, Phuong 2, Quan Tan Binh', '0908787798', 4, 'San k34 co day du tien nghi de to chuc giai cho San 5 va 7', " +
-                "'https://global-uploads.webflow.com/60af8c708c6f35480d067652/622cc136def1b0d0de4e6e54_screenshot_1647099862.png')";
+                "'https://global-uploads.webflow.com/60af8c708c6f35480d067652/622cc136def1b0d0de4e6e54_screenshot_1647099862.png', 90000, 320000)";
         String sql3 = "INSERT OR IGNORE INTO " + TABLE_NAME
                 + " VALUES ( 3, 'San Ong Bau', '253 Vuon Lai, An Phu Dong, Quan 12', '0908999798', 6, 'Keo san 5 san 7', " +
-                "'https://lh3.googleusercontent.com/p/AF1QipPxEewl5yqYBGXS7sPn_y_Ub_Gk6l4FQYEgZ1zX=s680-w680-h510')";
+                "'https://lh3.googleusercontent.com/p/AF1QipPxEewl5yqYBGXS7sPn_y_Ub_Gk6l4FQYEgZ1zX=s680-w680-h510', 120000, 300000)";
         db.execSQL(sql1);
         db.execSQL(sql2);
         db.execSQL(sql3);
@@ -107,6 +109,8 @@ public class CoSoSanControl extends SQLiteOpenHelper {
             css.setSoLuongSan(cursor.getInt(4));
             css.setMoTa(cursor.getString(5));
             css.setHinhAnh(cursor.getString(6));
+            css.setGiaSan5(cursor.getInt(7));
+            css.setGiaSan7(cursor.getInt(8));
             result.add(css);
         } while (cursor.moveToNext());
         return result;

@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.mobile.ooad_project.Adapter.CoSoSanAdapter;
+import com.mobile.ooad_project.Adapter.QuanLyCoSoSanAdapter;
 import com.mobile.ooad_project.Control.CoSoSanControl;
 import com.mobile.ooad_project.Model.CoSoSan;
 import com.mobile.ooad_project.R;
@@ -35,7 +35,7 @@ public class QuanLyCoSoSan extends Fragment {
 
     ArrayList<CoSoSan> lsCoSoSan = new ArrayList<>();
 
-    CoSoSanAdapter coSoSanAdapter;
+    QuanLyCoSoSanAdapter coSoSanAdapter;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -100,7 +100,7 @@ public class QuanLyCoSoSan extends Fragment {
         loadDB();
         try {
             lsCoSoSan = csc.loadData();
-            coSoSanAdapter = new CoSoSanAdapter(requireContext(), R.layout.custom_listview_quanlycososan, lsCoSoSan);
+            coSoSanAdapter = new QuanLyCoSoSanAdapter(requireContext(), R.layout.custom_listview_quanlycososan, lsCoSoSan);
             lvCoSoSan.setAdapter(coSoSanAdapter);
         }catch (IndexOutOfBoundsException e){
 

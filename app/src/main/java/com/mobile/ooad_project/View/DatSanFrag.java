@@ -36,7 +36,7 @@ import java.util.ArrayList;
  */
 public class DatSanFrag extends Fragment {
 
-    Spinner spinnerCoSoSan, spinnerGio, spinnerThoiGian;
+    Spinner spinnerGio, spinnerThoiGian;
 
     EditText edtNgay;
 
@@ -51,7 +51,7 @@ public class DatSanFrag extends Fragment {
     SanControl sc;
     LinearLayout lnSan5, lnSan7, lnTuNhien, lnNhanTao;
 
-    ArrayList<CoSoSan> lsCoSoSan = new ArrayList<>();
+    public ArrayList<CoSoSan> lsCoSoSan = new ArrayList<>();
 
     ArrayList<String> dsSan = new ArrayList<>();
 
@@ -115,7 +115,7 @@ public class DatSanFrag extends Fragment {
     }
 
     public void addControl(View view){
-        spinnerCoSoSan = view.findViewById(R.id.spinnerCoSoSan);
+//        spinnerCoSoSan = view.findViewById(R.id.spinnerCoSoSan);
         spinnerGio = view.findViewById(R.id.spinnerGio);
         spinnerThoiGian = view.findViewById(R.id.spinnerThoiGianDa);
         edtNgay = view.findViewById(R.id.edtChonNgay);
@@ -135,11 +135,11 @@ public class DatSanFrag extends Fragment {
 
     public void addEvent(){
         LoadDB();
-        initDataSan();
+//        initDataSan();
         initDataGio();
         initDataThoiGian();
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(requireContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, dsSan);
-        spinnerCoSoSan.setAdapter(adapter1);
+//        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(requireContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, dsSan);
+//        spinnerCoSoSan.setAdapter(adapter1);
         ArrayAdapter<String> adapter2 = new ArrayAdapter<>(requireContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,dsGio);
         spinnerGio.setAdapter(adapter2);
         ArrayAdapter<String> adapter3 = new ArrayAdapter<>(requireContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,dsThoiGian);
@@ -163,11 +163,8 @@ public class DatSanFrag extends Fragment {
                 if (edtNgay.getText() == null) {
                     if (cbSan5.isChecked() || cbSan7.isChecked()) {
                         if (cbTuNhien.isChecked() || cbNhanTao.isChecked()){
-                            ArrayList<CoSoSan> lsCoSoSan = csc.loadData();
                             for (CoSoSan cs : lsCoSoSan) {
-                                if (cs.getTen().equals(spinnerCoSoSan.getSelectedItem().toString())) {
-                                    idCoSoSan = cs.getIdCoSoSan();
-                                } else continue;
+                                idCoSoSan = cs.getIdCoSoSan();
                             }
                             if (cbSan5.isChecked()) loaiSan = 5;
                             if (cbSan7.isChecked()) loaiSan = 7;
