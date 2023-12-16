@@ -118,9 +118,6 @@ public class DaGiaoHuuFrag extends Fragment {
         sc = new SanControl(getContext(), SanControl.DATABASE_NAME, null, 1);
         csc = new CoSoSanControl(getContext(), CoSoSanControl.DATABASE_NAME, null, 1);
         ghc = new GiaoHuuControl(getContext(), GiaoHuuControl.DATABASE_NAME, null, 1);
-        ghc.initData();
-        csc.initData();
-        sc.initData();
 
     }
 }

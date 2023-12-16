@@ -32,7 +32,7 @@ public class GiaiControl extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "(" + IDGIAI +" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," + TENGIAI +" TEXT NOT NULL," + NGAYTHIDAU +" TEXT NOT NULL," + IDSAN +" INTEGER NOT NULL REFERENCES "+SanControl.TABLE_NAME+"("+SanControl.IDSAN+"));";
+        String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "(" + IDGIAI +" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," + TENGIAI +" TEXT NOT NULL," + NGAYTHIDAU +" TEXT NOT NULL," + IDSAN +" INTEGER NOT NULL REFERENCES "+SanControl.TABLE_NAME+"("+SanControl.IDSAN+"));";
         db.execSQL(sql);
         db.close();
     }

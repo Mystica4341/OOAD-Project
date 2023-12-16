@@ -3,6 +3,7 @@ package com.mobile.ooad_project.Control;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -10,6 +11,8 @@ import androidx.annotation.Nullable;
 
 import com.mobile.ooad_project.Model.DatSan;
 import com.mobile.ooad_project.Model.HoanTien;
+
+import java.util.ArrayList;
 
 public class DatSanControl extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "projectooad";
@@ -32,7 +35,7 @@ public class DatSanControl extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        String sql = "CREATE TABLE IF NOT EXISTS "+TABLE_NAME+"("+IDDATSAN+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," + NGAYDAT  +" TEXT NOT NULL," +GIODAT+" TEXT NOT NULL, " +THOIGIANDAT+ " TEXT NOT NULL, " + TINHTRANG +" INTEGER NOT NULL,"  + IDKHACHHANG +" INTEGER NOT NULL REFERENCES "+KhachHangControl.TABLE_NAME+"("+KhachHangControl.IDKHACHHANG+")," + IDSAN + " INTEGER NOT NULL REFERENCES "+SanControl.TABLE_NAME+"("+SanControl.IDSAN+"))";
+        String sql = "CREATE TABLE IF NOT EXISTS "+TABLE_NAME+"("+IDDATSAN+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," + NGAYDAT  +" TEXT NOT NULL," +GIODAT+" TEXT NOT NULL, " +THOIGIANDAT+ " TEXT NOT NULL, " + TINHTRANG +" INTEGER NOT NULL,"  + IDKHACHHANG +" INTEGER NOT NULL REFERENCES "+KhachHangControl.TABLE_NAME+"("+KhachHangControl.IDKHACHHANG+")," + IDSAN + " INTEGER NOT NULL REFERENCES "+SanControl.TABLE_NAME+"("+SanControl.IDSAN+"))";
         db.execSQL(sql);
         db.close();
     }
@@ -71,5 +74,22 @@ public class DatSanControl extends SQLiteOpenHelper {
         db.delete(TABLE_NAME,  IDDATSAN + " =?",
                 new String[]{String.valueOf(idDatSan)});
         db.close();
+    }
+    public ArrayList<DatSan> loadData(int id){
+        ArrayList<DatSan> result = new ArrayList<>();
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " +IDKHACHHANG + " = ?",new String[]{String.valueOf(id)});
+        cursor.moveToFirst();
+        do{
+            DatSan datSan = new DatSan();
+            datSan.setIdDatSan(cursor.getInt(0));
+            datSan.setNgayDat(cursor.getString(1));
+            datSan.setGioDat(cursor.getString(2));
+            datSan.settGDat(cursor.getInt(3));
+            datSan.setTinhTrang(cursor.getInt(4));
+            datSan.setIdKhachHang(cursor.getInt(5));
+            datSan.setIdSan(cursor.getInt(6));
+        }while(cursor.moveToNext());
+        return result;
     }
 }

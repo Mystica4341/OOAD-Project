@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.mobile.ooad_project.Model.KhachHang;
 import com.mobile.ooad_project.Model.TaiKhoan;
 
 import java.io.IOException;
@@ -35,7 +36,7 @@ public class TaiKhoanControl extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "(" + IDTAIKHOAN + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," + TAIKHOAN + " TEXT NOT NULL," + MATKHAU + " TEXT NOT NULL)";
+        String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "(" + IDTAIKHOAN + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," + TAIKHOAN + " TEXT NOT NULL," + MATKHAU + " TEXT NOT NULL)";
         db.execSQL(sql);
         db.close();
     }
@@ -62,15 +63,6 @@ public class TaiKhoanControl extends SQLiteOpenHelper {
         value.put(MATKHAU, matKhau);
         db.insert(TABLE_NAME, null, value);
         db.close();
-    }
-    public int getId(String taikhoan, String matkhau, Context context) throws IOException {
-        int id = 0;
-        ArrayList<TaiKhoan> lsTaiKhoan = loadData();
-        for (TaiKhoan a: lsTaiKhoan){
-            if (taikhoan.equals(a.getTaiKhoan()) && matkhau.equals(decodeMatKhau(a.getMatKhau(), context)))
-                id = a.getIdTaiKhoan();
-        }
-        return id;
     }
 
     public void updateData(TaiKhoan old_TK, TaiKhoan new_TK) {
@@ -99,6 +91,20 @@ public class TaiKhoanControl extends SQLiteOpenHelper {
                 continue;
         }
         return false;
+    }
+    public ArrayList<KhachHang> loadTaiKhoan(String taikhoan, String matkhau, Context context) throws IOException {
+        ArrayList<KhachHang> accountInfo = new ArrayList<>();
+        int id = 0;
+        ArrayList<TaiKhoan> lstTK = loadData();
+        for(TaiKhoan a: lstTK)
+            if(taikhoan.equals(a.getTaiKhoan()) && matkhau.equals(decodeMatKhau(a.getMatKhau(), context)))
+                id = a.getIdTaiKhoan();
+        KhachHangControl khc = new KhachHangControl(context,KhachHangControl.DATABASE_NAME,null,1);
+        ArrayList<KhachHang> lstKH = khc.loadData();
+        for(KhachHang kh: lstKH)
+            if(id == kh.getIdTaiKhoan())
+                accountInfo.add(kh);
+        return accountInfo;
     }
 
     public ArrayList<TaiKhoan> loadData() {

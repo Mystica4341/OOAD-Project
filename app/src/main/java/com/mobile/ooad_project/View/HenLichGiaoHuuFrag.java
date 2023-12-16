@@ -61,9 +61,7 @@ public class HenLichGiaoHuuFrag extends Fragment {
     GiaoHuuControl ghc;
 
 
-    int idCoSoSan = 0;
 
-    int idSan = 0;
 
 
 
@@ -154,31 +152,43 @@ public class HenLichGiaoHuuFrag extends Fragment {
         btnHen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ArrayList<San> lstSanTrong = new ArrayList<>();
                 int loaiSan = 0;
                 String ngayDa = String.valueOf(edtNgayDa.getText());
                 if (ngayDa != null) {
                     if (RBSan5.isChecked() || RBSan7.isChecked()) {
                         //lay IdCoSoSan tu spinner Ten CoSoSan, LoaiSan, TinhTrang. Cho chay het table San lay ID San
-                        ArrayList<CoSoSan> lsCoSoSan = csc.loadData();
-                        for (CoSoSan cs : lsCoSoSan) {
-                            if (cs.getTen().equals(spinnerSan.getSelectedItem().toString())) {
-                                idCoSoSan = cs.getIdCoSoSan();
-                            } else continue;
-                        }
                         if (RBSan5.isChecked()) loaiSan = 5;
                         if (RBSan7.isChecked()) loaiSan = 7;
                         try {
-                            idSan = sc.checkSan(idCoSoSan, loaiSan);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
+                            lstSanTrong = sc.loadSanTrong(loaiSan, 0, spinnerSan.getSelectedItem().toString());
+                        } catch (IndexOutOfBoundsException e) {
+                            try {
+                                lstSanTrong = sc.loadSanTrong(loaiSan, 1, spinnerSan.getSelectedItem().toString());
+                            } catch (IndexOutOfBoundsException i) {
+
+                            }
+                        }
+                        int idSan = 0;
+                        for (San s : lstSanTrong) {
+                            San s1 = new San();
+                            s1.setIdSan(s.getIdSan());
+                            s1.setLoaiSan(s.getLoaiSan());
+                            s1.setIdCoSoSan(s.getIdCoSoSan());
+                            s1.setLoaiCo(s.getLoaiCo());
+                            s1.setTinhTrangSan(0);
+                            sc.updateData(s,s1);
+                            idSan = s.getIdSan();
+                            break;
                         }
                         if (idSan != 0) {
                             ghc.insertData(ngayDa, DangNhapActivity.idKH, idSan);
                             Toast.makeText(getContext(), "Hẹn thành công", Toast.LENGTH_LONG).show();
-                        } else Toast.makeText(getContext(), "Hẹn thất bại do không có sân hoặc không còn sân trống", Toast.LENGTH_LONG).show();
+                        } else
+                            Toast.makeText(getContext(), "Hẹn thất bại do không có sân hoặc không còn sân trống", Toast.LENGTH_LONG).show();
                     } else
                         Toast.makeText(getContext(), "Chưa chọn loại sân", Toast.LENGTH_LONG).show();
-                } else Toast.makeText(getContext(), "Chưa chọn ngày đá", Toast.LENGTH_LONG).show();
+                }else Toast.makeText(getContext(), "Chưa chọn ngày đá", Toast.LENGTH_LONG).show();
             }
         });
         spinnerSan.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

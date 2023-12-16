@@ -13,7 +13,14 @@ import android.widget.TextView;
 
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
+import com.mobile.ooad_project.Adapter.NhatKyDatSanAdapter;
+import com.mobile.ooad_project.Control.DatSanControl;
+import com.mobile.ooad_project.Model.DatSan;
+import com.mobile.ooad_project.Model.KhachHang;
+import com.mobile.ooad_project.Model.TaiKhoan;
 import com.mobile.ooad_project.R;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,6 +28,7 @@ import com.mobile.ooad_project.R;
  * create an instance of this fragment.
  */
 public class TaiKhoanNhatKyFrag extends Fragment {
+    public static ArrayList<KhachHang> accountInfo;
 
     ImageView imgSetting;
 
@@ -31,6 +39,9 @@ public class TaiKhoanNhatKyFrag extends Fragment {
     TabLayout tabLayout;
 
     TabItem tabDatSan, tabDaGiai, tabGiaoHuu;
+    DatSanControl dsc;
+    ArrayList<DatSan> lstDatSan;
+    NhatKyDatSanAdapter adapter;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -78,6 +89,7 @@ public class TaiKhoanNhatKyFrag extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tai_khoan_nhat_ky, container, false);
         addControl(view);
+        addEvent();
         return view;
     }
 
@@ -90,5 +102,25 @@ public class TaiKhoanNhatKyFrag extends Fragment {
         tabDaGiai = view.findViewById(R.id.TabDaGiai);
         tabGiaoHuu = view.findViewById(R.id.TabGiaoHuu);
         lvNhatKy = view.findViewById(R.id.lvNhatKy);
+    }
+    private void addEvent(){
+        for(KhachHang a : accountInfo) {
+            tvHoTen.setText(a.getHoTen());
+            tvEmail.setText(a.getEmail());
+        }
+        loadDataDatSan();
+    }
+    private void loadDataDatSan(){
+        dsc = new DatSanControl(requireContext(),DatSanControl.DATABASE_NAME,null,1);
+        try {
+            for (KhachHang a : accountInfo) {
+                lstDatSan = dsc.loadData(a.getIdKhach());
+                adapter = new NhatKyDatSanAdapter(requireContext(),R.layout.custom_listview_nhatkydatsan,lstDatSan);
+                lvNhatKy.setAdapter(adapter);
+            }
+        }catch (IndexOutOfBoundsException e){
+
+        }
+
     }
 }

@@ -30,7 +30,7 @@ public class QuanLyControl extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        String sql = "CREATE TABLE IF NOT EXISTS "+TABLE_NAME+"("+IDQUANLY+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," + TENQUANLY +" TEXT NOT NULL," + SDTQUANLY +" TEXT NOT NULL," + EMAILQUANLY +" TEXT NOT NULL," + CCCD + " TEXT NOT NULL," +IDTAIKHOAN+ " INTEGER NOT NULL REFERENCES "+TaiKhoanControl.TABLE_NAME+"("+TaiKhoanControl.IDTAIKHOAN+"))";
+        String sql = "CREATE TABLE IF NOT EXISTS "+TABLE_NAME+"("+IDQUANLY+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," + TENQUANLY +" TEXT NOT NULL," + SDTQUANLY +" TEXT NOT NULL," + EMAILQUANLY +" TEXT NOT NULL," + CCCD + " TEXT NOT NULL," +IDTAIKHOAN+ " INTEGER NOT NULL REFERENCES "+TaiKhoanControl.TABLE_NAME+"("+TaiKhoanControl.IDTAIKHOAN+"))";
         db.execSQL(sql);
         db.close();
     }

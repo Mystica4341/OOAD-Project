@@ -34,7 +34,7 @@ public class SanControl extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "(" + IDSAN +" INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL," + TINHTRANGSAN +" INTEGER NOT NULL," + LOAISAN +" INTEGER NOT NULL, "+LOAICO +" INTEGER NOT NULL," + IDCOSOSAN +" INTEGER NOT NULL REFERENCES "+CoSoSanControl.TABLE_NAME+"("+CoSoSanControl.IDCOSOSAN+"));";
+        String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "(" + IDSAN +" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," + TINHTRANGSAN +" INTEGER NOT NULL," + LOAISAN +" INTEGER NOT NULL, "+LOAICO +" INTEGER NOT NULL," + IDCOSOSAN +" INTEGER NOT NULL REFERENCES "+CoSoSanControl.TABLE_NAME+"("+CoSoSanControl.IDCOSOSAN+"));";
         db.execSQL(sql);
         db.close();
     }
@@ -97,7 +97,8 @@ public class SanControl extends SQLiteOpenHelper {
         value.put(LOAISAN,new_San.getLoaiSan());
         value.put(LOAICO, new_San.getLoaiCo());
         value.put(IDCOSOSAN,new_San.getIdCoSoSan());
-        db.update(TABLE_NAME, value, IDSAN = "?",new String[]{String.valueOf(old_San.getIdSan())});
+        db.delete(TABLE_NAME, IDSAN + " =?", new String[]{String.valueOf(old_San.getIdSan())});
+        db.insert(TABLE_NAME,null,value);
         db.close();
     }
     public void deleteData(int idSan){
@@ -134,10 +135,10 @@ public class SanControl extends SQLiteOpenHelper {
         }
         return 0;
     }
-    public ArrayList<San> loadSanTrong(int loaiSan, String tenCoSoSan){
+    public ArrayList<San> loadSanTrong(int loaiSan, int loaiCo, String tenCoSoSan){
         ArrayList<San> result = new ArrayList<>();
         SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        Cursor cursor = db.rawQuery("SELECT "+TABLE_NAME+"."+IDSAN+","+TABLE_NAME+"."+TINHTRANGSAN+","+TABLE_NAME+"."+LOAISAN+","+TABLE_NAME+"."+LOAICO+","+TABLE_NAME+"."+IDCOSOSAN+" FROM " + TABLE_NAME + ", " + CoSoSanControl.TABLE_NAME + " WHERE "+TABLE_NAME+"."+IDCOSOSAN+" = "+CoSoSanControl.TABLE_NAME+". "+CoSoSanControl.IDCOSOSAN+ " AND TINHTRANGSAN = ? AND LOAISAN = ? AND "+CoSoSanControl.TABLE_NAME+"."+CoSoSanControl.TENCOSOSAN+" = ?", new String[]{String.valueOf(1),String.valueOf(loaiSan), tenCoSoSan});
+        Cursor cursor = db.rawQuery("SELECT "+TABLE_NAME+"."+IDSAN+","+TABLE_NAME+"."+TINHTRANGSAN+","+TABLE_NAME+"."+LOAISAN+","+TABLE_NAME+"."+LOAICO+","+TABLE_NAME+"."+IDCOSOSAN+" FROM " + TABLE_NAME + ", " + CoSoSanControl.TABLE_NAME + " WHERE "+TABLE_NAME+"."+IDCOSOSAN+" = "+CoSoSanControl.TABLE_NAME+". "+CoSoSanControl.IDCOSOSAN+ " AND TINHTRANGSAN = ? AND LOAISAN = ? AND "+CoSoSanControl.TABLE_NAME+"."+CoSoSanControl.TENCOSOSAN+" = ? AND LOAICO = ?", new String[]{String.valueOf(1),String.valueOf(loaiSan), tenCoSoSan, String.valueOf(loaiCo)});
         cursor.moveToFirst();
         do{
             com.mobile.ooad_project.Model.San s = new com.mobile.ooad_project.Model.San();

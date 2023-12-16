@@ -172,21 +172,34 @@ public class HenLichDaGiaiFrag extends Fragment {
         btnDatDaGiai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    ArrayList<San> lstSanTrong;
-                    if (spinnerLoaiSan.getSelectedItem().toString().equals("Sân 5"))
-                        lstSanTrong = sc.loadSanTrong(5,spinnerDiaChi.getSelectedItem().toString());
-                    else
-                        lstSanTrong = sc.loadSanTrong(7,spinnerDiaChi.getSelectedItem().toString());
+                    ArrayList<San> lstSanTrong = new ArrayList<>();
+                    if (spinnerLoaiSan.getSelectedItem().toString().equals("Sân 5")){
+                        try {
+                            lstSanTrong = sc.loadSanTrong(5, 0, spinnerDiaChi.getSelectedItem().toString());
+                        }catch (IndexOutOfBoundsException e){
+                            try {
+                                lstSanTrong = sc.loadSanTrong(5, 1, spinnerDiaChi.getSelectedItem().toString());
+                            }catch (IndexOutOfBoundsException i){
+
+                            }
+                        }
+                    }else {
+                        try {
+                            lstSanTrong = sc.loadSanTrong(7, 0, spinnerDiaChi.getSelectedItem().toString());
+                        } catch (IndexOutOfBoundsException e) {
+                            try {
+                                lstSanTrong = sc.loadSanTrong(7, 1, spinnerDiaChi.getSelectedItem().toString());
+                            } catch (IndexOutOfBoundsException i) {
+
+                            }
+                        }
+                    }
                     int id = 0;
                     for (San s : lstSanTrong) {
                         id = s.getIdSan();
                         break;
                     }
                     gc.insertData(edtTenGiai.getText().toString(),id,edtNgayThiDau.getText().toString());
-                }catch(IndexOutOfBoundsException e){
-
-                }
             }
         });
     }

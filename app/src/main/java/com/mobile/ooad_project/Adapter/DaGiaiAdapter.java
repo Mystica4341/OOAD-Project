@@ -28,7 +28,7 @@ public class DaGiaiAdapter extends ArrayAdapter {
 
     int layoutItem;
 
-    ArrayList<Giai> lsGiai = new ArrayList<>();
+    ArrayList<Giai> lsGiai;
 
     CoSoSanControl csc;
 
