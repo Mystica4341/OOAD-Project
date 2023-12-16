@@ -78,7 +78,7 @@ public class DatSanControl extends SQLiteOpenHelper {
     public ArrayList<DatSan> loadData(int id){
         ArrayList<DatSan> result = new ArrayList<>();
         SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " +IDKHACHHANG + " = ?",new String[]{String.valueOf(id)});
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + IDKHACHHANG + " = ?", new String[]{String.valueOf(id)});
         cursor.moveToFirst();
         do{
             DatSan datSan = new DatSan();
@@ -89,6 +89,7 @@ public class DatSanControl extends SQLiteOpenHelper {
             datSan.setTinhTrang(cursor.getInt(4));
             datSan.setIdKhachHang(cursor.getInt(5));
             datSan.setIdSan(cursor.getInt(6));
+            result.add(datSan);
         }while(cursor.moveToNext());
         return result;
     }

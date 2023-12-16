@@ -48,9 +48,9 @@ public class NhatKyDatSanAdapter extends ArrayAdapter {
             for (CoSoSan css: lsCoSoSan)
                 if (ds.getIdSan() == s.getIdSan())
                     if (s.getIdCoSoSan() == css.getIdCoSoSan())
-                        tvTen.setText(css.getTen());
+                        tvTen.setText(css.getTen() + " - Sân " + s.getLoaiSan() + " (" + ds.gettGDat() + " tiếng)");
         tvNgayDat = convertView.findViewById(R.id.tvNgayDat);
         tvNgayDat.setText(ds.getNgayDat());
-        return super.getView(position, convertView, parent);
+        return convertView;
     }
 }

@@ -22,8 +22,10 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.mobile.ooad_project.Control.CoSoSanControl;
+import com.mobile.ooad_project.Control.DatSanControl;
 import com.mobile.ooad_project.Control.SanControl;
 import com.mobile.ooad_project.Model.CoSoSan;
+import com.mobile.ooad_project.Model.San;
 import com.mobile.ooad_project.R;
 
 import java.io.IOException;
@@ -62,6 +64,10 @@ public class DatSanFrag extends Fragment {
     int idCoSoSan = 0;
 
     int idSan = 0;
+
+    public String tenCoSoSan = null;
+
+    DatSanControl dsc;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -157,27 +163,43 @@ public class DatSanFrag extends Fragment {
             public void onClick(View view) {
                 int loaiSan = 0;
                 String ngayDa = edtNgay.getText().toString();
+                ArrayList<San> lstSanTrong = new ArrayList<>();
                 int loaiCo = 1;
                 int tinhtrangthanhtoan = 0;
-                String Thoigian = spinnerGio.getSelectedItem().toString();
-                if (edtNgay.getText() == null) {
+                if (edtNgay.getText() != null) {
                     if (cbSan5.isChecked() || cbSan7.isChecked()) {
                         if (cbTuNhien.isChecked() || cbNhanTao.isChecked()){
-                            for (CoSoSan cs : lsCoSoSan) {
-                                idCoSoSan = cs.getIdCoSoSan();
-                            }
                             if (cbSan5.isChecked()) loaiSan = 5;
                             if (cbSan7.isChecked()) loaiSan = 7;
                             if (cbNhanTao.isChecked()) loaiCo = 0;
                             if (cbTuNhien.isChecked()) loaiCo = 1;
                             if (rbCo.isChecked()) tinhtrangthanhtoan = 1;
                             try {
-                                idSan = sc.checkSan(idCoSoSan, loaiSan);
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
+                                lstSanTrong = sc.loadSanTrong(loaiSan, 0, tenCoSoSan);
+                            } catch (IndexOutOfBoundsException e) {
+                                try {
+                                    lstSanTrong = sc.loadSanTrong(loaiSan, 1, tenCoSoSan);
+                                } catch (IndexOutOfBoundsException i) {
+
+                                }
                             }
+                            for (San s : lstSanTrong) {
+                                San s1 = new San();
+                                s1.setIdSan(s.getIdSan());
+                                s1.setLoaiSan(s.getLoaiSan());
+                                s1.setIdCoSoSan(s.getIdCoSoSan());
+                                s1.setLoaiCo(s.getLoaiCo());
+                                s1.setTinhTrangSan(0);
+                                sc.updateData(s,s1);
+                                if (s.getLoaiCo() == loaiCo && s.getLoaiSan() == loaiSan){
+                                    idSan = s.getIdSan();
+                                }
+
+                                break;
+                            }
+
                             if (idSan != 0) {
-                                //Mising insert
+                                dsc.insertData(ngayDa, spinnerGio.getSelectedItem().toString(), spinnerThoiGian.getSelectedItem().toString(), tinhtrangthanhtoan, DangNhapActivity.idKH, idSan);
                                 Toast.makeText(getContext(), "Hẹn thành công", Toast.LENGTH_LONG).show();
                             } else Toast.makeText(getContext(), "Hẹn thất bại do không có sân hoặc không còn sân trống", Toast.LENGTH_LONG).show();
                         }else {
@@ -221,6 +243,7 @@ public class DatSanFrag extends Fragment {
     public void LoadDB(){
         csc = new CoSoSanControl(getContext(), CoSoSanControl.DATABASE_NAME, null, 1);
         sc = new SanControl(getContext(), SanControl.DATABASE_NAME, null, 1);
+        dsc = new DatSanControl(getContext(), DatSanControl.DATABASE_NAME, null, 1);
     }
 
     private void initDataSan(){

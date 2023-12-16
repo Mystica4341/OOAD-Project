@@ -18,6 +18,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.mobile.ooad_project.Control.CoSoSanControl;
 import com.mobile.ooad_project.Control.GiaiControl;
@@ -199,7 +200,10 @@ public class HenLichDaGiaiFrag extends Fragment {
                         id = s.getIdSan();
                         break;
                     }
-                    gc.insertData(edtTenGiai.getText().toString(),id,edtNgayThiDau.getText().toString());
+                    if (id != 0) {
+                        gc.insertData(edtTenGiai.getText().toString(), id, edtNgayThiDau.getText().toString());
+                        Toast.makeText(getContext(), "Hẹn thành công", Toast.LENGTH_LONG).show();
+                    }else Toast.makeText(getContext(), "Hẹn thất bại", Toast.LENGTH_LONG).show();
             }
         });
     }

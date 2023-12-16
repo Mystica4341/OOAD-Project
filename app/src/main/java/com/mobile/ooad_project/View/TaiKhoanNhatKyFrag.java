@@ -15,7 +15,9 @@ import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.mobile.ooad_project.Adapter.NhatKyDatSanAdapter;
 import com.mobile.ooad_project.Control.DatSanControl;
+import com.mobile.ooad_project.Control.GiaoHuuControl;
 import com.mobile.ooad_project.Model.DatSan;
+import com.mobile.ooad_project.Model.GiaoHuu;
 import com.mobile.ooad_project.Model.KhachHang;
 import com.mobile.ooad_project.Model.TaiKhoan;
 import com.mobile.ooad_project.R;
@@ -40,7 +42,9 @@ public class TaiKhoanNhatKyFrag extends Fragment {
 
     TabItem tabDatSan, tabDaGiai, tabGiaoHuu;
     DatSanControl dsc;
+    GiaoHuuControl ghc;
     ArrayList<DatSan> lstDatSan;
+    ArrayList<GiaoHuu> lstGiaoHuu;
     NhatKyDatSanAdapter adapter;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -109,14 +113,40 @@ public class TaiKhoanNhatKyFrag extends Fragment {
             tvEmail.setText(a.getEmail());
         }
         loadDataDatSan();
+        adapter = new NhatKyDatSanAdapter(requireContext(),R.layout.custom_listview_nhatkydatsan,lstDatSan);
+        lvNhatKy.setAdapter(adapter);
+//        tabDatSan.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                adapter = new NhatKyDatSanAdapter(requireContext(),R.layout.custom_listview_nhatkydatsan,lstDatSan);
+//                lvNhatKy.setAdapter(adapter);
+//            }
+//        });
+//        tabGiaoHuu.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                adapter = new NhatKyDatSanAdapter(requireContext(),R.layout.custom_listview_henlichdagiaohuu,lstDatSan);
+//                lvNhatKy.setAdapter(adapter);
+//            }
+//        });
     }
     private void loadDataDatSan(){
         dsc = new DatSanControl(requireContext(),DatSanControl.DATABASE_NAME,null,1);
         try {
             for (KhachHang a : accountInfo) {
                 lstDatSan = dsc.loadData(a.getIdKhach());
-                adapter = new NhatKyDatSanAdapter(requireContext(),R.layout.custom_listview_nhatkydatsan,lstDatSan);
-                lvNhatKy.setAdapter(adapter);
+            }
+        }catch (IndexOutOfBoundsException e){
+
+        }
+
+    }
+
+    private void loadDataGiaoHuu(){
+        ghc = new GiaoHuuControl(requireContext(),GiaoHuuControl.DATABASE_NAME,null,1);
+        try {
+            for (KhachHang a : accountInfo) {
+                lstGiaoHuu = ghc.loadDataGiaoHuu(a.getIdKhach());
             }
         }catch (IndexOutOfBoundsException e){
 

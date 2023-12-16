@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import com.mobile.ooad_project.Model.DatSan;
 import com.mobile.ooad_project.Model.GiaoHuu;
 import com.mobile.ooad_project.Model.San;
 import com.mobile.ooad_project.Model.TaiKhoan;
@@ -95,6 +96,23 @@ public class GiaoHuuControl extends SQLiteOpenHelper {
             tk.setIdSan(cursor.getInt(4));
             result.add(tk);
         } while (cursor.moveToNext());
+        return result;
+    }
+
+    public ArrayList<GiaoHuu> loadDataGiaoHuu(int id){
+        ArrayList<GiaoHuu> result = new ArrayList<>();
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + IDKHACHA + " = ?", new String[]{String.valueOf(id)});
+        cursor.moveToFirst();
+        do{
+            com.mobile.ooad_project.Model.GiaoHuu tk = new com.mobile.ooad_project.Model.GiaoHuu();
+            tk.setIdSan(cursor.getInt(0));
+            tk.setNgayDaGiaoHuu(cursor.getString(1));
+            tk.setIdKhachA(cursor.getInt(2));
+            tk.setIdKhachB(cursor.getInt(3));
+            tk.setIdSan(cursor.getInt(4));
+            result.add(tk);
+        }while(cursor.moveToNext());
         return result;
     }
 }

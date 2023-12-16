@@ -109,7 +109,10 @@ public class ChiTietCoSoSanFrag extends Fragment {
             @Override
             public void onClick(View view) {
                 DatSanFrag datSanFrag = new DatSanFrag();
-                datSanFrag.lsCoSoSan = lsChiTietCoSoSan;
+                for (CoSoSan cs : lsChiTietCoSoSan){
+                    datSanFrag.lsCoSoSan = lsChiTietCoSoSan;
+                    datSanFrag.tenCoSoSan = cs.getTen();
+                }
                 FragmentManager fm = getParentFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.replace(R.id.frameFrag, datSanFrag).commit();
