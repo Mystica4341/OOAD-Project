@@ -54,7 +54,7 @@ public class DangKyActivity extends AppCompatActivity {
     public void addEvent() throws IOException {
         taiKhoanActive();
         khachHangActive();
-//        adminActive();
+        adminActive();
         btnDaCoTK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,9 +98,9 @@ public class DangKyActivity extends AppCompatActivity {
 
     }
 
-//    public void adminActive() throws IOException {
-//        taiKhoanControl.insertAdminData(1, "admin", encodeMatKhau("admin12"));
-//    }
+    public void adminActive() throws IOException {
+        taiKhoanControl.insertAdminData(0, "admin", encodeMatKhau("admin12"));
+    }
     public void khachHangActive(){
         khachHangControl = new KhachHangControl(getApplicationContext(), TaiKhoanControl.DATABASE_NAME, null, 1);
     }

@@ -3,12 +3,16 @@ package com.mobile.ooad_project.Control;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import com.mobile.ooad_project.Model.GiaoHuu;
 import com.mobile.ooad_project.Model.HoanTien;
+
+import java.util.ArrayList;
 
 public class HoanTienControl extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "projectooad";
@@ -56,7 +60,8 @@ public class HoanTienControl extends SQLiteOpenHelper {
         value.put(TINHTRANG, new_HT.getTinhTrang());
         value.put(IDKHACHHANG, new_HT.getIdKhach());
         value.put(IDSAN, new_HT.getIdSan());
-        db.update(TABLE_NAME, value, IDHOANTIEN = "?",new String[]{String.valueOf(old_HT.getIdHoanTien())});
+        db.delete(TABLE_NAME, IDHOANTIEN + " =?", new String[]{String.valueOf(old_HT.getIdHoanTien())});
+        db.insert(TABLE_NAME,null,value);
         db.close();
     }
     public void deleteData(int idHoanTien){
@@ -64,5 +69,22 @@ public class HoanTienControl extends SQLiteOpenHelper {
         db.delete(TABLE_NAME,  IDHOANTIEN + " =?",
                 new String[]{String.valueOf(idHoanTien)});
         db.close();
+    }
+
+    public ArrayList<HoanTien> loadData() {
+        java.util.ArrayList<com.mobile.ooad_project.Model.HoanTien> result = new ArrayList<>();
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        cursor.moveToFirst();
+        do {
+            com.mobile.ooad_project.Model.HoanTien tk = new com.mobile.ooad_project.Model.HoanTien();
+            tk.setIdHoanTien(cursor.getInt(0));
+            tk.setSoTien(cursor.getInt(1));
+            tk.setTinhTrang(cursor.getInt(2));
+            tk.setIdKhach(cursor.getInt(3));
+            tk.setIdSan(cursor.getInt(4));
+            result.add(tk);
+        } while (cursor.moveToNext());
+        return result;
     }
 }

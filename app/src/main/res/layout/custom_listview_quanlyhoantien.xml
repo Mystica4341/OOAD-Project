@@ -9,80 +9,71 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="350dp"
-            android:layout_height="160dp"
-            android:layout_marginBottom="10dp"
+            android:layout_width="370dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/custom_listview"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/santientai" />
+            android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="194dp"
-                android:layout_height="150dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="20dp"
-                android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/txtTenSan_Quanlyhoantien"
-                    android:layout_width="227dp"
+                    android:id="@+id/tvTenKhach_HoanTien"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Sân: Lạch Chay" />
+
+                    android:textSize="18dp"
+                    android:text="TextView" />
 
                 <TextView
-                    android:id="@+id/txtDiaChi_Quanlyhoantien"
-                    android:layout_width="225dp"
+                    android:id="@+id/tvTien_HoanTien"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Địa chỉ: Thành Phố Hải Phòng" />
+                    android:gravity="right"
+                    android:textSize="18dp"
+                    android:text="TextView" />
 
                 <TextView
-                    android:id="@+id/txtSdt_Quanlyhoantien"
-                    android:layout_width="227dp"
+                    android:id="@+id/textView28"
+                    android:layout_width="45dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Số điện thoại: 0987654321" />
-
-                <TextView
-                    android:id="@+id/txtLyDoHuy_Quanlyhoantien"
-                    android:layout_width="228dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Lý do: Thay đổi giờ khác" />
-
-                <TextView
-                    android:id="@+id/txtGio_Quanlyhoantien"
-                    android:layout_width="228dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Giờ: 5am-7am" />
-
-                <TextView
-                    android:id="@+id/txtSoTien_Quanlyhoantien"
-                    android:layout_width="228dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Số tiền cọc: 200.000đ" />
-
-                <Button
-                    android:id="@+id/btnHoanCoc_Quanlyhoantien"
-                    android:layout_width="109dp"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="75dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="#029FD1"
-                    android:text="Hoàn cọc" />
+                    android:gravity="right"
+                    android:textSize="18dp"
+                    android:text="VND" />
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:id="@+id/tvSan_HoanTien"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="18dp"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/tvTrangThai"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:textSize="18dp"
+                    android:text="TextView" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
