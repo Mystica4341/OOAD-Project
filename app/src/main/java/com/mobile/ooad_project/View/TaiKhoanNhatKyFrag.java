@@ -1,22 +1,34 @@
 package com.mobile.ooad_project.View;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
+import com.mobile.ooad_project.Adapter.DaGiaiAdapter;
+import com.mobile.ooad_project.Adapter.GiaoHuuAdapter;
+import com.mobile.ooad_project.Adapter.NhatKyDaGiaiAdapter;
 import com.mobile.ooad_project.Adapter.NhatKyDatSanAdapter;
+import com.mobile.ooad_project.Adapter.NhatKyGiaoHuuAdapter;
 import com.mobile.ooad_project.Control.DatSanControl;
+import com.mobile.ooad_project.Control.GiaiControl;
 import com.mobile.ooad_project.Control.GiaoHuuControl;
+import com.mobile.ooad_project.Control.HoanTienControl;
 import com.mobile.ooad_project.Model.DatSan;
+import com.mobile.ooad_project.Model.Giai;
 import com.mobile.ooad_project.Model.GiaoHuu;
 import com.mobile.ooad_project.Model.KhachHang;
 import com.mobile.ooad_project.Model.TaiKhoan;
@@ -43,9 +55,15 @@ public class TaiKhoanNhatKyFrag extends Fragment {
     TabItem tabDatSan, tabDaGiai, tabGiaoHuu;
     DatSanControl dsc;
     GiaoHuuControl ghc;
+    GiaiControl gc;
+
+    HoanTienControl htc;
     ArrayList<DatSan> lstDatSan;
     ArrayList<GiaoHuu> lstGiaoHuu;
-    NhatKyDatSanAdapter adapter;
+    ArrayList<Giai> lstGiai;
+    NhatKyDatSanAdapter adapter1;
+    NhatKyGiaoHuuAdapter adapter2;
+    NhatKyDaGiaiAdapter adapter3;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -112,45 +130,101 @@ public class TaiKhoanNhatKyFrag extends Fragment {
             tvHoTen.setText(a.getHoTen());
             tvEmail.setText(a.getEmail());
         }
-        loadDataDatSan();
-        adapter = new NhatKyDatSanAdapter(requireContext(),R.layout.custom_listview_nhatkydatsan,lstDatSan);
-        lvNhatKy.setAdapter(adapter);
-//        tabDatSan.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                adapter = new NhatKyDatSanAdapter(requireContext(),R.layout.custom_listview_nhatkydatsan,lstDatSan);
-//                lvNhatKy.setAdapter(adapter);
-//            }
-//        });
-//        tabGiaoHuu.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                adapter = new NhatKyDatSanAdapter(requireContext(),R.layout.custom_listview_henlichdagiaohuu,lstDatSan);
-//                lvNhatKy.setAdapter(adapter);
-//            }
-//        });
+        loadData();
+        adapter1 = new NhatKyDatSanAdapter(requireContext(),R.layout.custom_listview_nhatkydatsan,lstDatSan);
+        lvNhatKy.setAdapter(adapter1);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int i = tab.getPosition();
+                if (i == 0) {
+                    adapter1 = new NhatKyDatSanAdapter(requireContext(), R.layout.custom_listview_nhatkydatsan, lstDatSan);
+                    lvNhatKy.setAdapter(adapter1);
+                } else if (i == 1) {
+                    adapter3 = new NhatKyDaGiaiAdapter(requireContext(), R.layout.custom_listview_nhatkydatsan, lstGiai);
+                    lvNhatKy.setAdapter(adapter3);
+                } else if (i == 2) {
+                    adapter2 = new NhatKyGiaoHuuAdapter(requireContext(),R.layout.custom_listview_nhatkydatsan,lstGiaoHuu);
+                    lvNhatKy.setAdapter(adapter2);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+        imgSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ThayDoiTaiKhoanFrag thayDoiTaiKhoanFrag = new ThayDoiTaiKhoanFrag();
+                ThayDoiTaiKhoanFrag.lsKhachHangSetting = accountInfo;
+                FragmentManager fm = getParentFragmentManager();
+                FragmentTransaction fs = fm.beginTransaction();
+                fs.replace(R.id.frameFrag, thayDoiTaiKhoanFrag).commit();
+            }
+        });
+        lvNhatKy.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                builder.setTitle("Hoàn Tiền Cọc");
+                builder.setMessage("Bạn có đồng ý hoàn tiền ?");
+                builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        DatSan ds = lstDatSan.get(position);
+                        htc.insertData(ds.getTongTien(), 0, DangNhapActivity.idKH, ds.getIdSan());
+                        dialog.dismiss();
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(requireContext());
+                        builder1.setTitle("Hoàn Tiền");
+                        builder1.setMessage("Bạn đã chọn hoàn tiền, vui lòng chờ xử lý");
+                        AlertDialog alertDialog = builder1.create();
+                        alertDialog.show();
+                    }
+                });
+                builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+                return false;
+            }
+        });
     }
-    private void loadDataDatSan(){
+    private void loadData(){
         dsc = new DatSanControl(requireContext(),DatSanControl.DATABASE_NAME,null,1);
-        try {
-            for (KhachHang a : accountInfo) {
-                lstDatSan = dsc.loadData(a.getIdKhach());
-            }
-        }catch (IndexOutOfBoundsException e){
-
-        }
-
-    }
-
-    private void loadDataGiaoHuu(){
         ghc = new GiaoHuuControl(requireContext(),GiaoHuuControl.DATABASE_NAME,null,1);
+        gc = new GiaiControl(requireContext(),GiaiControl.DATABASE_NAME,null,1);
+        htc = new HoanTienControl(requireContext(),HoanTienControl.DATABASE_NAME,null,1);
         try {
-            for (KhachHang a : accountInfo) {
-                lstGiaoHuu = ghc.loadDataGiaoHuu(a.getIdKhach());
+            for(KhachHang kh: accountInfo) {
+                lstGiaoHuu = ghc.loadDataKhachHang(kh.getIdKhach());
+                lstGiai = gc.loadDataKhacHang(kh.getIdKhach());
             }
         }catch (IndexOutOfBoundsException e){
 
         }
+        try {
+            for (KhachHang kh: accountInfo) {
+                lstDatSan = dsc.loadDataKhachHang(kh.getIdKhach());
+                for (GiaoHuu gh : lstGiaoHuu) {
+                    if (kh.getIdKhach() == gh.getIdKhachB()) {
+                        lstDatSan.addAll(dsc.loadDataKhachHang(gh.getIdKhachA()));
+                        break;
+                    } else lstDatSan = dsc.loadDataKhachHang(kh.getIdKhach());
+                }
+            }
+        }catch (IndexOutOfBoundsException i){
 
+        }
     }
 }

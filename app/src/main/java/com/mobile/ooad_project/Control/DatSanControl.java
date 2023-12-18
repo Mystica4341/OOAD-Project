@@ -19,14 +19,16 @@ public class DatSanControl extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     @SuppressLint("SdCardPath")
     public static final String PATH = "/data/data/com.mobile.ooad_project/database/projectooad.db";
-    private static final String TABLE_NAME = "DatSan";
+    public static final String TABLE_NAME = "DatSan";
     private static String IDDATSAN = "id";
-    private static final String IDKHACHHANG = "idkhachhang";
-    private static final String IDSAN = "idsan";
+    public static final String IDKHACHHANG = "idkhachhang";
+    public static final String IDSAN = "idsan";
     private static final String TINHTRANG = "tinhtrang";
     private static final String NGAYDAT = "ngaydat";
     private static final String GIODAT = "giodat";
     private static final String THOIGIANDAT = "thoigiandat";
+
+    private static final String TONGTIEN = "tongtien";
 
     public DatSanControl(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
@@ -35,7 +37,7 @@ public class DatSanControl extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        String sql = "CREATE TABLE IF NOT EXISTS "+TABLE_NAME+"("+IDDATSAN+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," + NGAYDAT  +" TEXT NOT NULL," +GIODAT+" TEXT NOT NULL, " +THOIGIANDAT+ " TEXT NOT NULL, " + TINHTRANG +" INTEGER NOT NULL,"  + IDKHACHHANG +" INTEGER NOT NULL REFERENCES "+KhachHangControl.TABLE_NAME+"("+KhachHangControl.IDKHACHHANG+")," + IDSAN + " INTEGER NOT NULL REFERENCES "+SanControl.TABLE_NAME+"("+SanControl.IDSAN+"))";
+        String sql = "CREATE TABLE IF NOT EXISTS "+TABLE_NAME+"("+IDDATSAN+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," + NGAYDAT  +" TEXT NOT NULL," +GIODAT+" TEXT, " +THOIGIANDAT+ " TEXT, " + TINHTRANG +" INTEGER NOT NULL,"  + IDKHACHHANG +" INTEGER NOT NULL REFERENCES "+KhachHangControl.TABLE_NAME+"("+KhachHangControl.IDKHACHHANG+")," + IDSAN + " INTEGER NOT NULL REFERENCES "+SanControl.TABLE_NAME+"("+SanControl.IDSAN+"), " + TONGTIEN + " INTEGER)";
         db.execSQL(sql);
         db.close();
     }
@@ -44,7 +46,7 @@ public class DatSanControl extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
-    public void insertData(String ngayDat, String gioDat, String thoiGianDat, int tinhTrang, int idKhachHang, int idSan){
+    public void insertData(String ngayDat, String gioDat, String thoiGianDat, int tinhTrang, int idKhachHang, int idSan, int tongtien){
         SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
         ContentValues value = new ContentValues();
         value.put(NGAYDAT, ngayDat);
@@ -53,6 +55,7 @@ public class DatSanControl extends SQLiteOpenHelper {
         value.put(TINHTRANG, tinhTrang);
         value.put(IDKHACHHANG, idKhachHang);
         value.put(IDSAN, idSan);
+        value.put(TONGTIEN, tongtien);
         db.insert(TABLE_NAME,null,value);
         db.close();
     }
@@ -75,10 +78,10 @@ public class DatSanControl extends SQLiteOpenHelper {
                 new String[]{String.valueOf(idDatSan)});
         db.close();
     }
-    public ArrayList<DatSan> loadData(int id){
+    public ArrayList<DatSan> loadData(){
         ArrayList<DatSan> result = new ArrayList<>();
         SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + IDKHACHHANG + " = ?", new String[]{String.valueOf(id)});
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
         cursor.moveToFirst();
         do{
             DatSan datSan = new DatSan();
@@ -89,6 +92,26 @@ public class DatSanControl extends SQLiteOpenHelper {
             datSan.setTinhTrang(cursor.getInt(4));
             datSan.setIdKhachHang(cursor.getInt(5));
             datSan.setIdSan(cursor.getInt(6));
+            datSan.setTongTien(cursor.getInt(7));
+            result.add(datSan);
+        }while(cursor.moveToNext());
+        return result;
+    }
+    public ArrayList<DatSan> loadDataKhachHang(int id){
+        ArrayList<DatSan> result = new ArrayList<>();
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME  + " WHERE " + IDKHACHHANG + " = ?", new String[]{String.valueOf(id)});
+        cursor.moveToFirst();
+        do{
+            DatSan datSan = new DatSan();
+            datSan.setIdDatSan(cursor.getInt(0));
+            datSan.setNgayDat(cursor.getString(1));
+            datSan.setGioDat(cursor.getString(2));
+            datSan.settGDat(cursor.getInt(3));
+            datSan.setTinhTrang(cursor.getInt(4));
+            datSan.setIdKhachHang(cursor.getInt(5));
+            datSan.setIdSan(cursor.getInt(6));
+            datSan.setTongTien(cursor.getInt(7));
             result.add(datSan);
         }while(cursor.moveToNext());
         return result;

@@ -66,7 +66,8 @@ public class KhachHangControl extends SQLiteOpenHelper {
         value.put(CCCD, new_KH.getCCCD());
         value.put(DIACHIKHACHHANG, new_KH.getDiaChi());
         value.put(IDTAIKHOAN, new_KH.getIdTaiKhoan());
-        db.update(TABLE_NAME, value, IDKHACHHANG = "?",new String[]{String.valueOf(old_KH.getIdKhach())});
+        db.delete(TABLE_NAME, IDKHACHHANG + " =?", new String[]{String.valueOf(old_KH.getIdKhach())});
+        db.insert(TABLE_NAME,null,value);
         db.close();
     }
     public void deleteData(int idKH){

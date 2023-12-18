@@ -1,8 +1,16 @@
 package com.mobile.ooad_project.Model;
 
 public class DatSan {
-    int idDatSan, idKhachHang, idSan, tGDat, tinhTrang;
+    int idDatSan, idKhachHang, idSan, tGDat, tinhTrang, tongTien;
     String ngayDat, gioDat;
+
+    public int getTongTien() {
+        return tongTien;
+    }
+
+    public void setTongTien(int tongTien) {
+        this.tongTien = tongTien;
+    }
 
     public int getIdDatSan() {
         return idDatSan;
@@ -60,7 +68,7 @@ public class DatSan {
         this.gioDat = gioDat;
     }
 
-    public DatSan(int idDatSan, int idKhachHang, int idSan, int tGDat, int tinhTrang, String ngayDat, String gioDat) {
+    public DatSan(int idDatSan, int idKhachHang, int idSan, int tGDat, int tinhTrang, String ngayDat, String gioDat, int tongTien) {
         this.idDatSan = idDatSan;
         this.idKhachHang = idKhachHang;
         this.idSan = idSan;
@@ -68,6 +76,7 @@ public class DatSan {
         this.tinhTrang = tinhTrang;
         this.ngayDat = ngayDat;
         this.gioDat = gioDat;
+        this.tongTien = tongTien;
     }
 
     public DatSan() {

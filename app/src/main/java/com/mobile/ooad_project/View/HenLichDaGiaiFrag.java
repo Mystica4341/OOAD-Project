@@ -21,9 +21,11 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.mobile.ooad_project.Control.CoSoSanControl;
+import com.mobile.ooad_project.Control.DatSanControl;
 import com.mobile.ooad_project.Control.GiaiControl;
 import com.mobile.ooad_project.Control.SanControl;
 import com.mobile.ooad_project.Model.CoSoSan;
+import com.mobile.ooad_project.Model.DatSan;
 import com.mobile.ooad_project.Model.San;
 import com.mobile.ooad_project.R;
 import com.squareup.picasso.Picasso;
@@ -51,6 +53,7 @@ public class HenLichDaGiaiFrag extends Fragment {
 
     CoSoSanControl csc;
     GiaiControl gc;
+    DatSanControl dsc;
 
     SanControl sc;
 
@@ -123,6 +126,7 @@ public class HenLichDaGiaiFrag extends Fragment {
         sc = new SanControl(getContext(), SanControl.DATABASE_NAME, null, 1);
         csc = new CoSoSanControl(getContext(), CoSoSanControl.DATABASE_NAME, null, 1);
         gc = new GiaiControl(getContext(),GiaiControl.DATABASE_NAME,null,1);
+        dsc = new DatSanControl(getContext(),DatSanControl.DATABASE_NAME,null,1);
         initDataSan();
 
         ArrayAdapter<String> adapter1 = new ArrayAdapter<>(requireContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,dsTenCoSo);
@@ -173,37 +177,45 @@ public class HenLichDaGiaiFrag extends Fragment {
         btnDatDaGiai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    ArrayList<San> lstSanTrong = new ArrayList<>();
-                    if (spinnerLoaiSan.getSelectedItem().toString().equals("Sân 5")){
-                        try {
-                            lstSanTrong = sc.loadSanTrong(5, 0, spinnerDiaChi.getSelectedItem().toString());
-                        }catch (IndexOutOfBoundsException e){
-                            try {
-                                lstSanTrong = sc.loadSanTrong(5, 1, spinnerDiaChi.getSelectedItem().toString());
-                            }catch (IndexOutOfBoundsException i){
+                ArrayList<DatSan> lstDatSan = new ArrayList<>();
+                try {
+                    lstDatSan = dsc.loadData();
+                } catch (IndexOutOfBoundsException e) {
 
-                            }
-                        }
-                    }else {
-                        try {
-                            lstSanTrong = sc.loadSanTrong(7, 0, spinnerDiaChi.getSelectedItem().toString());
-                        } catch (IndexOutOfBoundsException e) {
-                            try {
-                                lstSanTrong = sc.loadSanTrong(7, 1, spinnerDiaChi.getSelectedItem().toString());
-                            } catch (IndexOutOfBoundsException i) {
-
-                            }
-                        }
-                    }
-                    int id = 0;
-                    for (San s : lstSanTrong) {
-                        id = s.getIdSan();
+                }
+                int coSoSan = 0;
+                int id = 0;
+                int loaiSan;
+                if (spinnerLoaiSan.getSelectedItem().toString().equals("Sân 5"))
+                    loaiSan = 5;
+                else
+                    loaiSan = 7;
+                for (CoSoSan css: lsCoSoSan) {
+                    if (spinnerDiaChi.getSelectedItem().toString().equals(css.getTen())) {
+                        coSoSan = css.getIdCoSoSan();
                         break;
                     }
-                    if (id != 0) {
-                        gc.insertData(edtTenGiai.getText().toString(), id, edtNgayThiDau.getText().toString());
-                        Toast.makeText(getContext(), "Hẹn thành công", Toast.LENGTH_LONG).show();
-                    }else Toast.makeText(getContext(), "Hẹn thất bại", Toast.LENGTH_LONG).show();
+                }
+                for (San s : lsSan) {
+                    if (s.getLoaiSan() == loaiSan && s.getIdCoSoSan() == coSoSan) {
+                        id = s.getIdSan();
+                        for (DatSan ds : lstDatSan) {
+                            if (ds.getIdSan() == id) {
+                                id = 0;
+                                break;
+                            }
+                            break;
+                        }
+                        if (id != 0)
+                            break;
+                        else continue;
+                    }
+                }
+                if (id != 0) {
+                    gc.insertData(edtTenGiai.getText().toString(), id, edtNgayThiDau.getText().toString());
+                    dsc.insertData(edtNgayThiDau.getText().toString(),null,null,0,DangNhapActivity.idKH,id, 0);
+                    Toast.makeText(getContext(), "Hẹn thành công", Toast.LENGTH_LONG).show();
+                } else Toast.makeText(getContext(), "Hẹn thất bại", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -235,9 +247,9 @@ public class HenLichDaGiaiFrag extends Fragment {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                edtNgayThiDau.setText(dayOfMonth + "/" + month + "/" + year);
+                edtNgayThiDau.setText(dayOfMonth + "/" + month+1 + "/" + year);
             }
-        }, 2023, 1, 1);
+        }, 2023, 0, 1);
 
         dialog.show();
     }

@@ -23,9 +23,11 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.mobile.ooad_project.Control.CoSoSanControl;
+import com.mobile.ooad_project.Control.DatSanControl;
 import com.mobile.ooad_project.Control.GiaoHuuControl;
 import com.mobile.ooad_project.Control.SanControl;
 import com.mobile.ooad_project.Model.CoSoSan;
+import com.mobile.ooad_project.Model.DatSan;
 import com.mobile.ooad_project.Model.GiaoHuu;
 import com.mobile.ooad_project.Model.San;
 import com.mobile.ooad_project.R;
@@ -59,6 +61,7 @@ public class HenLichGiaoHuuFrag extends Fragment {
     CoSoSanControl csc;
 
     GiaoHuuControl ghc;
+    DatSanControl dsc;
 
 
 
@@ -152,37 +155,47 @@ public class HenLichGiaoHuuFrag extends Fragment {
         btnHen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<San> lstSanTrong = new ArrayList<>();
+                ArrayList<San> lstSan = new ArrayList<>();
+                ArrayList<DatSan> lstDatSan = new ArrayList<>();
+                try {
+                    lstSan = sc.loadData();
+                    lstDatSan = dsc.loadData();
+                }catch (IndexOutOfBoundsException e){
+
+                }
                 int loaiSan = 0;
                 String ngayDa = String.valueOf(edtNgayDa.getText());
+                int coSoSan = 0;
                 if (ngayDa != null) {
                     if (RBSan5.isChecked() || RBSan7.isChecked()) {
                         //lay IdCoSoSan tu spinner Ten CoSoSan, LoaiSan, TinhTrang. Cho chay het table San lay ID San
                         if (RBSan5.isChecked()) loaiSan = 5;
                         if (RBSan7.isChecked()) loaiSan = 7;
-                        try {
-                            lstSanTrong = sc.loadSanTrong(loaiSan, 0, spinnerSan.getSelectedItem().toString());
-                        } catch (IndexOutOfBoundsException e) {
-                            try {
-                                lstSanTrong = sc.loadSanTrong(loaiSan, 1, spinnerSan.getSelectedItem().toString());
-                            } catch (IndexOutOfBoundsException i) {
-
+                        int idSan = 0;
+                        for (CoSoSan css: lsCoSoSan) {
+                            if (spinnerSan.getSelectedItem().toString().equals(css.getTen())) {
+                                coSoSan = css.getIdCoSoSan();
+                                break;
                             }
                         }
-                        int idSan = 0;
-                        for (San s : lstSanTrong) {
-                            San s1 = new San();
-                            s1.setIdSan(s.getIdSan());
-                            s1.setLoaiSan(s.getLoaiSan());
-                            s1.setIdCoSoSan(s.getIdCoSoSan());
-                            s1.setLoaiCo(s.getLoaiCo());
-                            s1.setTinhTrangSan(0);
-                            sc.updateData(s,s1);
-                            idSan = s.getIdSan();
-                            break;
+                        for (San s : lstSan) {
+                            if (s.getLoaiSan() == loaiSan && s.getIdCoSoSan() == coSoSan) {
+                                idSan = s.getIdSan();
+                                for (DatSan ds : lstDatSan) {
+                                    if (ds.getIdSan() == idSan) {
+                                        idSan = 0;
+                                        break;
+                                    }
+                                    break;
+                                }
+                                if (idSan != 0)
+                                    break;
+                                else continue;
+                            }
                         }
                         if (idSan != 0) {
-                            ghc.insertData(ngayDa, DangNhapActivity.idKH, idSan);
+                            dsc.insertData(ngayDa,spinnerGioDa.getSelectedItem().toString(),"1 tiếng",0,DangNhapActivity.idKH,idSan, 0);
+                            ghc.insertData(ngayDa, DangNhapActivity.idKH,0, idSan);
                             Toast.makeText(getContext(), "Hẹn thành công", Toast.LENGTH_LONG).show();
                         } else
                             Toast.makeText(getContext(), "Hẹn thất bại do không có sân hoặc không còn sân trống", Toast.LENGTH_LONG).show();
@@ -242,5 +255,6 @@ public class HenLichGiaoHuuFrag extends Fragment {
         sc = new SanControl(getContext(), SanControl.DATABASE_NAME, null, 1);
         csc = new CoSoSanControl(getContext(), CoSoSanControl.DATABASE_NAME, null, 1);
         ghc = new GiaoHuuControl(getContext(), GiaoHuuControl.DATABASE_NAME, null, 1);
+        dsc = new DatSanControl(getContext(),DatSanControl.DATABASE_NAME,null,1);
     }
 }

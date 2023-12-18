@@ -55,11 +55,12 @@ public class GiaoHuuControl extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
-    public void insertData(String ngayDaGiaoHuu, int idKhachA, int idSan){
+    public void insertData(String ngayDaGiaoHuu, int idKhachA, int idKhachB, int idSan){
         SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
         ContentValues value = new ContentValues();
         value.put(NGAYDAGIAOHUU, ngayDaGiaoHuu);
         value.put(IDKHACHA, idKhachA);
+        value.put(IDKHACHB, idKhachB);
         value.put(IDSAN, idSan);
         db.insert(TABLE_NAME,null,value);
         db.close();
@@ -72,7 +73,8 @@ public class GiaoHuuControl extends SQLiteOpenHelper {
         value.put(IDKHACHA, new_GH.getIdKhachA());
         value.put(IDKHACHB, new_GH.getIdKhachB());
         value.put(IDSAN, new_GH.getIdSan());
-        db.update(TABLE_NAME, value, IDTRANGIAOHUU = "?",new String[]{String.valueOf(old_GH.getIdTranGiaoHuu())});
+        db.delete(TABLE_NAME, IDTRANGIAOHUU + " =?", new String[]{String.valueOf(old_GH.getIdTranGiaoHuu())});
+        db.insert(TABLE_NAME,null,value);
         db.close();
     }
     public void deleteData(int idTranGiaoHuu){
@@ -89,7 +91,7 @@ public class GiaoHuuControl extends SQLiteOpenHelper {
         cursor.moveToFirst();
         do {
             com.mobile.ooad_project.Model.GiaoHuu tk = new com.mobile.ooad_project.Model.GiaoHuu();
-            tk.setIdSan(cursor.getInt(0));
+            tk.setIdTranGiaoHuu(cursor.getInt(0));
             tk.setNgayDaGiaoHuu(cursor.getString(1));
             tk.setIdKhachA(cursor.getInt(2));
             tk.setIdKhachB(cursor.getInt(3));
@@ -99,10 +101,10 @@ public class GiaoHuuControl extends SQLiteOpenHelper {
         return result;
     }
 
-    public ArrayList<GiaoHuu> loadDataGiaoHuu(int id){
+    public ArrayList<GiaoHuu> loadDataKhachHang(int id){
         ArrayList<GiaoHuu> result = new ArrayList<>();
         SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + IDKHACHA + " = ?", new String[]{String.valueOf(id)});
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + IDKHACHA + " = ? OR " + IDKHACHB + " = ?", new String[]{String.valueOf(id),String.valueOf(id)});
         cursor.moveToFirst();
         do{
             com.mobile.ooad_project.Model.GiaoHuu tk = new com.mobile.ooad_project.Model.GiaoHuu();

@@ -7,8 +7,17 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.mobile.ooad_project.Control.KhachHangControl;
+import com.mobile.ooad_project.Model.KhachHang;
+import com.mobile.ooad_project.Model.TaiKhoan;
 import com.mobile.ooad_project.R;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +25,14 @@ import com.mobile.ooad_project.R;
  * create an instance of this fragment.
  */
 public class ThayDoiTaiKhoanFrag extends Fragment {
+
+    public static ArrayList<KhachHang> lsKhachHangSetting;
+
+    EditText edtName, edtSdt, edtEmail, edtDiaChi, edtCCCD;
+
+    Button btnSuaSetting;
+
+    KhachHangControl khc;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,6 +78,51 @@ public class ThayDoiTaiKhoanFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_thay_doi_tai_khoan, container, false);
+        View view = inflater.inflate(R.layout.fragment_thay_doi_tai_khoan, container, false);
+        addControl(view);
+        disableEdt(edtName);
+        addEvent();
+        return view;
+    }
+
+    private void addControl(View view){
+        edtName = view.findViewById(R.id.edtNameSetting);
+        edtSdt = view.findViewById(R.id.edtSDTSetting);
+        edtCCCD = view.findViewById(R.id.edtCCCDSetting);
+        edtEmail = view.findViewById(R.id.edtEmailSetting);
+        edtDiaChi = view.findViewById(R.id.edtDiachiSetting);
+        btnSuaSetting = view.findViewById(R.id.btnSuaSetting);
+    }
+
+    public void addEvent(){
+        for (KhachHang kh: lsKhachHangSetting)edtName.setText(kh.getHoTen());
+        btnSuaSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                khc = new KhachHangControl(requireContext(), KhachHangControl.DATABASE_NAME, null,1);
+                try {
+                    for (KhachHang kh : lsKhachHangSetting) {
+                        KhachHang khNew = new KhachHang();
+                        khNew.setIdTaiKhoan(kh.getIdTaiKhoan());
+                        khNew.setIdKhach(kh.getIdKhach());
+                        khNew.setHoTen(kh.getHoTen());
+                        khNew.setCCCD(edtCCCD.getText().toString());
+                        khNew.setSdt(edtSdt.getText().toString());
+                        khNew.setEmail(edtEmail.getText().toString());
+                        khNew.setDiaChi(edtDiaChi.getText().toString());
+                        khc.updateData(kh, khNew);
+                    }
+                    Toast.makeText(requireContext(), "Sửa thành công", Toast.LENGTH_LONG).show();
+                }catch (Exception e){
+                    Toast.makeText(requireContext(), "Sửa thất bại", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    public void disableEdt(EditText edt){
+        edt.setFocusable(false);
+        edt.setCursorVisible(false);
+        edt.setKeyListener(null);
     }
 }

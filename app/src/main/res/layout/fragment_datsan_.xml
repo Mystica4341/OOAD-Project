@@ -269,11 +269,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:layout_marginBottom="5dp"
-                            android:background="@color/white"
+                            android:background="#93CAFE"
                             android:paddingLeft="40dp"
                             android:textSize="25dp" />
                         <TextView
-                            android:id="@+id/textView22"
+                            android:id="@+id/tvThanhTien"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="5dp"

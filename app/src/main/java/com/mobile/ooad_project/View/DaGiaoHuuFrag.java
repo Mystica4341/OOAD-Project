@@ -1,5 +1,8 @@
 package com.mobile.ooad_project.View;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
@@ -10,6 +13,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -109,9 +113,57 @@ public class DaGiaoHuuFrag extends Fragment {
             }
         });
         LoadDB();
-        lsGiaoHuu = ghc.loadData();
-        adapter = new GiaoHuuAdapter(requireContext(), R.layout.custom_listview_henlichdagiaohuu, lsGiaoHuu);
-        lvGiaoHuu.setAdapter(adapter);
+        try{
+            lsGiaoHuu = ghc.loadData();
+            adapter = new GiaoHuuAdapter(requireContext(), R.layout.custom_listview_henlichdagiaohuu, lsGiaoHuu);
+            lvGiaoHuu.setAdapter(adapter);
+        } catch (Exception e){
+
+        }
+
+        lvGiaoHuu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                GiaoHuu gh = lsGiaoHuu.get(position);
+                if(gh.getIdKhachB() == 0) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                    builder.setTitle("Hẹn giao hữu");
+                    builder.setMessage("Bạn đồng ý hẹn lịch này ?");
+                    builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            GiaoHuu ghnew = new GiaoHuu();
+                            ghnew.setIdSan(gh.getIdSan());
+                            ghnew.setNgayDaGiaoHuu(gh.getNgayDaGiaoHuu());
+                            ghnew.setIdKhachA(gh.getIdKhachA());
+                            ghnew.setIdTranGiaoHuu(gh.getIdTranGiaoHuu());
+                            ghnew.setIdKhachB(DangNhapActivity.idKH);
+                            ghc.updateData(gh, ghnew);
+                            dialog.dismiss();
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(requireContext());
+                            builder1.setTitle("Đặt thành công");
+                            builder1.setMessage("Bạn đã đặt lịch thành công");
+                            AlertDialog alertDialog = builder1.create();
+                            alertDialog.show();
+                        }
+                    });
+                    builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                }else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                    builder.setTitle("Thất bại");
+                    builder.setMessage("Lịch đã đầy!");
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                }
+            }
+        });
     }
 
     private void LoadDB(){

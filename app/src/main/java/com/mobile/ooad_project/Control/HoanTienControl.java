@@ -18,7 +18,7 @@ public class HoanTienControl extends SQLiteOpenHelper {
     private static final String TABLE_NAME = "HoanTien";
     private static String IDHOANTIEN = "id";
     private static final String SOTIENHOAN = "sotienhoan";
-    private static final String TINHTRANG = "tinhtrang";
+    private static final String TINHTRANG = "tinhtrang";  //0 la Dang Xu Ly; 1 la Thanh Cong, 2 la Da Huy
     private static final String IDKHACHHANG = "idkhachhang";
     private static final String IDSAN = "idSan";
 

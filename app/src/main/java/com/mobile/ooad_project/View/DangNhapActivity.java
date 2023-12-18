@@ -143,7 +143,6 @@ public class DangNhapActivity extends AppCompatActivity {
         htc.onCreate(db);
         dsc = new DatSanControl(getApplicationContext(), DatSanControl.DATABASE_NAME,null,1);
         dsc.onCreate(db);
-        ghc.initData();
         csc.initData();
         sc.initData();
     }

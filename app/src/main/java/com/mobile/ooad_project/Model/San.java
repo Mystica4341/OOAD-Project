@@ -1,7 +1,7 @@
 package com.mobile.ooad_project.Model;
 
 public class San {
-    int idSan, idCoSoSan, tinhTrangSan, loaiCo, loaiSan;
+    int idSan, idCoSoSan, loaiCo, loaiSan;
 
     public int getIdSan() {
         return idSan;
@@ -20,13 +20,6 @@ public class San {
     }
 
 
-    public int getTinhTrangSan() {
-        return tinhTrangSan;
-    }
-
-    public void setTinhTrangSan(int tinhTrangSan) {
-        this.tinhTrangSan = tinhTrangSan;
-    }
 
     public int getLoaiCo() {
         return loaiCo;
@@ -47,7 +40,6 @@ public class San {
     public San(int idSan, int idCoSoSan, int tinhTrangSan, int loaiCo, int loaiSan) {
         this.idSan = idSan;
         this.idCoSoSan = idCoSoSan;
-        this.tinhTrangSan = tinhTrangSan;
         this.loaiCo = loaiCo;
         this.loaiSan = loaiSan;
     }

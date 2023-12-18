@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -18,6 +19,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -25,6 +27,7 @@ import com.mobile.ooad_project.Control.CoSoSanControl;
 import com.mobile.ooad_project.Control.DatSanControl;
 import com.mobile.ooad_project.Control.SanControl;
 import com.mobile.ooad_project.Model.CoSoSan;
+import com.mobile.ooad_project.Model.DatSan;
 import com.mobile.ooad_project.Model.San;
 import com.mobile.ooad_project.R;
 
@@ -43,6 +46,7 @@ public class DatSanFrag extends Fragment {
     EditText edtNgay;
 
     CheckBox cbSan5, cbSan7, cbTuNhien, cbNhanTao;
+    TextView tvThanhTien;
 
     RadioButton rbCo, rbKhong;
 
@@ -51,6 +55,8 @@ public class DatSanFrag extends Fragment {
     CoSoSanControl csc;
 
     SanControl sc;
+
+    int tongtien;
     LinearLayout lnSan5, lnSan7, lnTuNhien, lnNhanTao;
 
     public ArrayList<CoSoSan> lsCoSoSan = new ArrayList<>();
@@ -60,12 +66,6 @@ public class DatSanFrag extends Fragment {
     ArrayList<String> dsGio = new ArrayList<>();
 
     ArrayList<String> dsThoiGian = new ArrayList<>();
-
-    int idCoSoSan = 0;
-
-    int idSan = 0;
-
-    public String tenCoSoSan = null;
 
     DatSanControl dsc;
 
@@ -137,6 +137,7 @@ public class DatSanFrag extends Fragment {
         lnSan7 = view.findViewById(R.id.lnSan7);
         lnNhanTao = view.findViewById(R.id.lnNhanTao);
         lnTuNhien = view.findViewById(R.id.lnTuNhien);
+        tvThanhTien = view.findViewById(R.id.tvThanhTien);
     }
 
     public void addEvent(){
@@ -161,10 +162,18 @@ public class DatSanFrag extends Fragment {
         btnXacNhan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int idSan = 0;
+                ArrayList<San> lstSan = new ArrayList<>();
+                ArrayList<DatSan> lstDatSan = new ArrayList<>();
+                try {
+                    lstSan = sc.loadData();
+                    lstDatSan = dsc.loadData();
+                }catch (IndexOutOfBoundsException e){
+
+                }
                 int loaiSan = 0;
                 String ngayDa = edtNgay.getText().toString();
-                ArrayList<San> lstSanTrong = new ArrayList<>();
-                int loaiCo = 1;
+                int loaiCo = 0;
                 int tinhtrangthanhtoan = 0;
                 if (edtNgay.getText() != null) {
                     if (cbSan5.isChecked() || cbSan7.isChecked()) {
@@ -174,32 +183,24 @@ public class DatSanFrag extends Fragment {
                             if (cbNhanTao.isChecked()) loaiCo = 0;
                             if (cbTuNhien.isChecked()) loaiCo = 1;
                             if (rbCo.isChecked()) tinhtrangthanhtoan = 1;
-                            try {
-                                lstSanTrong = sc.loadSanTrong(loaiSan, 0, tenCoSoSan);
-                            } catch (IndexOutOfBoundsException e) {
-                                try {
-                                    lstSanTrong = sc.loadSanTrong(loaiSan, 1, tenCoSoSan);
-                                } catch (IndexOutOfBoundsException i) {
-
-                                }
-                            }
-                            for (San s : lstSanTrong) {
-                                San s1 = new San();
-                                s1.setIdSan(s.getIdSan());
-                                s1.setLoaiSan(s.getLoaiSan());
-                                s1.setIdCoSoSan(s.getIdCoSoSan());
-                                s1.setLoaiCo(s.getLoaiCo());
-                                s1.setTinhTrangSan(0);
-                                sc.updateData(s,s1);
-                                if (s.getLoaiCo() == loaiCo && s.getLoaiSan() == loaiSan){
+                            for (San s : lstSan) {
+                                if (s.getLoaiSan() == loaiSan && s.getLoaiCo() == loaiCo) {
                                     idSan = s.getIdSan();
+                                    for (DatSan ds : lstDatSan) {
+                                        if (ds.getIdSan() == idSan) {
+                                            idSan = 0;
+                                            break;
+                                        }
+                                        break;
+                                    }
+                                    if (idSan != 0)
+                                        break;
+                                    else continue;
                                 }
-
-                                break;
                             }
 
                             if (idSan != 0) {
-                                dsc.insertData(ngayDa, spinnerGio.getSelectedItem().toString(), spinnerThoiGian.getSelectedItem().toString(), tinhtrangthanhtoan, DangNhapActivity.idKH, idSan);
+                                dsc.insertData(ngayDa, spinnerGio.getSelectedItem().toString(), spinnerThoiGian.getSelectedItem().toString(), tinhtrangthanhtoan, DangNhapActivity.idKH, idSan, tongtien);
                                 Toast.makeText(getContext(), "Hẹn thành công", Toast.LENGTH_LONG).show();
                             } else Toast.makeText(getContext(), "Hẹn thất bại do không có sân hoặc không còn sân trống", Toast.LENGTH_LONG).show();
                         }else {
@@ -238,23 +239,39 @@ public class DatSanFrag extends Fragment {
                 cbNhanTao.setChecked(true);
             }
         });
+        spinnerThoiGian.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                int loaiSan = 0;
+                String thanhtien = "";
+                int gioDa = 0;
+                if (cbSan5.isChecked()) loaiSan = 5;
+                if (cbSan7.isChecked()) loaiSan = 7;
+                if (spinnerThoiGian.getSelectedItem().toString().equals("1 tiếng")) gioDa = 1;
+                else if (spinnerThoiGian.getSelectedItem().toString().equals("2 tiếng")) gioDa = 2;
+                else if (spinnerThoiGian.getSelectedItem().toString().equals("3 tiếng")) gioDa = 3;
+                for(CoSoSan css: lsCoSoSan)
+                    if (loaiSan == 5){
+                        tongtien = css.getGiaSan5()*gioDa;
+                        thanhtien = "Tổng tiền: " + css.getGiaSan5()*gioDa;}
+                    else if (loaiSan == 7){
+                        tongtien = css.getGiaSan7()*gioDa;
+                        thanhtien = "Tổng tiền: " + css.getGiaSan7()*gioDa;}
+                tvThanhTien.setText(thanhtien);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     public void LoadDB(){
         csc = new CoSoSanControl(getContext(), CoSoSanControl.DATABASE_NAME, null, 1);
         sc = new SanControl(getContext(), SanControl.DATABASE_NAME, null, 1);
         dsc = new DatSanControl(getContext(), DatSanControl.DATABASE_NAME, null, 1);
-    }
-
-    private void initDataSan(){
-        try {
-            lsCoSoSan = csc.loadData();
-            for (CoSoSan s : lsCoSoSan) {
-                dsSan.add(s.getTen());
-            }
-        }catch (IndexOutOfBoundsException e){
-
-        }
     }
 
     public void disableEdt(EditText edt){
@@ -271,19 +288,22 @@ public class DatSanFrag extends Fragment {
     }
 
     private void initDataThoiGian(){
-        for (int i = 1; i <=3; i++){
-            dsThoiGian.add(i +" tiếng");
+        for (int i = 0; i <=3; i++){
+            if (i == 0){
+                dsThoiGian.add("");
+            }else
+                dsThoiGian.add(i +" tiếng");
         }
     }
 
     private void OpenDiaLogDay(){
-        DatePickerDialog dialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog dialog = new DatePickerDialog(requireContext(), new DatePickerDialog.OnDateSetListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                edtNgay.setText(dayOfMonth + "/" + month + "/" + year);
+                edtNgay.setText(dayOfMonth + "/" + month+1 + "/" + year);
             }
-        }, 2023, 1, 1);
+        }, 2023, 0, 1);
         dialog.show();
     }
 }

@@ -12,10 +12,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.mobile.ooad_project.Control.CoSoSanControl;
+import com.mobile.ooad_project.Control.DatSanControl;
 import com.mobile.ooad_project.Control.KhachHangControl;
 import com.mobile.ooad_project.Control.SanControl;
 import com.mobile.ooad_project.Control.TaiKhoanControl;
 import com.mobile.ooad_project.Model.CoSoSan;
+import com.mobile.ooad_project.Model.DatSan;
 import com.mobile.ooad_project.Model.GiaoHuu;
 import com.mobile.ooad_project.Model.KhachHang;
 import com.mobile.ooad_project.Model.San;
@@ -41,6 +43,8 @@ public class GiaoHuuAdapter extends ArrayAdapter {
 
     KhachHangControl khc;
 
+    DatSanControl dsc;
+
     String tenSan, tenKhach;
     public GiaoHuuAdapter(@NonNull Context context, int resource, ArrayList<GiaoHuu> data) {
         super(context, resource, data);
@@ -60,26 +64,34 @@ public class GiaoHuuAdapter extends ArrayAdapter {
         csc = new CoSoSanControl(context, CoSoSanControl.DATABASE_NAME, null, 1);
         tkc = new TaiKhoanControl(context, TaiKhoanControl.DATABASE_NAME, null, 1);
         khc = new KhachHangControl(context, KhachHangControl.DATABASE_NAME, null, 1);
+        dsc = new DatSanControl(context, DatSanControl.DATABASE_NAME, null, 1);
         //attach data
         ArrayList<CoSoSan> lsCoSoSan = csc.loadData();
         ArrayList<San> lsSan = sc.loadData();
         ArrayList<KhachHang> lsKhachHang = khc.loadData();
-        ArrayList<TaiKhoan> lsTaiKhoan = tkc.loadData();
+        ArrayList<DatSan> lsDatSan = new ArrayList<>();
+        try {
+            lsDatSan = dsc.loadData();
+        }catch (Exception e){
+
+        }
+        int idKhach = 0;
 
         if (convertView == null) convertView = LayoutInflater.from(context).inflate(layoutItem, null);
 
         ImageView imgSan = (ImageView) convertView.findViewById(R.id.imgSan);
-//        for (GiaoHuu gh: lsGiaoHuu){
-//
-//        }
 
         //Check Ten Khach Hang
         TextView tvKhachA = (TextView) convertView.findViewById(R.id.tvTenDoiBong);
-        for (KhachHang k: lsKhachHang){
-            for (TaiKhoan tk: lsTaiKhoan){
-                if (k.getIdTaiKhoan() == tk.getIdTaiKhoan()){
-                    tenKhach = k.getHoTen();
-                }
+        for (DatSan ds: lsDatSan){
+            if(giaoHuu.getIdSan() == ds.getIdSan()){
+                idKhach = giaoHuu.getIdKhachA();
+                break;
+            }
+        }
+        for (KhachHang kh: lsKhachHang){
+            if (idKhach == kh.getIdKhach()){
+                tenKhach = kh.getHoTen();
             }
         }
         tvKhachA.setText(tenKhach); //Note lấy tên của khách A gán vào
@@ -97,7 +109,6 @@ public class GiaoHuuAdapter extends ArrayAdapter {
                 }
             }
         }
-
         tvSan.setText(tenSan); //Note lấy tên của Sân gắn vào
 
         return convertView;
