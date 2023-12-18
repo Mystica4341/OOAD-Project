@@ -97,10 +97,10 @@ public class DangKyActivity extends AppCompatActivity {
         taiKhoanControl = new TaiKhoanControl(getApplicationContext(), TaiKhoanControl.DATABASE_NAME, null, 1);
 
     }
-
     public void adminActive() throws IOException {
-        taiKhoanControl.insertAdminData(0, "admin", encodeMatKhau("admin12"));
+        taiKhoanControl.insertAdminData(1, "admin", encodeMatKhau("admin12"));
     }
+
     public void khachHangActive(){
         khachHangControl = new KhachHangControl(getApplicationContext(), TaiKhoanControl.DATABASE_NAME, null, 1);
     }

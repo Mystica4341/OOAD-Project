@@ -58,9 +58,9 @@ public class TaiKhoanNhatKyFrag extends Fragment {
     GiaiControl gc;
 
     HoanTienControl htc;
-    ArrayList<DatSan> lstDatSan;
-    ArrayList<GiaoHuu> lstGiaoHuu;
-    ArrayList<Giai> lstGiai;
+    ArrayList<DatSan> lstDatSan = new ArrayList<>();
+    ArrayList<GiaoHuu> lstGiaoHuu = new ArrayList<>();
+    ArrayList<Giai> lstGiai = new ArrayList<>();
     NhatKyDatSanAdapter adapter1;
     NhatKyGiaoHuuAdapter adapter2;
     NhatKyDaGiaiAdapter adapter3;
@@ -130,9 +130,13 @@ public class TaiKhoanNhatKyFrag extends Fragment {
             tvHoTen.setText(a.getHoTen());
             tvEmail.setText(a.getEmail());
         }
-        loadData();
-        adapter1 = new NhatKyDatSanAdapter(requireContext(),R.layout.custom_listview_nhatkydatsan,lstDatSan);
-        lvNhatKy.setAdapter(adapter1);
+        try {
+            loadData();
+            adapter1 = new NhatKyDatSanAdapter(requireContext(), R.layout.custom_listview_nhatkydatsan, lstDatSan);
+            lvNhatKy.setAdapter(adapter1);
+        }catch (Exception e){
+
+        }
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -172,30 +176,38 @@ public class TaiKhoanNhatKyFrag extends Fragment {
         lvNhatKy.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-                builder.setTitle("Hoàn Tiền Cọc");
-                builder.setMessage("Bạn có đồng ý hoàn tiền ?");
-                builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        DatSan ds = lstDatSan.get(position);
-                        htc.insertData(ds.getTongTien(), 0, DangNhapActivity.idKH, ds.getIdSan());
-                        dialog.dismiss();
-                        AlertDialog.Builder builder1 = new AlertDialog.Builder(requireContext());
-                        builder1.setTitle("Hoàn Tiền");
-                        builder1.setMessage("Bạn đã chọn hoàn tiền, vui lòng chờ xử lý");
-                        AlertDialog alertDialog = builder1.create();
-                        alertDialog.show();
-                    }
-                });
-                builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
+                DatSan ds = lstDatSan.get(position);
+                if (ds.getTongTien() != 0) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                    builder.setTitle("Hoàn Tiền Cọc");
+                    builder.setMessage("Bạn có đồng ý hoàn tiền ?");
+                    builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            htc.insertData(ds.getTongTien(), 0, DangNhapActivity.idKH, ds.getIdSan());
+                            dialog.dismiss();
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(requireContext());
+                            builder1.setTitle("Hoàn Tiền");
+                            builder1.setMessage("Bạn đã chọn hoàn tiền, vui lòng chờ xử lý");
+                            AlertDialog alertDialog = builder1.create();
+                            alertDialog.show();
+                        }
+                    });
+                    builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                } else {
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(requireContext());
+                    builder1.setTitle("Hoàn Tiền");
+                    builder1.setMessage("Bạn đang đá giao hữu hoặc đá giải nên không thể hoàn tiền");
+                    AlertDialog alertDialog = builder1.create();
+                    alertDialog.show();
+                }
                 return false;
             }
         });
@@ -215,15 +227,15 @@ public class TaiKhoanNhatKyFrag extends Fragment {
         }
         try {
             for (KhachHang kh: accountInfo) {
-                lstDatSan = dsc.loadDataKhachHang(kh.getIdKhach());
                 for (GiaoHuu gh : lstGiaoHuu) {
                     if (kh.getIdKhach() == gh.getIdKhachB()) {
-                        lstDatSan.addAll(dsc.loadDataKhachHang(gh.getIdKhachA()));
+                        lstDatSan = dsc.loadDataKhachHang(gh.getIdKhachA());
                         break;
-                    } else lstDatSan = dsc.loadDataKhachHang(kh.getIdKhach());
+                    } else continue;
                 }
+                lstDatSan.addAll(dsc.loadDataKhachHang(kh.getIdKhach()));
             }
-        }catch (IndexOutOfBoundsException i){
+        }catch (Exception i){
 
         }
     }

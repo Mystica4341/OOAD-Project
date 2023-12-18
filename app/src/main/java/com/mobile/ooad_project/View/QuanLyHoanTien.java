@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.mobile.ooad_project.Adapter.HoanTienAdapter;
+import com.mobile.ooad_project.Control.DatSanControl;
 import com.mobile.ooad_project.Control.HoanTienControl;
 import com.mobile.ooad_project.Model.GiaoHuu;
 import com.mobile.ooad_project.Model.HoanTien;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 public class QuanLyHoanTien extends Fragment {
 
     HoanTienControl htc;
+    DatSanControl dsc;
 
     ArrayList<HoanTien> lsHoanTien = new ArrayList();
 
@@ -88,6 +90,7 @@ public class QuanLyHoanTien extends Fragment {
         lvHoanTien = view.findViewById(R.id.lvHoanTien);
     }
     private void addEvent(){
+        dsc = new DatSanControl(requireContext(), DatSanControl.DATABASE_NAME,null,1);
         htc = new HoanTienControl(requireContext(), HoanTienControl.DATABASE_NAME, null, 1);
         try {
             lsHoanTien = htc.loadData();
@@ -100,57 +103,71 @@ public class QuanLyHoanTien extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 HoanTien ht = lsHoanTien.get(position);
-                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-                builder.setTitle("Hoàn Tiền");
-                builder.setMessage("Xác nhận hoàn tiền ?");
-                builder.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        HoanTien htNew = new HoanTien();
-                        htNew.setIdHoanTien(ht.getIdHoanTien());
-                        htNew.setSoTien(ht.getSoTien());
-                        htNew.setTinhTrang(1);
-                        htNew.setIdKhach(ht.getIdKhach());
-                        htNew.setIdSan(ht.getIdSan());
-                        htc.updateData(ht, htNew);
-                        dialog.dismiss();
-                        AlertDialog.Builder builder1 = new AlertDialog.Builder(requireContext());
-                        builder1.setTitle("Xác Nhận");
-                        builder1.setMessage("Xác nhận hoàn tiền");
-                        AlertDialog alertDialog = builder1.create();
-                        alertDialog.show();
-                        try {
-                            lsHoanTien = htc.loadData();
-                            hoanTienAdapter = new HoanTienAdapter(requireContext(), R.layout.custom_listview_quanlyhoantien, lsHoanTien);
-                            lvHoanTien.setAdapter(hoanTienAdapter);
-                        } catch (Exception e){
+                if(ht.getTinhTrang() == 0) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                    builder.setTitle("Hoàn Tiền");
+                    builder.setMessage("Xác nhận hoàn tiền ?");
+                    builder.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            HoanTien htNew = new HoanTien();
+                            htNew.setIdHoanTien(ht.getIdHoanTien());
+                            htNew.setSoTien(ht.getSoTien());
+                            htNew.setTinhTrang(1);
+                            htNew.setIdKhach(ht.getIdKhach());
+                            htNew.setIdSan(ht.getIdSan());
+                            htc.updateData(ht, htNew);
+                            dsc.deleteData(ht.getIdSan());
+                            dialog.dismiss();
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(requireContext());
+                            builder1.setTitle("Xác Nhận");
+                            builder1.setMessage("Xác nhận hoàn tiền");
+                            AlertDialog alertDialog = builder1.create();
+                            alertDialog.show();
+                            try {
+                                lsHoanTien = htc.loadData();
+                                hoanTienAdapter = new HoanTienAdapter(requireContext(), R.layout.custom_listview_quanlyhoantien, lsHoanTien);
+                                lvHoanTien.setAdapter(hoanTienAdapter);
+                            } catch (Exception e) {
 
+                            }
                         }
-                    }
-                });
-                builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        HoanTien htNew = new HoanTien();
-                        htNew.setIdHoanTien(ht.getIdHoanTien());
-                        htNew.setSoTien(ht.getSoTien());
-                        htNew.setTinhTrang(2);
-                        htNew.setIdKhach(ht.getIdKhach());
-                        htNew.setIdSan(ht.getIdSan());
-                        htc.updateData(ht, htNew);
-                        dialog.dismiss();
-                        try {
-                            lsHoanTien = htc.loadData();
-                            hoanTienAdapter = new HoanTienAdapter(requireContext(), R.layout.custom_listview_quanlyhoantien, lsHoanTien);
-                            lvHoanTien.setAdapter(hoanTienAdapter);
-                        } catch (Exception e){
+                    });
+                    builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            HoanTien htNew = new HoanTien();
+                            htNew.setIdHoanTien(ht.getIdHoanTien());
+                            htNew.setSoTien(ht.getSoTien());
+                            htNew.setTinhTrang(2);
+                            htNew.setIdKhach(ht.getIdKhach());
+                            htNew.setIdSan(ht.getIdSan());
+                            htc.updateData(ht, htNew);
+                            dialog.dismiss();
+                            try {
+                                lsHoanTien = htc.loadData();
+                                hoanTienAdapter = new HoanTienAdapter(requireContext(), R.layout.custom_listview_quanlyhoantien, lsHoanTien);
+                                lvHoanTien.setAdapter(hoanTienAdapter);
+                            } catch (Exception e) {
 
+                            }
                         }
-                    }
-                });
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-
+                    });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                }else if (ht.getTinhTrang() == 1){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                    builder.setTitle("Thất bại");
+                    builder.setMessage("Tiền đã được hoàn");
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                } else if (ht.getTinhTrang() == 2) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                    builder.setTitle("Thất bại");
+                    builder.setMessage("Đon đã bị hủy");
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                }
             }
         });
     }
