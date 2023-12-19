@@ -86,7 +86,10 @@ public class CoSoSanControl extends SQLiteOpenHelper {
         value.put(SOLUONGSAN, new_CSS.getSoLuongSan());
         value.put(MOTACOSOSAN, new_CSS.getMoTa());
         value.put(HINHANHCOSOSAN, new_CSS.getHinhAnh());
-        db.update(TABLE_NAME, value, IDCOSOSAN = "?",new String[]{String.valueOf(old_CSS.getIdCoSoSan())});
+        value.put(GIASAN5, new_CSS.getGiaSan5());
+        value.put(GIASAN7, new_CSS.getGiaSan7());
+        db.delete(TABLE_NAME, IDCOSOSAN + " =?", new String[]{String.valueOf(old_CSS.getIdCoSoSan())});
+        db.insert(TABLE_NAME,null,value);
         db.close();
     }
     public void deleteData(int idCoSoSan){

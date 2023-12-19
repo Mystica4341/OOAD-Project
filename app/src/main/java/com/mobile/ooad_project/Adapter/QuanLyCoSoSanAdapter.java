@@ -5,14 +5,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.mobile.ooad_project.Model.CoSoSan;
 import com.mobile.ooad_project.R;
+import com.mobile.ooad_project.View.ThayDoiCoSoSanFrag;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -45,6 +50,18 @@ public class QuanLyCoSoSanAdapter extends ArrayAdapter {
 
         ImageView imgCoSo = convertView.findViewById(R.id.imgCSS);
         Picasso.get().load(css.getHinhAnh()).resize(120, 120).into(imgCoSo);
+
+        Button btnChinhSua = convertView.findViewById(R.id.btnChiSua_quanlycososan);
+        btnChinhSua.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ThayDoiCoSoSanFrag thayDoiCoSoSanFrag = new ThayDoiCoSoSanFrag();
+                ThayDoiCoSoSanFrag.lsCoSoSan_QuanLy.add(css);
+                FragmentManager fm = ((FragmentActivity)context).getSupportFragmentManager();
+                FragmentTransaction fs = fm.beginTransaction();
+                fs.replace(R.id.frameFragAdmin, thayDoiCoSoSanFrag).commit();
+            }
+        });
 
         return convertView;
     }
