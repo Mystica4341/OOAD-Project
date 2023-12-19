@@ -3,12 +3,17 @@ package com.mobile.ooad_project.View;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.mobile.ooad_project.Control.CoSoSanControl;
 import com.mobile.ooad_project.Model.CoSoSan;
@@ -25,7 +30,7 @@ public class ThayDoiCoSoSanFrag extends Fragment {
 
     public static ArrayList<CoSoSan> lsCoSoSan_QuanLy = new ArrayList<>();
 
-    ListView edtTenCoSo, edtDiaChiCoSo, edtSdt, edtSoLuongSan, edtMoTa;
+    EditText edtTenCoSo, edtDiaChiCoSo, edtSdt, edtSoLuongSan, edtMoTa;
 
     Button btnThayDoi;
 
@@ -82,7 +87,7 @@ public class ThayDoiCoSoSanFrag extends Fragment {
     }
 
     private void addControl(View view){
-        edtTenCoSo = view.findViewById(R.id.editTextTenCSS);
+        edtTenCoSo = view.findViewById(R.id.editTextTenCSSsua);
         edtDiaChiCoSo = view.findViewById(R.id.editTextDiaChiSua);
         edtSdt = view.findViewById(R.id.editTextSDTsua);
         edtSoLuongSan = view.findViewById(R.id.editTextSoLuongSan);
@@ -92,6 +97,13 @@ public class ThayDoiCoSoSanFrag extends Fragment {
 
     private void addEvent(){
         csc = new CoSoSanControl(requireContext(), CoSoSanControl.DATABASE_NAME, null, 1);
+        for (CoSoSan cs: lsCoSoSan_QuanLy){
+            edtTenCoSo.setText(cs.getTen());
+            edtMoTa.setText(cs.getMoTa());
+            edtSoLuongSan.setText(String.valueOf(cs.getSoLuongSan()));
+            edtSdt.setText(cs.getSdt());
+            edtDiaChiCoSo.setText(cs.getDiachi());
+        }
         btnThayDoi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,18 +111,23 @@ public class ThayDoiCoSoSanFrag extends Fragment {
                     for (CoSoSan cs: lsCoSoSan_QuanLy){
                         CoSoSan csNew = new CoSoSan();
                         csNew.setIdCoSoSan(cs.getIdCoSoSan());
-                        csNew.setTen(edtTenCoSo.getTextFilter().toString());
-                        csNew.setDiachi(edtDiaChiCoSo.getTextFilter().toString());
-                        csNew.setSdt(edtSdt.getTextFilter().toString());
-                        csNew.setMoTa(edtMoTa.getTextFilter().toString());
-                        csNew.setSoLuongSan(Integer.parseInt(edtSoLuongSan.getTextFilter().toString()));
+                        csNew.setTen(edtTenCoSo.getText().toString());
+                        csNew.setDiachi(edtDiaChiCoSo.getText().toString());
+                        csNew.setSdt(edtSdt.getText().toString());
+                        csNew.setMoTa(edtMoTa.getText().toString());
+                        csNew.setSoLuongSan(Integer.parseInt(edtSoLuongSan.getText().toString()));
                         csNew.setGiaSan5(cs.getGiaSan5());
                         csNew.setGiaSan7(cs.getGiaSan7());
                         csNew.setHinhAnh(cs.getHinhAnh());
                         csc.updateData(cs, csNew);
+                        Toast.makeText(requireContext(), "Sửa thành công", Toast.LENGTH_LONG).show();
+                        ChiTietCoSoSanFrag chiTietCoSoSanFrag = new ChiTietCoSoSanFrag();
+                        FragmentManager fm = getParentFragmentManager();
+                        FragmentTransaction fs = fm.beginTransaction();
+                        fs.replace(R.id.frameFragAdmin, chiTietCoSoSanFrag).commit();
                     }
                 }catch (Exception e){
-
+                    Toast.makeText(requireContext(), "Sửa thất bại", Toast.LENGTH_LONG).show();
                 }
             }
         });
